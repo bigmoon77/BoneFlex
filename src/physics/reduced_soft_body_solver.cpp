@@ -143,6 +143,11 @@ namespace boneflex
         for (std::size_t i = 0; i < _particles.size(); ++i)
             fixed_point_weights[i] = _particles[i].inverse_mass <= 0.0f ? 1.0f : 0.0f;
         std::vector<vec3> matched_positions;
+        const float iteration_stiffness = _options.shape_matching_stiffness <= 0.0f
+            ? 0.0f
+            : 1.0f - std::pow(
+                1.0f - _options.shape_matching_stiffness,
+                1.0f / static_cast<float>(_options.solver_iterations));
         for (std::size_t iteration = 0; iteration < _options.solver_iterations; ++iteration)
         {
             for (xpbd_distance_constraint& constraint : _distance_constraints)
@@ -150,7 +155,7 @@ namespace boneflex
                 constraint.solve(_particles, delta_time);
             }
 
-            if (_options.shape_matching_stiffness > 0.0f)
+            if (iteration_stiffness > 0.0f)
             {
                 for (std::size_t i = 0; i < _particles.size(); ++i)
                 {
@@ -169,7 +174,7 @@ namespace boneflex
                     const vec3 current = _particles[i].position;
                     const vec3 fitted = matched_positions[i];
                     vec3 deformation = current + (fitted - current)
-                        * _options.shape_matching_stiffness - fitted;
+                        * iteration_stiffness - fitted;
 
                     const float maximum_deformation = _max_deformation_distances[i];
                     if (maximum_deformation > 0.0f)
