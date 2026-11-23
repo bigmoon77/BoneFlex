@@ -540,6 +540,7 @@ float4 PSMain(PSInput input) : SV_TARGET
         const auto& particles = demo.solver.particles();
         for (std::size_t i = 0; i < particles.size(); ++i)
         {
+            if (demo.has_imported_asset && demo.control_anchors[i]) continue;
             POINT screen{};
             if (!project_to_screen(demo, particles[i].position, screen)) continue;
             const float dx = static_cast<float>(screen.x - point.x);
