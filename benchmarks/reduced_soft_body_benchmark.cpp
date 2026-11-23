@@ -152,7 +152,7 @@ namespace
     void print_vector(const char* name, const boneflex::vec3& value)
     {
         std::cout << name << value.x << ", " << value.y << ", " << value.z
-            << " (length: " << value.length() << ")\\n";
+            << " (length: " << value.length() << ")\n";
     }
 
     void print_region(const char* name, const displacement_metrics& metrics)
@@ -357,23 +357,23 @@ int main(int argc, char** argv)
     print_region("Neighbor region", release_neighbor);
     print_region("Far region", release_far);
 
-    std::cout << "\\nCenter of mass translation (geometric center)\\n";
+    std::cout << "\nCenter of mass translation (geometric center)\n";
     print_vector("Rest center:    ", rest_center);
     print_vector("After pull:     ", pull_center);
     print_vector("Pull offset:    ", pull_center - rest_center);
     print_vector("After release:  ", release_center);
     print_vector("Release offset: ", release_center - rest_center);
 
-    std::cout << "\\nDeformation after pull (center translation removed)\\n";
+    std::cout << "\nDeformation after pull (center translation removed)\n";
     std::cout << "Overall mean / RMS / max:    " << pull_deformation_all.mean << " / "
-        << pull_deformation_all.rms << " / " << pull_deformation_all.maximum << '\\n';
+        << pull_deformation_all.rms << " / " << pull_deformation_all.maximum << '\n';
     print_region("Pull region", pull_deformation_local);
     print_region("Neighbor region", pull_deformation_neighbor);
     print_region("Far region", pull_deformation_far);
 
-    std::cout << "\\nDeformation after release (center translation removed)\\n";
+    std::cout << "\nDeformation after release (center translation removed)\n";
     std::cout << "Overall mean / RMS / max:    " << release_deformation_all.mean << " / "
-        << release_deformation_all.rms << " / " << release_deformation_all.maximum << '\\n';
+        << release_deformation_all.rms << " / " << release_deformation_all.maximum << '\n';
     print_region("Pull region", release_deformation_local);
     print_region("Neighbor region", release_deformation_neighbor);
     print_region("Far region", release_deformation_far);
