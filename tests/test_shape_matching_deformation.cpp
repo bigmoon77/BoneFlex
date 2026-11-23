@@ -2,6 +2,7 @@
 #include <boneflex/physics/shape_matching_cluster_generation.h>
 #include <boneflex/physics/reduced_mesh.h>
 
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <iostream>
