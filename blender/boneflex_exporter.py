@@ -9,7 +9,6 @@ bl_info = {
 }
 
 import bpy
-import math
 import os
 import struct
 from bpy_extras.io_utils import ExportHelper
@@ -196,6 +195,11 @@ def export_boneflex_asset(context, output_path, export_glb=True):
 
     glb_path = os.path.splitext(output_path)[0] + ".glb"
     if export_glb:
+        if not hasattr(bpy.ops.export_scene, "gltf"):
+            raise RuntimeError(
+                "The Blender glTF 2.0 exporter is not enabled. Install/enable the glTF exporter "
+                "extension, or disable the GLB option to export only the .bflex file."
+            )
         selected_objects = list(context.selected_objects)
         active_object = context.view_layer.objects.active
         try:
