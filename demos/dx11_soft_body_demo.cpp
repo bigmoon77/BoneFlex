@@ -276,6 +276,7 @@ namespace
         boneflex::reduced_soft_body_options solver_options;
         solver_options.solver_iterations = 4;
         solver_options.shape_matching_stiffness = 0.15f;
+        solver_options.max_deformation_ratio = 0.5f;
         solver_options.velocity_damping = 0.995f;
         solver_options.gravity = boneflex::vec3();
 
