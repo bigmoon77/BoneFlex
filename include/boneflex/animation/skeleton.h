@@ -19,6 +19,7 @@ namespace boneflex
 
         void reset_pose();
         void update_global_pose();
+        std::vector<transform> build_skinning_palette() const;
 
         std::size_t bone_count() const;
         const std::vector<bone>& bones() const;
