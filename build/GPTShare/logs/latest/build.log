@@ -1,45 +1,8 @@
 
-===== Build started: 2026-11-24T04:05:09.7623354+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====
-4:05 でビルドが開始されました...
-1>------ ビルド開始: プロジェクト: boneflex, 構成: Debug x64 ------
-1>  shape_matching.cpp
-1>  boneflex.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex.lib
-2>------ ビルド開始: プロジェクト: boneflex_xpbd_tests, 構成: Debug x64 ------
-3>------ ビルド開始: プロジェクト: boneflex_skinning_tests, 構成: Debug x64 ------
-4>------ ビルド開始: プロジェクト: boneflex_skeleton_tests, 構成: Debug x64 ------
-5>------ ビルド開始: プロジェクト: boneflex_shape_matching_tests, 構成: Debug x64 ------
-6>------ ビルド開始: プロジェクト: boneflex_shape_matching_deformation_tests, 構成: Debug x64 ------
-7>------ ビルド開始: プロジェクト: boneflex_shape_matching_cluster_tests, 構成: Debug x64 ------
-5>  test_shape_matching.cpp
-2>  boneflex_xpbd_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_xpbd_tests.exe
-3>  boneflex_skinning_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_skinning_tests.exe
-4>  boneflex_skeleton_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_skeleton_tests.exe
-8>------ ビルド開始: プロジェクト: boneflex_shape_matching_benchmark, 構成: Debug x64 ------
-9>------ ビルド開始: プロジェクト: boneflex_reduced_soft_body_solver_tests, 構成: Debug x64 ------
-10>------ ビルド開始: プロジェクト: boneflex_reduced_soft_body_parameter_sweep, 構成: Debug x64 ------
-6>  boneflex_shape_matching_deformation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_shape_matching_deformation_tests.exe
-11>------ ビルド開始: プロジェクト: boneflex_reduced_soft_body_benchmark, 構成: Debug x64 ------
-7>  boneflex_shape_matching_cluster_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_shape_matching_cluster_tests.exe
-12>------ ビルド開始: プロジェクト: boneflex_reduced_mesh_tests, 構成: Debug x64 ------
-8>  boneflex_shape_matching_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_shape_matching_benchmark.exe
-13>------ ビルド開始: プロジェクト: boneflex_mesh_reduction_tests, 構成: Debug x64 ------
-9>  boneflex_reduced_soft_body_solver_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_reduced_soft_body_solver_tests.exe
-12>  boneflex_reduced_mesh_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_reduced_mesh_tests.exe
-10>  boneflex_reduced_soft_body_parameter_sweep.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_reduced_soft_body_parameter_sweep.exe
-14>------ ビルド開始: プロジェクト: boneflex_mesh_reduction_benchmark, 構成: Debug x64 ------
-15>------ ビルド開始: プロジェクト: boneflex_dx11_soft_body_demo, 構成: Debug x64 ------
-16>------ ビルド開始: プロジェクト: boneflex_distance_constraint_generation_tests, 構成: Debug x64 ------
-11>  boneflex_reduced_soft_body_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_reduced_soft_body_benchmark.exe
-17>------ ビルド開始: プロジェクト: boneflex_blender_asset_tests, 構成: Debug x64 ------
-13>  boneflex_mesh_reduction_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_mesh_reduction_tests.exe
-14>  boneflex_mesh_reduction_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_mesh_reduction_benchmark.exe
-16>  boneflex_distance_constraint_generation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_distance_constraint_generation_tests.exe
-18>------ ビルド開始: プロジェクト: boneflex_blender_asset_demo, 構成: Debug x64 ------
-19>------ ビルド開始: プロジェクト: boneflex_basic_example, 構成: Debug x64 ------
-17>  boneflex_blender_asset_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_blender_asset_tests.exe
-15>  boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_dx11_soft_body_demo.exe
-5>  boneflex_shape_matching_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_shape_matching_tests.exe
-18>  boneflex_blender_asset_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_blender_asset_demo.exe
-19>  boneflex_basic_example.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_basic_example.exe
+===== Build started: 2026-11-24T04:08:16.0269797+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====
+4:08 でビルドが開始されました...
+1>------ ビルド開始: プロジェクト: boneflex_dx11_soft_body_demo, 構成: Debug x64 ------
+1>  dx11_soft_body_demo.cpp
+1>  boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Debug\boneflex_dx11_soft_body_demo.exe
 
-===== Build finished: 2026-11-24T04:05:15.0952487+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====
+===== Build finished: 2026-11-24T04:08:20.4845625+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====
