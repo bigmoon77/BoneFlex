@@ -1,0 +1,16 @@
+/build/
+/out/
+/.vs/
+/.idea/
+*.user
+*.suo
+*.pdb
+*.ilk
+*.obj
+*.o
+*.a
+*.lib
+*.dll
+*.exe
+*.csv
+*.bin
