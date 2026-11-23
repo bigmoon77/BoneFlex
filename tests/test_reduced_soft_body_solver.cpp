@@ -70,6 +70,51 @@ namespace
             "Gravity did not move a dynamic particle.");
     }
 
+    void test_anchored_shape_matching_restores_translation()
+    {
+        boneflex::reduced_mesh mesh = make_grid(4);
+        std::vector<std::uint32_t> indices(mesh.control_point_count());
+        for (std::size_t i = 0; i < indices.size(); ++i)
+            indices[i] = static_cast<std::uint32_t>(i);
+        boneflex::shape_matching_clusters clusters;
+        require(clusters.set_data(mesh.control_point_count(), {0, static_cast<std::uint32_t>(indices.size())},
+            std::move(indices)), "Failed to create anchored shape matching cluster.");
+
+        std::vector<boneflex::particle> particles(mesh.control_point_count());
+        for (std::size_t i = 0; i < particles.size(); ++i)
+        {
+            particles[i].position = mesh.rest_positions()[i];
+            particles[i].previous_position = particles[i].position;
+        }
+        particles[0].inverse_mass = 0.0f;
+
+        boneflex::reduced_soft_body_options options;
+        options.gravity = boneflex::vec3(0.0f, -10.0f, 0.0f);
+        options.shape_matching_stiffness = 0.2f;
+        options.solver_iterations = 4;
+        options.velocity_damping = 0.98f;
+
+        boneflex::reduced_soft_body_solver solver;
+        require(solver.initialize(particles, mesh.rest_positions(), {}, clusters, options),
+            "Anchored shape matching solver initialization failed.");
+        for (int i = 0; i < 30; ++i)
+            require(solver.step(1.0f / 60.0f), "Gravity simulation step failed.");
+
+        const float displaced_distance =
+            (solver.particles()[5].position - mesh.rest_positions()[5]).length();
+        require(displaced_distance > 0.01f, "Gravity did not produce a measurable displacement.");
+
+        options.gravity = boneflex::vec3();
+        require(solver.set_options(options), "Failed to disable gravity.");
+        for (int i = 0; i < 120; ++i)
+            require(solver.step(1.0f / 60.0f), "Recovery simulation step failed.");
+
+        const float recovered_distance =
+            (solver.particles()[5].position - mesh.rest_positions()[5]).length();
+        require(recovered_distance < displaced_distance * 0.75f,
+            "Kinematic anchor did not restore cluster translation after gravity was disabled.");
+    }
+
     void test_distance_constraint_is_solved()
     {
         std::vector<boneflex::vec3> rest_positions = {
@@ -209,6 +254,7 @@ int main()
     try
     {
         test_gravity_and_fixed_particle();
+        test_anchored_shape_matching_restores_translation();
         test_distance_constraint_is_solved();
         test_maximum_deformation_ratio();
         test_velocity_damping_is_frame_rate_scaled();
