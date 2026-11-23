@@ -12,7 +12,7 @@ if ($LASTEXITCODE -ne 0) { throw "Tests failed: $LASTEXITCODE" }
 Write-Output "Build and all unit tests succeeded, including shape matching and reduced soft body tests."
 
 $blender = Get-Command blender -ErrorAction SilentlyContinue
-$blenderPath = if ($null -ne $blender) { $blender.Source } else { Join-Path 'E:\SteamLibrary\steamapps\common\Blender' 'blender.exe' }
+$blenderPath = if ($null -ne $blender) { $blenderPath } else { Join-Path 'E:\SteamLibrary\steamapps\common\Blender' 'blender.exe' }
 if (Test-Path $blenderPath) {
     $sampleAsset = Join-Path (Join-Path $repoRoot 'build') 'boneflex_test_character.bflex'
     $generatorScript = Join-Path $repoRoot 'blender\create_test_character.py'
@@ -21,7 +21,7 @@ if (Test-Path $blenderPath) {
     $blenderStderr = Join-Path (Join-Path $repoRoot 'build') 'blender_export.stderr.log'
     Write-Output "Blender found. Generating a test character: $sampleAsset"
     $quote = [string][char]34
-    $blenderProcess = Start-Process -FilePath $blender.Source -ArgumentList @(
+    $blenderProcess = Start-Process -FilePath $blenderPath -ArgumentList @(
         '--background',
         '--python', ($quote + $generatorScript + $quote),
         '--',
