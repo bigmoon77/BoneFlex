@@ -7,6 +7,7 @@
 #include <DirectXMath.h>
 #include <wrl/client.h>
 
+#include <boneflex/io/blender_asset.h>
 #include <boneflex/physics/distance_constraint_generation.h>
 #include <boneflex/physics/mesh_reduction.h>
 #include <boneflex/physics/reduced_soft_body_solver.h>
@@ -69,6 +70,8 @@ namespace
         ComPtr<ID3D11InputLayout> input_layout;
         ComPtr<ID3D11RasterizerState> rasterizer_state;
 
+        boneflex::blender_asset imported_asset;
+        bool has_imported_asset = false;
         std::vector<boneflex::vec3> render_rest_positions;
         std::vector<std::uint32_t> render_indices;
         std::vector<render_vertex> render_vertices;
@@ -128,9 +131,54 @@ namespace
         }
     }
 
-    bool initialize_simulation(demo_state& demo)
+    bool initialize_simulation(demo_state& demo, const std::string& asset_path)
     {
-        create_uv_sphere(96, 48, 1.0f, demo.render_rest_positions, demo.render_indices);
+        if (asset_path.empty())
+        {
+            create_uv_sphere(96, 48, 1.0f, demo.render_rest_positions, demo.render_indices);
+        }
+        else
+        {
+            std::string import_error;
+            if (!boneflex::load_blender_asset(asset_path, demo.imported_asset, &import_error))
+            {
+                std::cerr << "Blender asset import failed: " << import_error << '\\n';
+                return false;
+            }
+            demo.has_imported_asset = true;
+            if (!demo.imported_asset.skin_current_pose(demo.render_rest_positions))
+            {
+                std::cerr << "Imported bind-pose skinning failed.\\n";
+                return false;
+            }
+            demo.render_indices = demo.imported_asset.triangle_indices;
+
+            boneflex::vec3 minimum = demo.render_rest_positions.front();
+            boneflex::vec3 maximum = minimum;
+            for (const boneflex::vec3& position : demo.render_rest_positions)
+            {
+                minimum.x = std::min(minimum.x, position.x);
+                minimum.y = std::min(minimum.y, position.y);
+                minimum.z = std::min(minimum.z, position.z);
+                maximum.x = std::max(maximum.x, position.x);
+                maximum.y = std::max(maximum.y, position.y);
+                maximum.z = std::max(maximum.z, position.z);
+            }
+
+            const boneflex::vec3 center = (minimum + maximum) * 0.5f;
+            const boneflex::vec3 extent = maximum - minimum;
+            const float maximum_extent = std::max({ extent.x, extent.y, extent.z });
+            if (!std::isfinite(maximum_extent) || maximum_extent <= 1.0e-6f)
+            {
+                std::cerr << "Imported mesh has invalid or degenerate bounds.\\n";
+                return false;
+            }
+            const float normalization_scale = 2.0f / maximum_extent;
+            for (boneflex::vec3& position : demo.render_rest_positions)
+            {
+                position = (position - center) * normalization_scale;
+            }
+        }
 
         boneflex::mesh_reduction_options reduction_options;
         reduction_options.target_control_point_count = 1200;
@@ -634,8 +682,15 @@ float4 PSMain(PSInput input) : SV_TARGET
     }
 }
 
-int main()
+int main(int argc, char** argv)
 {
+    if (argc > 2)
+    {
+        std::cerr << "Usage: boneflex_dx11_soft_body_demo [character.bflex]\\n";
+        return 1;
+    }
+
+    const std::string asset_path = (argc == 2) ? argv[1] : std::string();
     HINSTANCE instance = GetModuleHandleW(nullptr);
     demo_state demo;
     active_demo = &demo;
@@ -651,14 +706,17 @@ int main()
 
     RECT window_rect{ 0, 0, static_cast<LONG>(demo.width), static_cast<LONG>(demo.height) };
     AdjustWindowRect(&window_rect, WS_OVERLAPPEDWINDOW, FALSE);
+    const wchar_t* window_title = asset_path.empty()
+        ? L"BoneFlex - DirectX 11 Soft Body Demo"
+        : L"BoneFlex - Blender Character Soft Body Demo";
     demo.window = CreateWindowExW(
-        0, window_class.lpszClassName, L"BoneFlex - DirectX 11 Soft Body Demo",
+        0, window_class.lpszClassName, window_title,
         WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
         window_rect.right - window_rect.left, window_rect.bottom - window_rect.top,
         nullptr, nullptr, instance, nullptr);
     if (!demo.window) return 1;
 
-    if (!initialize_simulation(demo) || !initialize_graphics(demo))
+    if (!initialize_simulation(demo, asset_path) || !initialize_graphics(demo))
     {
         MessageBoxW(demo.window, L"Failed to initialize the BoneFlex demo. See the console for details.",
             L"BoneFlex", MB_ICONERROR | MB_OK);
@@ -668,7 +726,9 @@ int main()
     update_camera(demo);
     ShowWindow(demo.window, SW_SHOWDEFAULT);
     update_simulation(demo);
-    std::cout << "Drag the sphere with the left mouse button. Press Esc to exit.\n";
+    std::cout << (asset_path.empty()
+        ? "Drag the sphere with the left mouse button. Press Esc to exit.\n"
+        : "Imported Blender character in bind pose. Drag the surface with the left mouse button. Press Esc to exit.\n");
 
     auto previous_time = std::chrono::steady_clock::now();
     float accumulator = 0.0f;
