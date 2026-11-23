@@ -178,7 +178,7 @@ namespace
         {
             if (!solver.step(delta_time))
             {
-                std::cerr << "Warmup step failed.\\n";
+                std::cerr << "Warmup step failed.\n";
                 return false;
             }
         }
@@ -188,7 +188,7 @@ namespace
         {
             if (!solver.step(delta_time, pull_accelerations))
             {
-                std::cerr << "Pull step failed.\\n";
+                std::cerr << "Pull step failed.\n";
                 return false;
             }
         }
@@ -206,7 +206,7 @@ namespace
             {
                 if (!solver.step(delta_time))
                 {
-                    std::cerr << "Release step failed.\\n";
+                    std::cerr << "Release step failed.\n";
                     return false;
                 }
             }
@@ -235,7 +235,7 @@ namespace
                 << std::setw(13) << pull_time
                 << std::setw(14) << release_time
                 << std::setw(13) << elapsed_ms(cluster_begin, cluster_end)
-                << '\\n';
+                << '\n';
         }
         return true;
     }
@@ -308,7 +308,7 @@ int main(int argc, char** argv)
     std::cout << "Sweep: cluster size 128, stiffness 0.70/0.80/0.90/1.00\n";
     std::cout << "Pull/release: 30/120 frames at 60 Hz; release sampled every 15 frames\n";
     std::cout << "Metrics remove geometric-center translation; recovery is relative to pull RMS\n";
-    std::cout << "\\n"
+    std::cout << "\n"
         << std::setw(7) << "Cluster"
         << std::setw(11) << "Stiffness"
         << std::setw(11) << "Clusters"
@@ -321,7 +321,7 @@ int main(int argc, char** argv)
         << std::setw(13) << "Pull ms/f"
         << std::setw(14) << "Release ms/f"
         << std::setw(13) << "Build ms"
-        << '\\n';
+        << '\n';
 
     for (std::size_t cluster_size : cluster_sizes)
     {
