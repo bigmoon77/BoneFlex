@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <array>
 #include <chrono>
+#include <cctype>
 #include <cmath>
 #include <cstring>
 #include <cstdlib>
@@ -244,7 +245,7 @@ namespace
         PROCESS_INFORMATION process{};
         const BOOL created = CreateProcessW(
             blender_path.c_str(), command_line.data(), nullptr, nullptr, TRUE,
-            CREATE_NO_WINDOW, nullptr, nullptr, &startup, &process);
+            0, nullptr, nullptr, &startup, &process);
         if (!created)
         {
             std::wcerr << L"Could not start Blender. Windows error: " << GetLastError() << '\n';
