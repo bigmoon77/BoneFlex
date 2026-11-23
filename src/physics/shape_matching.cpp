@@ -133,32 +133,12 @@ namespace boneflex
         std::vector<vec3> accumulated(rest_positions.size());
         std::vector<float> counts(rest_positions.size(),0.0f);
 
-        // Cache the nearest fixed point for clusters that contain no fixed point.
-        // Without this fallback, isolated dynamic clusters retain free translation.
-        std::vector<std::uint32_t> nearest_fixed_point;
+        std::vector<std::uint32_t> fixed_indices;
         if (!fixed_point_weights.empty())
         {
-            std::vector<std::uint32_t> fixed_indices;
             for (std::size_t i = 0; i < fixed_point_weights.size(); ++i)
                 if (fixed_point_weights[i] > 0.0f)
                     fixed_indices.push_back(static_cast<std::uint32_t>(i));
-            if (!fixed_indices.empty())
-            {
-                nearest_fixed_point.resize(rest_positions.size(), fixed_indices.front());
-                for (std::size_t i = 0; i < rest_positions.size(); ++i)
-                {
-                    float nearest_distance = std::numeric_limits<float>::max();
-                    for (std::uint32_t fixed_index : fixed_indices)
-                    {
-                        const float distance = (rest_positions[i] - rest_positions[fixed_index]).length_squared();
-                        if (distance < nearest_distance)
-                        {
-                            nearest_distance = distance;
-                            nearest_fixed_point[i] = fixed_index;
-                        }
-                    }
-                }
-            }
         }
 
         const std::vector<std::uint32_t>& offsets=clusters.offsets();
@@ -194,12 +174,21 @@ namespace boneflex
                     translation_center=fixed_current_center
                         - rotation.rotate(fixed_rest_center-rest_center);
                 }
-                else if (!nearest_fixed_point.empty())
+                else if (!fixed_indices.empty())
                 {
-                    const std::uint32_t seed_index = indices[begin];
-                    const std::uint32_t fixed_index = nearest_fixed_point[seed_index];
-                    translation_center=current_positions[fixed_index]
-                        - rotation.rotate(rest_positions[fixed_index]-rest_center);
+                    std::uint32_t nearest_index = fixed_indices.front();
+                    float nearest_distance = (rest_positions[nearest_index] - rest_center).length_squared();
+                    for (std::uint32_t fixed_index : fixed_indices)
+                    {
+                        const float distance = (rest_positions[fixed_index] - rest_center).length_squared();
+                        if (distance < nearest_distance)
+                        {
+                            nearest_distance = distance;
+                            nearest_index = fixed_index;
+                        }
+                    }
+                    translation_center=current_positions[nearest_index]
+                        - rotation.rotate(rest_positions[nearest_index]-rest_center);
                 }
             }
             for (std::uint32_t i=begin;i<end;++i)
