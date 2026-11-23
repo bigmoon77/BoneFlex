@@ -1054,6 +1054,9 @@ float4 PSMain(PSInput input) : SV_TARGET
             return 0;
         case WM_KEYDOWN:
             if (wparam == VK_ESCAPE) PostQuitMessage(0);
+            if (wparam == VK_F1 && demo->parameter_window)
+                ShowWindow(demo->parameter_window,
+                    IsWindowVisible(demo->parameter_window) ? SW_HIDE : SW_SHOW);
             if (wparam == 'A' && demo->has_imported_asset)
             {
                 demo->animation_enabled = !demo->animation_enabled;
