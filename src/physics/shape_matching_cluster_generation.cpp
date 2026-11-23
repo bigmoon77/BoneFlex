@@ -203,7 +203,7 @@ namespace boneflex
 
         // Disconnected components and isolated control points may not be reached
         // from the initial seeds. Add local clusters until coverage is complete.
-        for ((std::size_t point_index = 0; point_index < point_count; ++point_index))
+        for (std::size_t point_index = 0; point_index < point_count; ++point_index))
         {
             if (!covered[point_index] && !append_cluster(static_cast<std::uint32_t>(point_index)))
             {
