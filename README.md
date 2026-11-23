@@ -168,3 +168,14 @@ The imported mesh is normalized to fit the demo camera, reduced to control point
 The first import milestone is implemented: the Blender add-on writes the static deformation data to the versioned `.bflex` payload and optionally writes a standard `.glb` companion. The C++ importer validates and reconstructs the skeleton and CSR skinning data, then the import demo generates the reduced mesh and render embedding.
 
 The GLB currently serves as the portable scene/animation interchange copy. Importing and evaluating animated GLB clips, transferring skeleton motion into kinematic reduced-mesh anchors, and rendering the imported character in the DX11 demo are the next integration steps.
+
+
+### Maximum deformation limit
+
+The reduced soft-body solver supports `reduced_soft_body_options::max_deformation_ratio`.
+It limits each dynamic control point's residual displacement from its locally fitted
+Shape Matching position. The limit is scaled by that control point's average incident
+rest-edge length, so it is independent of the model's world-space scale. A value of
+`0.5` allows a residual of up to half the local average edge length; setting it to
+`0.0` disables the limit. Kinematic points and the rigid motion of the fitted shape
+remain unaffected.
