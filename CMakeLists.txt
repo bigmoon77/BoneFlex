@@ -63,6 +63,12 @@ if(BONEFLEX_BUILD_TESTS)
     target_link_libraries(boneflex_shape_matching_tests PRIVATE BoneFlex::boneflex)
     add_test(NAME BoneFlex.ShapeMatching COMMAND boneflex_shape_matching_tests)
 
+    add_executable(boneflex_shape_matching_deformation_tests
+        tests/test_shape_matching_deformation.cpp
+    )
+    target_link_libraries(boneflex_shape_matching_deformation_tests PRIVATE BoneFlex::boneflex)
+    add_test(NAME BoneFlex.ShapeMatchingDeformation COMMAND boneflex_shape_matching_deformation_tests)
+
     add_executable(boneflex_shape_matching_cluster_tests
         tests/test_shape_matching_cluster_generation.cpp
     )
@@ -94,4 +100,9 @@ if(BONEFLEX_BUILD_BENCHMARKS)
         benchmarks/mesh_reduction_benchmark.cpp
     )
     target_link_libraries(boneflex_mesh_reduction_benchmark PRIVATE BoneFlex::boneflex)
+
+    add_executable(boneflex_shape_matching_benchmark
+        benchmarks/shape_matching_benchmark.cpp
+    )
+    target_link_libraries(boneflex_shape_matching_benchmark PRIVATE BoneFlex::boneflex)
 endif()
