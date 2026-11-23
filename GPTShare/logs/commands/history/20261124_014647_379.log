@@ -1,0 +1,220 @@
+﻿
+[2026-11-24 01:46:48.345] Developer PowerShell initialization
+[2026-11-24 01:46:50.220] **********************************************************************
+[2026-11-24 01:46:50.225] ** Visual Studio 2026 Developer PowerShell v18.10.3
+[2026-11-24 01:46:50.230] ** Copyright (c) 2026 Microsoft Corporation
+[2026-11-24 01:46:50.251] **********************************************************************
+[2026-11-24 01:46:50.264] START E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 01:46:50.362] Repository: E:\code\bigmoon77\BoneFlex
+[2026-11-24 01:46:50.368] BoneFlex smooth embedding build started: 2026-11-24 01:46:50
+[2026-11-24 01:46:50.527] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26300.
+[2026-11-24 01:46:50.544] -- Configuring done (0.1s)
+[2026-11-24 01:46:50.968] -- Generating done (0.4s)
+[2026-11-24 01:46:50.996] -- Build files have been written to: E:/code/bigmoon77/BoneFlex/build
+[2026-11-24 01:46:51.166] MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.14.60+43b635718 (.NET Framework)
+[2026-11-24 01:46:51.216] 
+[2026-11-24 01:46:51.806]   mesh_reduction.cpp
+[2026-11-24 01:46:52.644] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(124,54): error C2017: 繧ｨ繧ｹ繧ｱ繝ｼ繝励す繝ｼ繧ｱ繝ｳ繧ｹ縺ｮ菴ｿ縺・婿縺梧ｭ｣縺励￥縺ゅｊ縺ｾ縺帙ｓ縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.675] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(124,125): error C2017: 繧ｨ繧ｹ繧ｱ繝ｼ繝励す繝ｼ繧ｱ繝ｳ繧ｹ縺ｮ菴ｿ縺・婿縺梧ｭ｣縺励￥縺ゅｊ縺ｾ縺帙ｓ縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.730] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(123,64): error C2039: 'embedding_influence_count': 'boneflex::mesh_reduction_options' 縺ｮ繝｡繝ｳ繝舌・縺ｧ縺ｯ縺ゅｊ縺ｾ縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.749]       E:\code\bigmoon77\BoneFlex\include\boneflex\physics\mesh_reduction.h(13,12):
+[2026-11-24 01:46:52.753]       'boneflex::mesh_reduction_options' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:52.758]   
+[2026-11-24 01:46:52.763] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(124,24): error C2039: 'embedding_influence_count': 'boneflex::mesh_reduction_options' 縺ｮ繝｡繝ｳ繝舌・縺ｧ縺ｯ縺ゅｊ縺ｾ縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.768]       E:\code\bigmoon77\BoneFlex\include\boneflex\physics\mesh_reduction.h(13,12):
+[2026-11-24 01:46:52.774]       'boneflex::mesh_reduction_options' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:52.778]   
+[2026-11-24 01:46:52.791] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(124,55): error C2146: 讒区枚繧ｨ繝ｩ繝ｼ: ')' 縺後∬ｭ伜挨蟄・'n' 縺ｮ蜑阪↓蠢・ｦ√〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.796] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(124,55): error C2065: 'n': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.800] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(124,94): error C2039: 'embedding_support_radius_scale': 'boneflex::mesh_reduction_options' 縺ｮ繝｡繝ｳ繝舌・縺ｧ縺ｯ縺ゅｊ縺ｾ縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.806]       E:\code\bigmoon77\BoneFlex\include\boneflex\physics\mesh_reduction.h(13,12):
+[2026-11-24 01:46:52.811]       'boneflex::mesh_reduction_options' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:52.816]   
+[2026-11-24 01:46:52.820] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(124,126): error C2146: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺後∬ｭ伜挨蟄・'n' 縺ｮ蜑阪↓蠢・ｦ√〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.825] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(124,126): error C2065: 'n': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.831] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(124,150): error C2039: 'embedding_support_radius_scale': 'boneflex::mesh_reduction_options' 縺ｮ繝｡繝ｳ繝舌・縺ｧ縺ｯ縺ゅｊ縺ｾ縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.836]       E:\code\bigmoon77\BoneFlex\include\boneflex\physics\mesh_reduction.h(13,12):
+[2026-11-24 01:46:52.842]       'boneflex::mesh_reduction_options' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:52.847]   
+[2026-11-24 01:46:52.853] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(124,188): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: ')' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.858] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(126,13): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: 'return' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.863] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(128,37): error C2065: 'render_positions': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.867] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(128,9): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: 'for' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.872] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(128,53): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: ')' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.877] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(128,37): error C4430: 蝙区欠螳壼ｭ舌′縺ゅｊ縺ｾ縺帙ｓ - int 縺ｨ莉ｮ螳壹＠縺ｾ縺励◆縲ゅΓ繝｢: C++ 縺ｯ int 繧呈里螳壼､縺ｨ縺励※繧ｵ繝昴・繝医＠縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.881] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(130,13): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: 'if' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.885] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(131,13): error C2143: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺・'{' 縺ｮ蜑阪↓縺ゅｊ縺ｾ縺帙ｓ縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.890] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(131,13): error C2447: '{': 蟇ｾ蠢懊☆繧矩未謨ｰ繝倥ャ繝繝ｼ縺後≠繧翫∪縺帙ｓ (譌ｧ蠖｢蠑上・莉ｮ蠑墓焚繝ｪ繧ｹ繝・) [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.895] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(135,36): error C2065: 'render_triangle_indices': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.900] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(135,9): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: 'for' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.904] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(135,59): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: ')' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.908] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(135,36): error C4430: 蝙区欠螳壼ｭ舌′縺ゅｊ縺ｾ縺帙ｓ - int 縺ｨ莉ｮ螳壹＠縺ｾ縺励◆縲ゅΓ繝｢: C++ 縺ｯ int 繧呈里螳壼､縺ｨ縺励※繧ｵ繝昴・繝医＠縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.913] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(137,13): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: 'if' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.916] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(138,13): error C2143: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺・'{' 縺ｮ蜑阪↓縺ゅｊ縺ｾ縺帙ｓ縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.922] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(138,13): error C2447: '{': 蟇ｾ蠢懊☆繧矩未謨ｰ繝倥ャ繝繝ｼ縺後≠繧翫∪縺帙ｓ (譌ｧ蠖｢蠑上・莉ｮ蠑墓焚繝ｪ繧ｹ繝・) [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.927] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(141,9): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: '}' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.931] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(141,9): error C2143: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺・'}' 縺ｮ蜑阪↓縺ゅｊ縺ｾ縺帙ｓ縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.935] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(144,9): error C4430: 蝙区欠螳壼ｭ舌′縺ゅｊ縺ｾ縺帙ｓ - int 縺ｨ莉ｮ螳壹＠縺ｾ縺励◆縲ゅΓ繝｢: C++ 縺ｯ int 繧呈里螳壼､縺ｨ縺励※繧ｵ繝昴・繝医＠縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.941] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(144,14): error C2146: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺後∬ｭ伜挨蟄・'maximum' 縺ｮ蜑阪↓蠢・ｦ√〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.946] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(145,9): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: 'for' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.951] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(145,53): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: ')' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.956] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(145,37): error C4430: 蝙区欠螳壼ｭ舌′縺ゅｊ縺ｾ縺帙ｓ - int 縺ｨ莉ｮ螳壹＠縺ｾ縺励◆縲ゅΓ繝｢: C++ 縺ｯ int 繧呈里螳壼､縺ｨ縺励※繧ｵ繝昴・繝医＠縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.960] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(147,13): error C2065: 'minimum': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.965] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(147,34): error C2065: 'minimum': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.970] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(147,45): error C2065: 'position': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.976] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(147,30): error C2672: 'std::min': 荳閾ｴ縺吶ｋ繧ｪ繝ｼ繝舌・繝ｭ繝ｼ繝峨＆繧後◆髢｢謨ｰ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ縺ｧ縺励◆縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:52.980]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(109,26):
+[2026-11-24 01:46:52.985]       '_Ty std::min(std::initializer_list<_Elem>)' 縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧翫∪縺・
+[2026-11-24 01:46:52.991]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(106,26):
+[2026-11-24 01:46:52.996]       縺ｾ縺溘・ '_Ty std::min(std::initializer_list<_Elem>,_Pr)'
+[2026-11-24 01:46:53.000]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(147,30):
+[2026-11-24 01:46:53.005]           '_Ty std::min(std::initializer_list<_Elem>,_Pr)': 2 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.011]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(98,6):
+[2026-11-24 01:46:53.015]       縺ｾ縺溘・ 'const _Ty &std::min(const _Ty &,const _Ty &) noexcept(<expr>)'
+[2026-11-24 01:46:53.021]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(147,30):
+[2026-11-24 01:46:53.026]           'const _Ty &std::min(const _Ty &,const _Ty &) noexcept(<expr>)': 2 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.030]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(88,33):
+[2026-11-24 01:46:53.035]       縺ｾ縺溘・ 'const _Ty &std::min(const _Ty &,const _Ty &,_Pr) noexcept(<expr>)'
+[2026-11-24 01:46:53.041]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(147,30):
+[2026-11-24 01:46:53.046]           'const _Ty &std::min(const _Ty &,const _Ty &,_Pr) noexcept(<expr>)': 3 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.051]   
+[2026-11-24 01:46:53.056] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(147,56): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: ';' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.061] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(148,13): error C3927: '->': 蠕檎ｶ壹・謌ｻ繧雁､縺ｮ蝙九・縲・未謨ｰ莉･螟悶・螳｣險蟄舌・蠕後↓險ｱ蜿ｯ縺輔ｌ縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.065] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(148,20): error C3484: 讒区枚繧ｨ繝ｩ繝ｼ: 謌ｻ繧雁､縺ｮ蝙九・蜑阪↓ '->' 縺悟ｿ・ｦ√〒縺・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.071] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(148,21): error C3613: '->' 縺ｮ蠕後↓謌ｻ繧雁梛縺梧欠螳壹＆繧後※縺・∪縺帙ｓ ('int' 縺ｨ隕九↑縺輔ｌ縺ｾ縺・ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.077] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(148,13): error C4430: 蝙区欠螳壼ｭ舌′縺ゅｊ縺ｾ縺帙ｓ - int 縺ｨ莉ｮ螳壹＠縺ｾ縺励◆縲ゅΓ繝｢: C++ 縺ｯ int 繧呈里螳壼､縺ｨ縺励※繧ｵ繝昴・繝医＠縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.081] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(148,21): error C2146: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺後∬ｭ伜挨蟄・'y' 縺ｮ蜑阪↓蠢・ｦ√〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.086] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(149,13): error C3927: '->': 蠕檎ｶ壹・謌ｻ繧雁､縺ｮ蝙九・縲・未謨ｰ莉･螟悶・螳｣險蟄舌・蠕後↓險ｱ蜿ｯ縺輔ｌ縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.092] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(149,20): error C3484: 讒区枚繧ｨ繝ｩ繝ｼ: 謌ｻ繧雁､縺ｮ蝙九・蜑阪↓ '->' 縺悟ｿ・ｦ√〒縺・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.096] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(149,21): error C3613: '->' 縺ｮ蠕後↓謌ｻ繧雁梛縺梧欠螳壹＆繧後※縺・∪縺帙ｓ ('int' 縺ｨ隕九↑縺輔ｌ縺ｾ縺・ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.101] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(149,13): error C4430: 蝙区欠螳壼ｭ舌′縺ゅｊ縺ｾ縺帙ｓ - int 縺ｨ莉ｮ螳壹＠縺ｾ縺励◆縲ゅΓ繝｢: C++ 縺ｯ int 繧呈里螳壼､縺ｨ縺励※繧ｵ繝昴・繝医＠縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.106] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(149,13): error C2086: 'int minimum': 蜀榊ｮ夂ｾｩ縺輔ｌ縺ｾ縺励◆縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.111]       E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(148,13):
+[2026-11-24 01:46:53.116]       'minimum' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:53.121]   
+[2026-11-24 01:46:53.127] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(149,21): error C2146: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺後∬ｭ伜挨蟄・'z' 縺ｮ蜑阪↓蠢・ｦ√〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.131] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(150,13): error C3927: '->': 蠕檎ｶ壹・謌ｻ繧雁､縺ｮ蝙九・縲・未謨ｰ莉･螟悶・螳｣險蟄舌・蠕後↓險ｱ蜿ｯ縺輔ｌ縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.136] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(150,20): error C3484: 讒区枚繧ｨ繝ｩ繝ｼ: 謌ｻ繧雁､縺ｮ蝙九・蜑阪↓ '->' 縺悟ｿ・ｦ√〒縺・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.141] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(150,21): error C3613: '->' 縺ｮ蠕後↓謌ｻ繧雁梛縺梧欠螳壹＆繧後※縺・∪縺帙ｓ ('int' 縺ｨ隕九↑縺輔ｌ縺ｾ縺・ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.146] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(150,13): error C4430: 蝙区欠螳壼ｭ舌′縺ゅｊ縺ｾ縺帙ｓ - int 縺ｨ莉ｮ螳壹＠縺ｾ縺励◆縲ゅΓ繝｢: C++ 縺ｯ int 繧呈里螳壼､縺ｨ縺励※繧ｵ繝昴・繝医＠縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.151] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(150,21): error C2146: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺後∬ｭ伜挨蟄・'x' 縺ｮ蜑阪↓蠢・ｦ√〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.156] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(151,13): error C3927: '->': 蠕檎ｶ壹・謌ｻ繧雁､縺ｮ蝙九・縲・未謨ｰ莉･螟悶・螳｣險蟄舌・蠕後↓險ｱ蜿ｯ縺輔ｌ縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.161] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(151,20): error C3484: 讒区枚繧ｨ繝ｩ繝ｼ: 謌ｻ繧雁､縺ｮ蝙九・蜑阪↓ '->' 縺悟ｿ・ｦ√〒縺・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.166] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(151,21): error C3613: '->' 縺ｮ蠕後↓謌ｻ繧雁梛縺梧欠螳壹＆繧後※縺・∪縺帙ｓ ('int' 縺ｨ隕九↑縺輔ｌ縺ｾ縺・ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.171] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(151,13): error C4430: 蝙区欠螳壼ｭ舌′縺ゅｊ縺ｾ縺帙ｓ - int 縺ｨ莉ｮ螳壹＠縺ｾ縺励◆縲ゅΓ繝｢: C++ 縺ｯ int 繧呈里螳壼､縺ｨ縺励※繧ｵ繝昴・繝医＠縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.177] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(151,13): error C2086: 'int maximum': 蜀榊ｮ夂ｾｩ縺輔ｌ縺ｾ縺励◆縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.181]       E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(150,13):
+[2026-11-24 01:46:53.186]       'maximum' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:53.191]   
+[2026-11-24 01:46:53.196] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(151,21): error C2146: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺後∬ｭ伜挨蟄・'y' 縺ｮ蜑阪↓蠢・ｦ√〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.202] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(152,13): error C3927: '->': 蠕檎ｶ壹・謌ｻ繧雁､縺ｮ蝙九・縲・未謨ｰ莉･螟悶・螳｣險蟄舌・蠕後↓險ｱ蜿ｯ縺輔ｌ縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.209] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(152,20): error C3484: 讒区枚繧ｨ繝ｩ繝ｼ: 謌ｻ繧雁､縺ｮ蝙九・蜑阪↓ '->' 縺悟ｿ・ｦ√〒縺・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.214] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(152,21): error C3613: '->' 縺ｮ蠕後↓謌ｻ繧雁梛縺梧欠螳壹＆繧後※縺・∪縺帙ｓ ('int' 縺ｨ隕九↑縺輔ｌ縺ｾ縺・ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.219] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(152,13): error C4430: 蝙区欠螳壼ｭ舌′縺ゅｊ縺ｾ縺帙ｓ - int 縺ｨ莉ｮ螳壹＠縺ｾ縺励◆縲ゅΓ繝｢: C++ 縺ｯ int 繧呈里螳壼､縺ｨ縺励※繧ｵ繝昴・繝医＠縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.225] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(152,13): error C2086: 'int maximum': 蜀榊ｮ夂ｾｩ縺輔ｌ縺ｾ縺励◆縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.231]       E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(150,13):
+[2026-11-24 01:46:53.238]       'maximum' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:53.244]   
+[2026-11-24 01:46:53.248] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(152,21): error C2146: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺後∬ｭ伜挨蟄・'z' 縺ｮ蜑阪↓蠢・ｦ√〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.253] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(153,9): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: '}' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.259] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(153,9): error C2143: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺・'}' 縺ｮ蜑阪↓縺ゅｊ縺ｾ縺帙ｓ縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.264] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,47): error C2065: 'extent': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.269] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,66): error C2065: 'extent': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.275] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,76): error C2065: 'extent': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.280] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,62): error C2672: 'std::max': 荳閾ｴ縺吶ｋ繧ｪ繝ｼ繝舌・繝ｭ繝ｼ繝峨＆繧後◆髢｢謨ｰ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ縺ｧ縺励◆縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.285]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(85,26):
+[2026-11-24 01:46:53.292]       '_Ty std::max(std::initializer_list<_Elem>)' 縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧翫∪縺・
+[2026-11-24 01:46:53.297]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(82,26):
+[2026-11-24 01:46:53.301]       縺ｾ縺溘・ '_Ty std::max(std::initializer_list<_Elem>,_Pr)'
+[2026-11-24 01:46:53.306]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,62):
+[2026-11-24 01:46:53.331]           '_Ty std::max(std::initializer_list<_Elem>,_Pr)': 2 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.335]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(74,6):
+[2026-11-24 01:46:53.341]       縺ｾ縺溘・ 'const _Ty &std::max(const _Ty &,const _Ty &) noexcept(<expr>)'
+[2026-11-24 01:46:53.345]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,62):
+[2026-11-24 01:46:53.349]           'const _Ty &std::max(const _Ty &,const _Ty &) noexcept(<expr>)': 2 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.354]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(64,33):
+[2026-11-24 01:46:53.358]       縺ｾ縺溘・ 'const _Ty &std::max(const _Ty &,const _Ty &,_Pr) noexcept(<expr>)'
+[2026-11-24 01:46:53.363]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,62):
+[2026-11-24 01:46:53.368]           'const _Ty &std::max(const _Ty &,const _Ty &,_Pr) noexcept(<expr>)': 3 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.373]   
+[2026-11-24 01:46:53.378] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,43): error C2672: 'std::max': 荳閾ｴ縺吶ｋ繧ｪ繝ｼ繝舌・繝ｭ繝ｼ繝峨＆繧後◆髢｢謨ｰ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ縺ｧ縺励◆縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.384]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(85,26):
+[2026-11-24 01:46:53.388]       '_Ty std::max(std::initializer_list<_Elem>)' 縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧翫∪縺・
+[2026-11-24 01:46:53.393]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(82,26):
+[2026-11-24 01:46:53.398]       縺ｾ縺溘・ '_Ty std::max(std::initializer_list<_Elem>,_Pr)'
+[2026-11-24 01:46:53.403]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,43):
+[2026-11-24 01:46:53.408]           '_Ty std::max(std::initializer_list<_Elem>,_Pr)': 2 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.412]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(74,6):
+[2026-11-24 01:46:53.417]       縺ｾ縺溘・ 'const _Ty &std::max(const _Ty &,const _Ty &) noexcept(<expr>)'
+[2026-11-24 01:46:53.423]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,43):
+[2026-11-24 01:46:53.427]           'const _Ty &std::max(const _Ty &,const _Ty &) noexcept(<expr>)': 2 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.433]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(64,33):
+[2026-11-24 01:46:53.437]       縺ｾ縺溘・ 'const _Ty &std::max(const _Ty &,const _Ty &,_Pr) noexcept(<expr>)'
+[2026-11-24 01:46:53.442]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,43):
+[2026-11-24 01:46:53.447]           'const _Ty &std::max(const _Ty &,const _Ty &,_Pr) noexcept(<expr>)': 3 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.451]   
+[2026-11-24 01:46:53.456] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(156,21): error C2737: 'maximum_extent': const 繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ蛻晄悄蛹悶☆繧句ｿ・ｦ√′縺ゅｊ縺ｾ縺・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.461] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(157,9): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: 'if' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.465] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(158,9): error C2143: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺・'{' 縺ｮ蜑阪↓縺ゅｊ縺ｾ縺帙ｓ縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.470] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(158,9): error C2447: '{': 蟇ｾ蠢懊☆繧矩未謨ｰ繝倥ャ繝繝ｼ縺後≠繧翫∪縺帙ｓ (譌ｧ蠖｢蠑上・莉ｮ蠑墓焚繝ｪ繧ｹ繝・) [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.475] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(162,51): error C2065: 'options': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.479] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(162,47): error C2672: 'std::min': 荳閾ｴ縺吶ｋ繧ｪ繝ｼ繝舌・繝ｭ繝ｼ繝峨＆繧後◆髢｢謨ｰ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ縺ｧ縺励◆縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.484]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(109,26):
+[2026-11-24 01:46:53.490]       '_Ty std::min(std::initializer_list<_Elem>)' 縺ｮ蜿ｯ閭ｽ諤ｧ縺後≠繧翫∪縺・
+[2026-11-24 01:46:53.495]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(106,26):
+[2026-11-24 01:46:53.499]       縺ｾ縺溘・ '_Ty std::min(std::initializer_list<_Elem>,_Pr)'
+[2026-11-24 01:46:53.503]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(162,47):
+[2026-11-24 01:46:53.509]           '_Ty std::min(std::initializer_list<_Elem>,_Pr)': 2 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.513]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(98,6):
+[2026-11-24 01:46:53.518]       縺ｾ縺溘・ 'const _Ty &std::min(const _Ty &,const _Ty &) noexcept(<expr>)'
+[2026-11-24 01:46:53.522]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(162,47):
+[2026-11-24 01:46:53.526]           'const _Ty &std::min(const _Ty &,const _Ty &) noexcept(<expr>)': 2 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.531]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(88,33):
+[2026-11-24 01:46:53.536]       縺ｾ縺溘・ 'const _Ty &std::min(const _Ty &,const _Ty &,_Pr) noexcept(<expr>)'
+[2026-11-24 01:46:53.541]           E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(162,47):
+[2026-11-24 01:46:53.545]           'const _Ty &std::min(const _Ty &,const _Ty &,_Pr) noexcept(<expr>)': 3 蠑墓焚縺悟ｿ・ｦ√〒縺・- 1 縺梧欠螳壹＆繧後∪縺励◆
+[2026-11-24 01:46:53.550]   
+[2026-11-24 01:46:53.555] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(162,27): error C2737: 'target_count': const 繧ｪ繝悶ず繧ｧ繧ｯ繝医ｒ蛻晄悄蛹悶☆繧句ｿ・ｦ√′縺ゅｊ縺ｾ縺・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.560] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(169,9): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: 'for' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.565] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(169,31): error C2143: 讒区枚繧ｨ繝ｩ繝ｼ: ')' 縺・';' 縺ｮ蜑阪↓縺ゅｊ縺ｾ縺帙ｓ縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.569] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(169,47): error C2143: 讒区枚繧ｨ繝ｩ繝ｼ: '>' 縺・';' 縺ｮ蜑阪↓縺ゅｊ縺ｾ縺帙ｓ縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.574] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(169,33): error C7568: 諠ｳ螳壹＆繧後ｋ髢｢謨ｰ繝・Φ繝励Ξ繝ｼ繝・'iteration' 縺ｮ蠕後↓蠑墓焚繝ｪ繧ｹ繝医′縺ゅｊ縺ｾ縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.579] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(169,33): warning C4091: '': 螟画焚縺御ｽ輔ｂ螳｣險縺輔ｌ縺ｦ縺・↑縺・→縺阪・縲・<error type>' 縺ｮ蟾ｦ霎ｺ繧堤┌隕悶＠縺ｾ縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.583] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(169,49): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: '++' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.588] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(169,60): error C2059: 讒区枚繧ｨ繝ｩ繝ｼ: ')' [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.593] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(170,9): error C2143: 讒区枚繧ｨ繝ｩ繝ｼ: ';' 縺・'{' 縺ｮ蜑阪↓縺ゅｊ縺ｾ縺帙ｓ縲・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.598] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(170,9): error C2447: '{': 蟇ｾ蠢懊☆繧矩未謨ｰ繝倥ャ繝繝ｼ縺後≠繧翫∪縺帙ｓ (譌ｧ蠖｢蠑上・莉ｮ蠑墓焚繝ｪ繧ｹ繝・) [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.603] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(189,10): error C2062: 蝙・'void' 縺ｯ荳崎ｦ√〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.608] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(191,28): error C2065: 'cell_key': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.614] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(191,53): error C2065: 'cell_key_hash': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.619] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(191,14): error C2923: 'std::unordered_map': 'cell_key' 縺ｯ縲√ヱ繝ｩ繝｡繝ｼ繧ｿ繝ｼ '_Kty' 縺ｮ譛牙柑縺ｪ 繝・Φ繝励Ξ繝ｼ繝・蝙句ｼ墓焚縺ｧ縺ｯ縺ゅｊ縺ｾ縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.624]       E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(191,28):
+[2026-11-24 01:46:53.628]       'cell_key' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:53.632]   
+[2026-11-24 01:46:53.637] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(191,14): error C2923: 'std::unordered_map': 'cell_key_hash' 縺ｯ縲√ヱ繝ｩ繝｡繝ｼ繧ｿ繝ｼ '_Hasher' 縺ｮ譛牙柑縺ｪ 繝・Φ繝励Ξ繝ｼ繝・蝙句ｼ墓焚縺ｧ縺ｯ縺ゅｊ縺ｾ縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.642]       E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(191,53):
+[2026-11-24 01:46:53.647]       'cell_key_hash' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:53.651]   
+[2026-11-24 01:46:53.656] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(191,14): error C2976: 'std::unordered_map': 蠑墓焚 繝・Φ繝励Ξ繝ｼ繝・縺悟ｰ代↑縺吶℃縺ｾ縺・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.662]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\unordered_map(61,7):
+[2026-11-24 01:46:53.666]       'std::unordered_map' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:53.671]   
+[2026-11-24 01:46:53.675] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(191,68): error C2641: 'std::unordered_map' 縺ｮ繝・Φ繝励Ξ繝ｼ繝亥ｼ墓焚繧呈耳貂ｬ縺ｧ縺阪∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.680] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(191,68): error C2783: 'std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> std::unordered_map(void)': '_Kty' 縺ｮ 繝・Φ繝励Ξ繝ｼ繝・蠑墓焚繧呈耳貂ｬ縺ｧ縺阪∪縺帙ｓ縺ｧ縺励◆ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.684]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\unordered_map(101,5):
+[2026-11-24 01:46:53.690]       'std::unordered_map' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:53.695]   
+[2026-11-24 01:46:53.699] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(191,68): error C2783: 'std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> std::unordered_map(void)': '_Ty' 縺ｮ 繝・Φ繝励Ξ繝ｼ繝・蠑墓焚繧呈耳貂ｬ縺ｧ縺阪∪縺帙ｓ縺ｧ縺励◆ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.704]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\unordered_map(101,5):
+[2026-11-24 01:46:53.709]       'std::unordered_map' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:53.714]   
+[2026-11-24 01:46:53.719] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(191,68): error C2780: 'std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc> std::unordered_map(std::unordered_map<_Kty,_Ty,_Hasher,_Keyeq,_Alloc>)': 1 蠑墓焚縺悟ｿ・ｦ√〒縺・- 0 縺梧欠螳壹＆繧後∪縺励◆ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.724]       E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\unordered_map(61,7):
+[2026-11-24 01:46:53.728]       'std::unordered_map' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 01:46:53.733]   
+[2026-11-24 01:46:53.737] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(192,9): error C3927: '->': 蠕檎ｶ壹・謌ｻ繧雁､縺ｮ蝙九・縲・未謨ｰ莉･螟悶・螳｣險蟄舌・蠕後↓險ｱ蜿ｯ縺輔ｌ縺ｦ縺・∪縺帙ｓ [E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.742] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(192,21): error C3484: 讒区枚繧ｨ繝ｩ繝ｼ: 謌ｻ繧雁､縺ｮ蝙九・蜑阪↓ '->' 縺悟ｿ・ｦ√〒縺・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.747] E:\code\bigmoon77\BoneFlex\src\physics\mesh_reduction.cpp(192,21): error C1003: 繝励Ο繧ｰ繝ｩ繝蜀・・繧ｨ繝ｩ繝ｼ縺・100 蛟九ｒ雜・∴縺ｾ縺励◆縲ゅさ繝ｳ繝代う繝ｫ縺ｯ荳ｭ譁ｭ縺輔ｌ縺ｾ縺吶・[E:\code\bigmoon77\BoneFlex\build\boneflex.vcxproj]
+[2026-11-24 01:46:53.758] EXCEPTION: Build failed: 1
+[2026-11-24 01:46:53.763] END E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 01:46:53.768] All pulled command scripts processed. This Developer PowerShell window will remain open.
