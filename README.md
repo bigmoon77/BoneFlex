@@ -62,6 +62,26 @@ cmake --build build --config Release --target boneflex_mesh_reduction_benchmark
 
 The default workload creates a 450,000-vertex UV sphere and targets 5,000 reduced control points. The benchmark reports reduction time, CPU reconstruction time, control-point ratio, RMS and maximum rest-pose reconstruction error, and the storage size of the reduced mesh and embedding. Optional arguments are target control-point count, longitude segments, and latitude segments.
 
+## Blender asset export and import
+
+The Blender add-on in `blender/boneflex_exporter.py` exports the active skinned mesh and its Armature modifier to two files:
+
+- `.bflex`: BoneFlex's versioned binary interchange asset containing armature-local bind vertices, triangle indices, the bone hierarchy and bind-local transforms, and normalized CSR skinning weights.
+- `.glb`: a standard glTF 2.0 binary export for inspection and use by other tools. Animation data is retained in the GLB; the first C++ importer milestone loads the static rig and skinning data from the `.bflex` sidecar.
+
+Install the script in Blender via **Edit > Preferences > Add-ons > Install from Disk**, enable **BoneFlex Asset Exporter**, select the skinned mesh as the active object, then use **3D View > Sidebar > BoneFlex > Export BoneFlex Asset**. The mesh must have an Armature modifier and every vertex must have a positive weight assigned to an exported bone. Apply non-unit bone rest scale before exporting.
+
+Build and run the C++ import validation demo:
+
+```powershell
+cmake -S . -B build -DBONEFLEX_BUILD_EXAMPLES=ON
+cmake --build build --config Release --target boneflex_blender_asset_demo
+ctest --test-dir build -C Release --output-on-failure
+.\\build\\Release\\boneflex_blender_asset_demo.exe .\\path\\to\\character.bflex
+```
+
+The demo loads the exported rig and weights, evaluates the bind-pose CPU skinning reference, generates a reduced surface mesh, and reports the resulting control-point and embedding sizes. The importer does not depend on Blender or a graphics API.
+
 ## Design principles
 
 - Public API lives under `include/boneflex`.
