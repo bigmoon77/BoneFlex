@@ -139,6 +139,9 @@ namespace boneflex
         }
 
         std::vector<vec3> current_positions(_particles.size());
+        std::vector<float> fixed_point_weights(_particles.size(), 0.0f);
+        for (std::size_t i = 0; i < _particles.size(); ++i)
+            fixed_point_weights[i] = _particles[i].inverse_mass <= 0.0f ? 1.0f : 0.0f;
         std::vector<vec3> matched_positions;
         for (std::size_t iteration = 0; iteration < _options.solver_iterations; ++iteration)
         {
@@ -155,7 +158,7 @@ namespace boneflex
                 }
                 if (!solve_shape_matching(
                     _rest_positions, current_positions, _clusters,
-                    1.0f, matched_positions))
+                    fixed_point_weights, 1.0f, matched_positions))
                 {
                     return false;
                 }
