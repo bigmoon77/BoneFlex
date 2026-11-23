@@ -2,14 +2,14 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 Set-Location $repoRoot
 Write-Output "Repository: $repoRoot"
-Write-Output "BoneFlex maximum deformation limit build and Blender import smoke test started: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+Write-Output "BoneFlex cluster smoothing build and Blender import smoke test started: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 cmake -S $repoRoot -B (Join-Path $repoRoot 'build') -DBONEFLEX_BUILD_EXAMPLES=ON -DBONEFLEX_BUILD_DX11_DEMO=ON -DBONEFLEX_BUILD_BENCHMARKS=ON
 if ($LASTEXITCODE -ne 0) { throw "CMake configure failed: $LASTEXITCODE" }
 cmake --build (Join-Path $repoRoot 'build') --config Release
 if ($LASTEXITCODE -ne 0) { throw "Build failed: $LASTEXITCODE" }
 ctest --test-dir (Join-Path $repoRoot 'build') -C Release --output-on-failure
 if ($LASTEXITCODE -ne 0) { throw "Tests failed: $LASTEXITCODE" }
-Write-Output "Build and all unit tests succeeded, including the maximum deformation ratio test."
+Write-Output "Build and all unit tests succeeded, including shape matching and reduced soft body tests."
 
 $blender = Get-Command blender -ErrorAction SilentlyContinue
 if ($null -ne $blender) {
@@ -39,4 +39,4 @@ else {
     Write-Output "Blender executable not found; skipping the optional Blender round-trip smoke test."
 }
 
-Write-Output "DX11 soft-body tuning: 98% anchor threshold, shape matching stiffness 0.15, max deformation ratio 0.15, XPBD compliance 1e-5, gravity 9.81; G toggles gravity; A toggles imported skeleton animation."
+Write-Output "DX11 soft-body tuning: 98% anchor threshold, shape matching stiffness 0.15, max deformation ratio 0.5, cluster overlap 0.75, Taubin smoothing 4 passes, XPBD compliance 1e-5, gravity 9.81; G toggles gravity; A toggles imported skeleton animation."
