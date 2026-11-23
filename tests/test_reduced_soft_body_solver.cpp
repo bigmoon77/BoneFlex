@@ -109,6 +109,53 @@ namespace
         require(std::fabs(distance - 1.0f) < 1.0e-4f, "Integrated XPBD constraint was not satisfied.");
     }
 
+
+    void test_maximum_deformation_ratio()
+    {
+        boneflex::reduced_mesh mesh = make_grid(2);
+        boneflex::shape_matching_cluster_options cluster_options;
+        cluster_options.cluster_size = 4;
+        boneflex::shape_matching_clusters clusters;
+        require(boneflex::generate_shape_matching_clusters(mesh, cluster_options, clusters),
+            "Failed to create deformation-limit clusters.");
+
+        std::vector<boneflex::particle> particles(mesh.control_point_count());
+        for (std::size_t i = 0; i < particles.size(); ++i)
+        {
+            particles[i].position = mesh.rest_positions()[i];
+            particles[i].previous_position = particles[i].position;
+        }
+        particles[0].position.x += 4.0f;
+        particles[0].previous_position = particles[0].position;
+
+        std::vector<boneflex::xpbd_distance_constraint> constraints;
+        constraints.emplace_back(0, 1, 1.0f, 1.0e6f);
+        constraints.emplace_back(0, 2, 1.0f, 1.0e6f);
+
+        std::vector<boneflex::vec3> fitted_positions;
+        std::vector<boneflex::vec3> current_positions;
+        for (const boneflex::particle& value : particles)
+            current_positions.push_back(value.position);
+        require(boneflex::solve_shape_matching(
+            mesh.rest_positions(), current_positions, clusters, 1.0f, fitted_positions),
+            "Failed to calculate the fitted reference shape.");
+
+        boneflex::reduced_soft_body_options options;
+        options.gravity = boneflex::vec3();
+        options.shape_matching_stiffness = 0.5f;
+        options.max_deformation_ratio = 0.1f;
+        options.solver_iterations = 1;
+
+        boneflex::reduced_soft_body_solver solver;
+        require(solver.initialize(particles, mesh.rest_positions(), constraints, clusters, options),
+            "Deformation-limit solver initialization failed.");
+        require(solver.step(1.0f / 60.0f), "Deformation-limit solver step failed.");
+
+        const float residual = (solver.particles()[0].position - fitted_positions[0]).length();
+        require(residual <= 0.1001f,
+            "Maximum deformation ratio did not clamp displacement from the fitted shape.");
+    }
+
     void test_velocity_damping_is_frame_rate_scaled()
     {
         boneflex::reduced_mesh mesh = make_grid(2);
@@ -153,6 +200,7 @@ int main()
     {
         test_gravity_and_fixed_particle();
         test_distance_constraint_is_solved();
+        test_maximum_deformation_ratio();
         test_velocity_damping_is_frame_rate_scaled();
     }
     catch (const std::exception& exception)
