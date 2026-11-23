@@ -1014,7 +1014,7 @@ float4 PSMain(PSInput input) : SV_TARGET
         window_class.cbSize = sizeof(window_class);
         window_class.lpfnWndProc = parameter_window_proc;
         window_class.hInstance = instance;
-        window_class.hCursor = LoadCursorW(nullptr, IDC_ARROW);
+        window_class.hCursor = LoadCursorW(nullptr, MAKEINTRESOURCEW(32512));
         window_class.lpszClassName = L"BoneFlexParameterWindow";
         RegisterClassExW(&window_class);
         demo.parameter_window = CreateWindowExW(0, window_class.lpszClassName,
