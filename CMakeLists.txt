@@ -125,5 +125,5 @@ if(BONEFLEX_BUILD_DX11_DEMO)
             $<TARGET_FILE_DIR:boneflex_dx11_soft_body_demo>/boneflex_exporter.py
         VERBATIM
     )
-    target_link_libraries(boneflex_dx11_soft_body_demo PRIVATE BoneFlex::boneflex d3d11 d3dcompiler)
+    target_link_libraries(boneflex_dx11_soft_body_demo PRIVATE BoneFlex::boneflex d3d11 d3dcompiler comctl32)
 endif()
