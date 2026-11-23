@@ -14,13 +14,24 @@ Write-Output "Blender importer build and tests succeeded."
 $blender = Get-Command blender -ErrorAction SilentlyContinue
 if ($null -ne $blender) {
     $sampleAsset = Join-Path (Join-Path $repoRoot 'build') 'boneflex_test_character.bflex'
+    $generatorScript = Join-Path $repoRoot 'blender\create_test_character.py'
+    $blenderStdout = Join-Path (Join-Path $repoRoot 'build') 'blender_export.stdout.log'
+    $blenderStderr = Join-Path (Join-Path $repoRoot 'build') 'blender_export.stderr.log'
     Write-Output "Blender found. Generating a test character: $sampleAsset"
-    $blenderLog = Join-Path (Join-Path $repoRoot 'build') 'blender_export.log'
-    & $blender.Source --background --python (Join-Path $repoRoot 'blender\create_test_character.py') -- --output $sampleAsset --skip-glb *> $blenderLog
-    $blenderExitCode = $LASTEXITCODE
-    Write-Output "Blender export log: $blenderLog"
-    if (Test-Path $blenderLog) { Get-Content $blenderLog | ForEach-Object { Write-Output $_ } }
-    if ($blenderExitCode -ne 0) { throw "Blender test character export failed: $blenderExitCode (see build\blender_export.log)" }
+    $quote = [string][char]34
+    $blenderProcess = Start-Process -FilePath $blender.Source -ArgumentList @(
+        '--background',
+        '--python', ($quote + $generatorScript + $quote),
+        '--',
+        '--output', ($quote + $sampleAsset + $quote),
+        '--skip-glb'
+    ) -Wait -PassThru -NoNewWindow -RedirectStandardOutput $blenderStdout -RedirectStandardError $blenderStderr
+    Write-Output "Blender exit code: $($blenderProcess.ExitCode)"
+    Write-Output "===== Blender stdout ====="
+    if (Test-Path $blenderStdout) { Get-Content $blenderStdout | ForEach-Object { Write-Output $_ } }
+    Write-Output "===== Blender stderr ====="
+    if (Test-Path $blenderStderr) { Get-Content $blenderStderr | ForEach-Object { Write-Output $_ } }
+    if ($blenderProcess.ExitCode -ne 0) { throw "Blender test character export failed: $($blenderProcess.ExitCode)" }
     & (Join-Path $repoRoot 'build\Release\boneflex_blender_asset_demo.exe') $sampleAsset
     if ($LASTEXITCODE -ne 0) { throw "Blender-exported asset import demo failed: $LASTEXITCODE" }
 }
