@@ -92,8 +92,8 @@ if (Test-Path $blenderPath) {
         throw "Interactive DX11 diagnostic exited during startup."
     }
     Write-Output "Interactive DX11 diagnostic started (PID: $($diagnosticProcess.Id))."
-    Write-Output "Capturing the real model for 3 seconds with no input; gravity and animation remain disabled."
-    Start-Sleep -Seconds 3
+    Write-Output "Capturing the real model for 15 seconds with no input; gravity and animation remain disabled."
+    Start-Sleep -Seconds 15
     $diagnosticProcess.Refresh()
     if (-not $diagnosticProcess.HasExited) {
         [void]$diagnosticProcess.CloseMainWindow()
