@@ -101,6 +101,60 @@ namespace
         return positions;
     }
 
+    boneflex::vec3 calculate_geometric_center(const std::vector<boneflex::vec3>& positions)
+    {
+        boneflex::vec3 center;
+        if (positions.empty())
+        {
+            return center;
+        }
+        for (const boneflex::vec3& position : positions)
+        {
+            center += position;
+        }
+        return center / static_cast<float>(positions.size());
+    }
+
+    displacement_metrics measure_deformation(
+        const std::vector<boneflex::vec3>& rest_positions,
+        const std::vector<boneflex::vec3>& current_positions,
+        const std::vector<std::size_t>& indices,
+        const boneflex::vec3& rest_center,
+        const boneflex::vec3& current_center)
+    {
+        displacement_metrics metrics;
+        metrics.count = indices.size();
+        if (indices.empty())
+        {
+            return metrics;
+        }
+
+        double sum = 0.0;
+        double squared_sum = 0.0;
+        double pull_axis_sum = 0.0;
+        for (std::size_t index : indices)
+        {
+            const boneflex::vec3 rest_local = rest_positions[index] - rest_center;
+            const boneflex::vec3 current_local = current_positions[index] - current_center;
+            const boneflex::vec3 deformation = current_local - rest_local;
+            const double magnitude = std::sqrt(static_cast<double>(deformation.length_squared()));
+            sum += magnitude;
+            squared_sum += magnitude * magnitude;
+            pull_axis_sum += deformation.x;
+            metrics.maximum = std::max(metrics.maximum, magnitude);
+        }
+        metrics.mean = sum / static_cast<double>(metrics.count);
+        metrics.rms = std::sqrt(squared_sum / static_cast<double>(metrics.count));
+        metrics.mean_pull_axis = pull_axis_sum / static_cast<double>(metrics.count);
+        return metrics;
+    }
+
+    void print_vector(const char* name, const boneflex::vec3& value)
+    {
+        std::cout << name << value.x << ", " << value.y << ", " << value.z
+            << " (length: " << value.length() << ")\\n";
+    }
+
     void print_region(const char* name, const displacement_metrics& metrics)
     {
         std::cout << name << " count: " << metrics.count
@@ -228,6 +282,10 @@ int main(int argc, char** argv)
     const clock_type::time_point release_end = clock_type::now();
     const std::vector<boneflex::vec3> positions_after_release = capture_positions(solver.particles());
 
+    const boneflex::vec3 rest_center = calculate_geometric_center(mesh.rest_positions());
+    const boneflex::vec3 pull_center = calculate_geometric_center(positions_after_pull);
+    const boneflex::vec3 release_center = calculate_geometric_center(positions_after_release);
+
     std::vector<std::size_t> all_indices(mesh.control_point_count());
     for (std::size_t i = 0; i < all_indices.size(); ++i)
     {
@@ -250,6 +308,23 @@ int main(int argc, char** argv)
         mesh.rest_positions(), positions_after_release, neighbor_region);
     const displacement_metrics release_far = measure_displacement(
         mesh.rest_positions(), positions_after_release, far_region);
+
+    const displacement_metrics pull_deformation_all = measure_deformation(
+        mesh.rest_positions(), positions_after_pull, all_indices, rest_center, pull_center);
+    const displacement_metrics release_deformation_all = measure_deformation(
+        mesh.rest_positions(), positions_after_release, all_indices, rest_center, release_center);
+    const displacement_metrics pull_deformation_local = measure_deformation(
+        mesh.rest_positions(), positions_after_pull, pull_region, rest_center, pull_center);
+    const displacement_metrics pull_deformation_neighbor = measure_deformation(
+        mesh.rest_positions(), positions_after_pull, neighbor_region, rest_center, pull_center);
+    const displacement_metrics pull_deformation_far = measure_deformation(
+        mesh.rest_positions(), positions_after_pull, far_region, rest_center, pull_center);
+    const displacement_metrics release_deformation_local = measure_deformation(
+        mesh.rest_positions(), positions_after_release, pull_region, rest_center, release_center);
+    const displacement_metrics release_deformation_neighbor = measure_deformation(
+        mesh.rest_positions(), positions_after_release, neighbor_region, rest_center, release_center);
+    const displacement_metrics release_deformation_far = measure_deformation(
+        mesh.rest_positions(), positions_after_release, far_region, rest_center, release_center);
 
     const double pull_average_ms = elapsed_ms(pull_begin, pull_end) / pull_frame_count;
     const double release_average_ms = elapsed_ms(release_begin, release_end) / release_frame_count;
@@ -281,5 +356,26 @@ int main(int argc, char** argv)
     print_region("Pull region", release_local);
     print_region("Neighbor region", release_neighbor);
     print_region("Far region", release_far);
+
+    std::cout << "\\nCenter of mass translation (geometric center)\\n";
+    print_vector("Rest center:    ", rest_center);
+    print_vector("After pull:     ", pull_center);
+    print_vector("Pull offset:    ", pull_center - rest_center);
+    print_vector("After release:  ", release_center);
+    print_vector("Release offset: ", release_center - rest_center);
+
+    std::cout << "\\nDeformation after pull (center translation removed)\\n";
+    std::cout << "Overall mean / RMS / max:    " << pull_deformation_all.mean << " / "
+        << pull_deformation_all.rms << " / " << pull_deformation_all.maximum << '\\n';
+    print_region("Pull region", pull_deformation_local);
+    print_region("Neighbor region", pull_deformation_neighbor);
+    print_region("Far region", pull_deformation_far);
+
+    std::cout << "\\nDeformation after release (center translation removed)\\n";
+    std::cout << "Overall mean / RMS / max:    " << release_deformation_all.mean << " / "
+        << release_deformation_all.rms << " / " << release_deformation_all.maximum << '\\n';
+    print_region("Pull region", release_deformation_local);
+    print_region("Neighbor region", release_deformation_neighbor);
+    print_region("Far region", release_deformation_far);
     return 0;
 }
