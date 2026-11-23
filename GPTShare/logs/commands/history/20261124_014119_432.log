@@ -1,0 +1,29 @@
+﻿
+[2026-11-24 01:41:20.516] Developer PowerShell initialization
+[2026-11-24 01:41:22.482] **********************************************************************
+[2026-11-24 01:41:22.486] ** Visual Studio 2026 Developer PowerShell v18.10.3
+[2026-11-24 01:41:22.492] ** Copyright (c) 2026 Microsoft Corporation
+[2026-11-24 01:41:22.513] **********************************************************************
+[2026-11-24 01:41:22.525] START E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 01:41:22.632] Repository: E:\code\bigmoon77\BoneFlex
+[2026-11-24 01:41:22.637] BoneFlex DX11 surface smoothing build started: 2026-11-24 01:41:22
+[2026-11-24 01:41:22.797] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26300.
+[2026-11-24 01:41:22.815] -- Configuring done (0.1s)
+[2026-11-24 01:41:23.266] -- Generating done (0.4s)
+[2026-11-24 01:41:23.281] -- Build files have been written to: E:/code/bigmoon77/BoneFlex/build
+[2026-11-24 01:41:23.539] MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.14.60+43b635718 (.NET Framework)
+[2026-11-24 01:41:23.595] 
+[2026-11-24 01:41:24.121]   boneflex.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex.lib
+[2026-11-24 01:41:24.299]   dx11_soft_body_demo.cpp
+[2026-11-24 01:41:27.538]   boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_dx11_soft_body_demo.exe
+[2026-11-24 01:41:27.578] Build succeeded. Launching DX11 demo; close the demo window to finish this command.
+[2026-11-24 01:41:43.487] Render vertices: 4753
+[2026-11-24 01:41:43.494] Control points: 1202
+[2026-11-24 01:41:43.499] Reduced triangles: 2400
+[2026-11-24 01:41:43.502] Shape matching clusters: 42
+[2026-11-24 01:41:43.508] XPBD constraints: 3600
+[2026-11-24 01:41:43.512] Drag the sphere with the left mouse button. Press Esc to exit.
+[2026-11-24 01:41:43.517] DX11 demo closed.
+[2026-11-24 01:41:43.544] SUCCESS
+[2026-11-24 01:41:43.548] END E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 01:41:43.553] All pulled command scripts processed. This Developer PowerShell window will remain open.
