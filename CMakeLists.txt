@@ -13,6 +13,7 @@ add_library(boneflex
     src/animation/skeleton.cpp
     src/animation/skinning.cpp
     src/animation/skinning_weights.cpp
+    src/physics/reduced_mesh.cpp
     src/physics/xpbd_distance_constraint.cpp
 )
 
@@ -51,6 +52,12 @@ if(BONEFLEX_BUILD_TESTS)
     )
     target_link_libraries(boneflex_skinning_tests PRIVATE BoneFlex::boneflex)
     add_test(NAME BoneFlex.Skinning COMMAND boneflex_skinning_tests)
+
+    add_executable(boneflex_reduced_mesh_tests
+        tests/test_reduced_mesh.cpp
+    )
+    target_link_libraries(boneflex_reduced_mesh_tests PRIVATE BoneFlex::boneflex)
+    add_test(NAME BoneFlex.ReducedMesh COMMAND boneflex_reduced_mesh_tests)
 endif()
 
 if(BONEFLEX_BUILD_EXAMPLES)
