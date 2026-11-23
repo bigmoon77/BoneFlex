@@ -910,7 +910,6 @@ float4 PSMain(PSInput input) : SV_TARGET
     void refresh_parameter_labels(demo_state& demo)
     {
         const auto& options = demo.solver.options();
-        wchar_t text[128]{};
         const std::array<std::wstring, 7> values = {
             L"Shape matching stiffness: " + std::to_wstring(options.shape_matching_stiffness).substr(0, 5),
             L"XPBD compliance: " + std::to_wstring(demo.distance_compliance),
