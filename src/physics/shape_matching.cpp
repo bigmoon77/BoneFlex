@@ -133,14 +133,6 @@ namespace boneflex
         std::vector<vec3> accumulated(rest_positions.size());
         std::vector<float> counts(rest_positions.size(),0.0f);
 
-        std::vector<std::uint32_t> fixed_indices;
-        if (!fixed_point_weights.empty())
-        {
-            for (std::size_t i = 0; i < fixed_point_weights.size(); ++i)
-                if (fixed_point_weights[i] > 0.0f)
-                    fixed_indices.push_back(static_cast<std::uint32_t>(i));
-        }
-
         const std::vector<std::uint32_t>& offsets=clusters.offsets();
         const std::vector<std::uint32_t>& indices=clusters.control_point_indices();
         for (std::size_t c=0;c<clusters.cluster_count();++c)
@@ -173,22 +165,6 @@ namespace boneflex
                     fixed_current_center*=1.0f/fixed_weight_sum;
                     translation_center=fixed_current_center
                         - rotation.rotate(fixed_rest_center-rest_center);
-                }
-                else if (!fixed_indices.empty())
-                {
-                    std::uint32_t nearest_index = fixed_indices.front();
-                    float nearest_distance = (rest_positions[nearest_index] - rest_center).length_squared();
-                    for (std::uint32_t fixed_index : fixed_indices)
-                    {
-                        const float distance = (rest_positions[fixed_index] - rest_center).length_squared();
-                        if (distance < nearest_distance)
-                        {
-                            nearest_distance = distance;
-                            nearest_index = fixed_index;
-                        }
-                    }
-                    translation_center=current_positions[nearest_index]
-                        - rotation.rotate(rest_positions[nearest_index]-rest_center);
                 }
             }
             for (std::uint32_t i=begin;i<end;++i)
