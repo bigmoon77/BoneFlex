@@ -48,7 +48,7 @@ ctest --test-dir build -C Release --output-on-failure
 
 ## Current status
 
-The current milestone includes a dependency-free C++20 library, an XPBD distance constraint, skeletal hierarchy evaluation, compact CSR skinning weights, a CPU reference skinning path, reduced surface mesh storage, CPU render-vertex reconstruction, and a CPU clustered rigid shape-matching reference solver. An initial deterministic voxel-based reduced-mesh generator and local inverse-distance render embedding generator are now included. Automatic overlapping shape-matching cluster generation from reduced surface topology is included, with a deformation test that checks local displacement propagation and preservation of distant points. GPU execution and the interactive demo are subsequent milestones.
+The current milestone includes a dependency-free C++20 library, an XPBD distance constraint, skeletal hierarchy evaluation, compact CSR skinning weights, a CPU reference skinning path, reduced surface mesh storage, CPU render-vertex reconstruction, a CPU clustered rigid shape-matching reference solver, and an integrated reduced soft-body CPU solver combining XPBD distance constraints with clustered shape matching. An initial deterministic voxel-based reduced-mesh generator and local inverse-distance render embedding generator are now included. Automatic overlapping shape-matching cluster generation from reduced surface topology is included, with a deformation test that checks local displacement propagation and preservation of distant points. GPU execution and the interactive demo are subsequent milestones.
 
 
 ## Mesh reduction benchmark
@@ -82,3 +82,15 @@ cmake --build build --config Release --target boneflex_shape_matching_benchmark
 ```
 
 The default workload uses a 10,000-control-point UV sphere, generates overlapping surface clusters, applies a localized pull near the north pole, and measures the average CPU shape-matching solve time over 10 iterations after warmup. It reports cluster generation time, cluster count, membership count, and RMS/maximum correction. Optional arguments are longitude segments, latitude segments, and cluster size.
+
+## Reduced soft-body solver benchmark
+
+Build and run the integrated XPBD + shape-matching benchmark:
+
+```powershell
+cmake -S . -B build -DBONEFLEX_BUILD_BENCHMARKS=ON
+cmake --build build --config Release --target boneflex_reduced_soft_body_benchmark
+.\\build\\Release\\boneflex_reduced_soft_body_benchmark.exe
+```
+
+The default workload simulates 10,000 reduced control points for 60 frames using four solver iterations per frame. It reports average CPU frame time and displacement from the rest pose. Optional arguments are longitude and latitude segments.
