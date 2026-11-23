@@ -50,6 +50,19 @@ ctest --test-dir build -C Release --output-on-failure
 
 The current milestone includes a dependency-free C++20 library, an XPBD distance constraint, skeletal hierarchy evaluation, compact CSR skinning weights, a CPU reference skinning path, reduced surface mesh storage, CPU render-vertex reconstruction, and a CPU clustered rigid shape-matching reference solver. An initial deterministic voxel-based reduced-mesh generator and local inverse-distance render embedding generator are now included. Automatic shape-matching cluster generation, GPU execution, and the interactive demo are subsequent milestones.
 
+
+## Mesh reduction benchmark
+
+Build the optional benchmark with:
+
+```powershell
+cmake -S . -B build -DBONEFLEX_BUILD_BENCHMARKS=ON
+cmake --build build --config Release --target boneflex_mesh_reduction_benchmark
+.\build\Release\boneflex_mesh_reduction_benchmark.exe
+```
+
+The default workload creates a 450,000-vertex UV sphere and targets 5,000 reduced control points. The benchmark reports reduction time, CPU reconstruction time, control-point ratio, RMS and maximum rest-pose reconstruction error, and the storage size of the reduced mesh and embedding. Optional arguments are target control-point count, longitude segments, and latitude segments.
+
 ## Design principles
 
 - Public API lives under `include/boneflex`.
