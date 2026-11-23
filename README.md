@@ -77,7 +77,7 @@ For a repeatable smoke test, generate a small two-bone weighted sphere directly 
 blender --background --python .\\blender\\create_test_character.py -- --output .\\test_character.bflex
 ```
 
-This creates `test_character.bflex` and `test_character.glb` in the requested output location. It uses a simple Root/Upper armature with smoothly blended vertex groups, so it is useful for checking axis conversion, parent ordering, bind-pose skinning, and DX11 import without preparing a character manually. The Blender glTF exporter must be available for the companion GLB.
+This creates `test_character.bflex` and `test_character.glb` in the requested output location. It uses a simple Root/Upper armature with smoothly blended vertex groups, so it is useful for checking axis conversion, parent ordering, bind-pose skinning, and DX11 import without preparing a character manually. The Blender glTF exporter must be available for the companion GLB. Add `--skip-glb` to generate only the BoneFlex payload; the DevTrace test command uses this mode when Blender is installed and automatically runs the C++ importer demo on the generated asset.
 
 Build and run the C++ import validation demo:
 
