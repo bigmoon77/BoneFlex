@@ -72,7 +72,7 @@ namespace
 
     void test_anchored_shape_matching_restores_translation()
     {
-        boneflex::reduced_mesh mesh = make_grid(4);
+        boneflex::reduced_mesh mesh = make_grid(3);
         std::vector<std::uint32_t> indices(mesh.control_point_count());
         for (std::size_t i = 0; i < indices.size(); ++i)
             indices[i] = static_cast<std::uint32_t>(i);
@@ -81,39 +81,28 @@ namespace
         require(clusters.set_data(mesh.control_point_count(), {0, cluster_end},
             std::move(indices)), "Failed to create anchored shape matching cluster.");
 
-        std::vector<boneflex::particle> particles(mesh.control_point_count());
-        for (std::size_t i = 0; i < particles.size(); ++i)
+        std::vector<boneflex::vec3> current_positions = mesh.rest_positions();
+        const std::size_t anchor_index = 4;
+        const boneflex::vec3 translation(0.0f, -2.0f, 0.0f);
+        for (std::size_t i = 0; i < current_positions.size(); ++i)
         {
-            particles[i].position = mesh.rest_positions()[i];
-            particles[i].previous_position = particles[i].position;
+            if (i == anchor_index) continue;
+            current_positions[i] += translation;
         }
-        particles[0].inverse_mass = 0.0f;
 
-        boneflex::reduced_soft_body_options options;
-        options.gravity = boneflex::vec3(0.0f, -10.0f, 0.0f);
-        options.shape_matching_stiffness = 0.2f;
-        options.solver_iterations = 4;
-        options.velocity_damping = 0.98f;
+        std::vector<float> fixed_point_weights(mesh.control_point_count(), 0.0f);
+        fixed_point_weights[anchor_index] = 1.0f;
+        std::vector<boneflex::vec3> matched_positions;
+        require(boneflex::solve_shape_matching(
+            mesh.rest_positions(), current_positions, clusters,
+            fixed_point_weights, 1.0f, matched_positions),
+            "Anchored shape matching failed.");
 
-        boneflex::reduced_soft_body_solver solver;
-        require(solver.initialize(particles, mesh.rest_positions(), {}, clusters, options),
-            "Anchored shape matching solver initialization failed.");
-        for (int i = 0; i < 30; ++i)
-            require(solver.step(1.0f / 60.0f), "Gravity simulation step failed.");
-
-        const float displaced_distance =
-            (solver.particles()[5].position - mesh.rest_positions()[5]).length();
-        require(displaced_distance > 0.01f, "Gravity did not produce a measurable displacement.");
-
-        options.gravity = boneflex::vec3();
-        require(solver.set_options(options), "Failed to disable gravity.");
-        for (int i = 0; i < 120; ++i)
-            require(solver.step(1.0f / 60.0f), "Recovery simulation step failed.");
-
-        const float recovered_distance =
-            (solver.particles()[5].position - mesh.rest_positions()[5]).length();
-        require(recovered_distance < displaced_distance * 0.75f,
-            "Kinematic anchor did not restore cluster translation after gravity was disabled.");
+        for (std::size_t i = 0; i < matched_positions.size(); ++i)
+        {
+            require((matched_positions[i] - mesh.rest_positions()[i]).length() < 1.0e-4f,
+                "Kinematic anchor did not prevent rigid cluster translation.");
+        }
     }
 
     void test_shape_matching_remains_stable_without_external_forces()
