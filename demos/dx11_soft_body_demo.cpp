@@ -81,7 +81,7 @@ namespace
         bool gravity_enabled = true;
         float gravity_strength = 9.81f;
         float distance_compliance = 1.0e-5f;
-        int smoothing_passes = 4;
+        int smoothing_passes = 2;
         HWND parameter_window = nullptr;
         std::array<HWND, 7> parameter_sliders{};
         std::array<HWND, 7> parameter_labels{};
@@ -792,31 +792,33 @@ float4 PSMain(PSInput input) : SV_TARGET
             return;
         }
 
-        // Taubin smoothing suppresses piecewise-linear artifacts from reduced-mesh
-        // reconstruction while largely preserving the overall surface volume.
+        // Taubin smoothing applies one shrink step followed by one inflation step
+        // per iteration. Applying the inflation coefficient repeatedly is unstable.
         constexpr float smooth_lambda = 0.35f;
         constexpr float smooth_mu = -0.36f;
-        for (int pass = 0; pass < demo.smoothing_passes; ++pass)
+        for (int iteration = 0; iteration < demo.smoothing_passes; ++iteration)
         {
-            const float coefficient = (pass == 0) ? smooth_lambda : smooth_mu;
-            for (std::size_t i = 0; i < demo.deformed_positions.size(); ++i)
+            for (int step = 0; step < 2; ++step)
             {
-                const auto& neighbors = demo.render_neighbors[i];
-                if (neighbors.empty())
+                const float coefficient = (step == 0) ? smooth_lambda : smooth_mu;
+                for (std::size_t i = 0; i < demo.deformed_positions.size(); ++i)
                 {
-                    demo.smoothing_positions[i] = demo.deformed_positions[i];
-                    continue;
+                    const auto& neighbors = demo.render_neighbors[i];
+                    if (neighbors.empty())
+                    {
+                        demo.smoothing_positions[i] = demo.deformed_positions[i];
+                        continue;
+                    }
+                    boneflex::vec3 average;
+                    for (std::uint32_t neighbor : neighbors)
+                        average += demo.deformed_positions[neighbor];
+                    average *= 1.0f / static_cast<float>(neighbors.size());
+                    demo.smoothing_positions[i] = demo.deformed_positions[i]
+                        + (average - demo.deformed_positions[i]) * coefficient;
                 }
-                boneflex::vec3 average;
-                for (std::uint32_t neighbor : neighbors)
-                    average += demo.deformed_positions[neighbor];
-                average *= 1.0f / static_cast<float>(neighbors.size());
-                demo.smoothing_positions[i] = demo.deformed_positions[i]
-                    + (average - demo.deformed_positions[i]) * coefficient;
+                demo.deformed_positions.swap(demo.smoothing_positions);
             }
-            demo.deformed_positions.swap(demo.smoothing_positions);
         }
-
         std::fill(demo.accumulated_normals.begin(), demo.accumulated_normals.end(), boneflex::vec3());
         for (std::size_t i = 0; i < demo.render_indices.size(); i += 3)
         {
@@ -917,7 +919,7 @@ float4 PSMain(PSInput input) : SV_TARGET
             L"Velocity damping: " + std::to_wstring(options.velocity_damping).substr(0, 5),
             L"Maximum deformation ratio: " + std::to_wstring(options.max_deformation_ratio).substr(0, 5),
             L"Gravity: " + std::to_wstring(demo.gravity_strength).substr(0, 5),
-            L"Surface smoothing passes: " + std::to_wstring(demo.smoothing_passes)
+            L"Surface smoothing iterations: " + std::to_wstring(demo.smoothing_passes)
         };
         for (std::size_t i = 0; i < values.size(); ++i)
             if (demo.parameter_labels[i]) SetWindowTextW(demo.parameter_labels[i], values[i].c_str());
@@ -988,7 +990,7 @@ float4 PSMain(PSInput input) : SV_TARGET
             create_parameter_slider(*demo, window, 3, parameter_damping, 222, 900, 1000, 995);
             create_parameter_slider(*demo, window, 4, parameter_max_deformation, 292, 0, 200, 50);
             create_parameter_slider(*demo, window, 5, parameter_gravity, 362, 0, 200, 98);
-            create_parameter_slider(*demo, window, 6, parameter_smoothing, 432, 0, 8, 4);
+            create_parameter_slider(*demo, window, 6, parameter_smoothing, 432, 0, 8, 2);
             refresh_parameter_labels(*demo);
             return 0;
         case WM_HSCROLL:
