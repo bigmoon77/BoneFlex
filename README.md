@@ -71,6 +71,14 @@ The Blender add-on in `blender/boneflex_exporter.py` exports the active skinned 
 
 Install the script in Blender via **Edit > Preferences > Add-ons > Install from Disk**, enable **BoneFlex Asset Exporter**, select the skinned mesh as the active object, then use **3D View > Sidebar > BoneFlex > Export BoneFlex Asset**. The mesh must have an Armature modifier and every vertex must have a positive weight assigned to an exported bone. Apply non-unit bone rest scale before exporting.
 
+For a repeatable smoke test, generate a small two-bone weighted sphere directly from Blender in background mode:
+
+```powershell
+blender --background --python .\\blender\\create_test_character.py -- --output .\\test_character.bflex
+```
+
+This creates `test_character.bflex` and `test_character.glb` in the requested output location. It uses a simple Root/Upper armature with smoothly blended vertex groups, so it is useful for checking axis conversion, parent ordering, bind-pose skinning, and DX11 import without preparing a character manually. The Blender glTF exporter must be available for the companion GLB.
+
 Build and run the C++ import validation demo:
 
 ```powershell
