@@ -1,5 +1,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <windowsx.h>
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
@@ -14,6 +15,8 @@
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <cstring>
+#include <iterator>
 #include <cstdint>
 #include <iostream>
 #include <string>
@@ -586,8 +589,9 @@ float4 PSMain(PSInput input) : SV_TARGET
     }
 }
 
-int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int show_command)
+int main()
 {
+    HINSTANCE instance = GetModuleHandleW(nullptr);
     demo_state demo;
     active_demo = &demo;
 
