@@ -41,6 +41,8 @@ namespace boneflex
         const std::vector<vec3>& rest_positions() const;
         const std::vector<xpbd_distance_constraint>& distance_constraints() const;
         const reduced_soft_body_options& options() const;
+        bool set_options(const reduced_soft_body_options& options);
+        bool set_distance_constraint_compliance(float compliance);
 
     private:
         std::vector<particle> _particles;
