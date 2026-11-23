@@ -312,6 +312,13 @@ namespace
             << "Reduced triangles: " << demo.reduced.triangle_count() << '\n'
             << "Shape matching clusters: " << demo.clusters.cluster_count() << '\n'
             << "XPBD constraints: " << demo.constraints.size() << '\n';
+        if (demo.has_imported_asset)
+        {
+            const std::size_t anchor_count = static_cast<std::size_t>(
+                std::count(demo.control_anchors.begin(), demo.control_anchors.end(), true));
+            std::cout << "Kinematic anchors: " << anchor_count << '\n'
+                << "Animated bone: " << demo.imported_asset.rig.bones()[demo.animated_bone_index].name << '\n';
+        }
         return true;
     }
 
@@ -763,7 +770,7 @@ float4 PSMain(PSInput input) : SV_TARGET
             if (wparam == 'A' && demo->has_imported_asset)
             {
                 demo->animation_enabled = !demo->animation_enabled;
-                std::cout << "Skeleton animation " << (demo->animation_enabled ? "enabled" : "paused") << '\\n';
+                std::cout << "Skeleton animation " << (demo->animation_enabled ? "enabled" : "paused") << '\n';
             }
             return 0;
         case WM_DESTROY:
@@ -821,7 +828,7 @@ int main(int argc, char** argv)
     update_simulation(demo);
     std::cout << (asset_path.empty()
         ? "Drag the sphere with the left mouse button. Press Esc to exit.\n"
-        : "Imported Blender character in bind pose. Drag the surface with the left mouse button. Press Esc to exit.\n");
+        : "Imported Blender character with skeleton-driven anchors. Drag the surface; press A to pause/resume animation. Press Esc to exit.\n");
 
     auto previous_time = std::chrono::steady_clock::now();
     float accumulator = 0.0f;
