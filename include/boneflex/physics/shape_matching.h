@@ -40,4 +40,15 @@ namespace boneflex
         float stiffness,
         std::vector<vec3>& output_positions
     );
+
+    // Fixed points determine the cluster translation while all points determine rotation.
+    // This prevents unanchored deformation from translating an anchored cluster as a whole.
+    bool solve_shape_matching(
+        const std::vector<vec3>& rest_positions,
+        const std::vector<vec3>& current_positions,
+        const shape_matching_clusters& clusters,
+        const std::vector<float>& fixed_point_weights,
+        float stiffness,
+        std::vector<vec3>& output_positions
+    );
 }
