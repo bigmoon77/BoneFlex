@@ -93,6 +93,7 @@ namespace
         std::vector<bool> control_anchors;
         std::vector<boneflex::vec3> control_targets;
         std::vector<boneflex::vec3> previous_control_targets;
+        bool control_targets_initialized = false;
         std::vector<boneflex::vec3> render_rest_positions;
         std::vector<std::uint32_t> render_indices;
         std::vector<render_vertex> render_vertices;
@@ -772,8 +773,9 @@ float4 PSMain(PSInput input) : SV_TARGET
             demo.control_accelerations[i] = anchored ? boneflex::vec3() : gravity;
             if (demo.has_imported_asset && !anchored)
             {
-                const boneflex::vec3 target_velocity =
-                    (demo.control_targets[i] - demo.previous_control_targets[i]) / fixed_delta_time;
+                const boneflex::vec3 target_velocity = demo.control_targets_initialized
+                    ? (demo.control_targets[i] - demo.previous_control_targets[i]) / fixed_delta_time
+                    : boneflex::vec3();
                 const boneflex::vec3 position_error = demo.control_targets[i] - particles[i].position;
                 const boneflex::vec3 velocity_error = target_velocity - particles[i].velocity;
                 demo.control_accelerations[i] +=
@@ -781,6 +783,7 @@ float4 PSMain(PSInput input) : SV_TARGET
             }
             demo.previous_control_targets[i] = demo.control_targets[i];
         }
+        demo.control_targets_initialized = true;
         if (demo.dragging && demo.selected_control_point >= 0
             && static_cast<std::size_t>(demo.selected_control_point) < particles.size())
         {
