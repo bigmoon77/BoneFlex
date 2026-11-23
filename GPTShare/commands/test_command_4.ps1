@@ -15,8 +15,12 @@ $blender = Get-Command blender -ErrorAction SilentlyContinue
 if ($null -ne $blender) {
     $sampleAsset = Join-Path (Join-Path $repoRoot 'build') 'boneflex_test_character.bflex'
     Write-Output "Blender found. Generating a test character: $sampleAsset"
-    & $blender.Source --background --python (Join-Path $repoRoot 'blender\create_test_character.py') -- --output $sampleAsset --skip-glb
-    if ($LASTEXITCODE -ne 0) { throw "Blender test character export failed: $LASTEXITCODE" }
+    $blenderLog = Join-Path (Join-Path $repoRoot 'build') 'blender_export.log'
+    & $blender.Source --background --python (Join-Path $repoRoot 'blender\create_test_character.py') -- --output $sampleAsset --skip-glb *> $blenderLog
+    $blenderExitCode = $LASTEXITCODE
+    Write-Output "Blender export log: $blenderLog"
+    if (Test-Path $blenderLog) { Get-Content $blenderLog | ForEach-Object { Write-Output $_ } }
+    if ($blenderExitCode -ne 0) { throw "Blender test character export failed: $blenderExitCode (see build\blender_export.log)" }
     & (Join-Path $repoRoot 'build\Release\boneflex_blender_asset_demo.exe') $sampleAsset
     if ($LASTEXITCODE -ne 0) { throw "Blender-exported asset import demo failed: $LASTEXITCODE" }
 }
