@@ -79,6 +79,7 @@ namespace
         bool has_imported_asset = false;
         bool animation_enabled = false;
         bool gravity_enabled = false;
+        bool initial_physics_diagnostic_logged = false;
         float gravity_strength = 9.81f;
         float distance_compliance = 1.0e-5f;
         int smoothing_passes = 2;
@@ -709,6 +710,8 @@ float4 PSMain(PSInput input) : SV_TARGET
 
     void update_simulation(demo_state& demo)
     {
+        float maximum_anchor_target_error = 0.0f;
+        std::size_t maximum_anchor_target_index = 0;
         if (demo.has_imported_asset)
         {
             auto& rig = demo.imported_asset.rig;
@@ -747,6 +750,12 @@ float4 PSMain(PSInput input) : SV_TARGET
                     : demo.reduced.rest_positions()[cp];
                 if (demo.control_anchors[cp])
                 {
+                    const float target_error = (target - demo.reduced.rest_positions()[cp]).length();
+                    if (target_error > maximum_anchor_target_error)
+                    {
+                        maximum_anchor_target_error = target_error;
+                        maximum_anchor_target_index = cp;
+                    }
                     particles[cp].position = target;
                     particles[cp].previous_position = target;
                     particles[cp].velocity = boneflex::vec3();
@@ -778,12 +787,40 @@ float4 PSMain(PSInput input) : SV_TARGET
             demo.drag_position_targets.push_back({ selected, target, 1.0e-4f });
         }
 
+        std::vector<boneflex::vec3> positions_before_solver;
+        if (!demo.initial_physics_diagnostic_logged)
+        {
+            positions_before_solver.reserve(particles.size());
+            for (const boneflex::particle& value : particles)
+                positions_before_solver.push_back(value.position);
+        }
+
         if (!demo.solver.step(
             fixed_delta_time, demo.control_accelerations, demo.drag_position_targets))
         {
             std::cerr << "Soft-body simulation step failed.\n";
             demo.running = false;
             return;
+        }
+
+        if (!demo.initial_physics_diagnostic_logged)
+        {
+            float maximum_solver_displacement = 0.0f;
+            std::size_t maximum_solver_index = 0;
+            for (std::size_t i = 0; i < particles.size(); ++i)
+            {
+                const float displacement = (particles[i].position - positions_before_solver[i]).length();
+                if (displacement > maximum_solver_displacement)
+                {
+                    maximum_solver_displacement = displacement;
+                    maximum_solver_index = i;
+                }
+            }
+            std::cout << "Initial physics diagnostic: max anchor target error = "
+                << maximum_anchor_target_error << " at control point " << maximum_anchor_target_index
+                << ", max solver displacement = " << maximum_solver_displacement
+                << " at control point " << maximum_solver_index << '\\n';
+            demo.initial_physics_diagnostic_logged = true;
         }
 
         std::vector<boneflex::vec3> control_positions;
