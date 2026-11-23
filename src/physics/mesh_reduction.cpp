@@ -121,7 +121,7 @@ namespace boneflex
             return fail(error_message, "Render mesh must contain a non-empty triangle index list.");
         }
         if (options.target_control_point_count == 0 || options.embedding_influence_count == 0
-            || options.embedding_influence_count > 16)
+            || options.embedding_influence_count > 16\n            || !std::isfinite(options.embedding_support_radius_scale)\n            || options.embedding_support_radius_scale <= 0.0f)
         {
             return fail(error_message, "Target control point count must be positive and embedding influences must be in [1, 16].");
         }
@@ -248,18 +248,25 @@ namespace boneflex
         std::vector<float> embedding_weights;
         embedding_offsets.reserve(render_positions.size() + 1);
         embedding_offsets.push_back(0);
-        const std::size_t influence_limit = std::min(options.embedding_influence_count, groups.size());
+
+        // A compact Wendland C2 kernel gives each control point a smoothly
+        // vanishing influence at the support boundary. This avoids the hard
+        // nearest-K switches produced by inverse-distance top-K embedding.
+        const float base_support_radius = best_cell_size * options.embedding_support_radius_scale;
+        const float base_support_radius_squared = base_support_radius * base_support_radius;
+        const std::int64_t search_radius_cells =
+            static_cast<std::int64_t>(std::ceil(options.embedding_support_radius_scale)) + 1;
 
         for (std::size_t vertex_index = 0; vertex_index < render_positions.size(); ++vertex_index)
         {
             const cell_key center = vertex_cells[vertex_index];
             std::vector<std::pair<float, std::uint32_t>> candidates;
-            candidates.reserve(27);
-            for (std::int64_t z = center.z - 1; z <= center.z + 1; ++z)
+            candidates.reserve(128);
+            for (std::int64_t z = center.z - search_radius_cells; z <= center.z + search_radius_cells; ++z)
             {
-                for (std::int64_t y = center.y - 1; y <= center.y + 1; ++y)
+                for (std::int64_t y = center.y - search_radius_cells; y <= center.y + search_radius_cells; ++y)
                 {
-                    for (std::int64_t x = center.x - 1; x <= center.x + 1; ++x)
+                    for (std::int64_t x = center.x - search_radius_cells; x <= center.x + search_radius_cells; ++x)
                     {
                         const auto found = cell_indices.find(cell_key{x, y, z});
                         if (found == cell_indices.end())
@@ -267,7 +274,8 @@ namespace boneflex
                             continue;
                         }
                         const std::uint32_t control_index = found->second;
-                        const float distance_squared = (render_positions[vertex_index] - control_positions[control_index]).length_squared();
+                        const float distance_squared =
+                            (render_positions[vertex_index] - control_positions[control_index]).length_squared();
                         candidates.emplace_back(distance_squared, control_index);
                     }
                 }
@@ -283,28 +291,63 @@ namespace boneflex
                 return fail(error_message, "Failed to find a local control point for a render vertex.");
             }
 
-            const std::size_t influence_count = std::min(influence_limit, candidates.size());
-            if (candidates.front().first <= 1.0e-16f)
+            // Keep at least the requested number of influences for sparse
+            // regions by extending the support only when necessary.
+            float support_radius_squared = base_support_radius_squared;
+            std::size_t supported_count = 0;
+            while (supported_count < candidates.size()
+                && candidates[supported_count].first < support_radius_squared)
+            {
+                ++supported_count;
+            }
+            if (supported_count < options.embedding_influence_count)
+            {
+                const std::size_t minimum_count =
+                    std::min(options.embedding_influence_count, candidates.size());
+                support_radius_squared = std::max(
+                    support_radius_squared,
+                    candidates[minimum_count - 1].first * 1.0001f + 1.0e-12f);
+            }
+
+            float weight_sum = 0.0f;
+            const std::size_t first_index = embedding_indices.size();
+            for (const auto& candidate : candidates)
+            {
+                if (candidate.first >= support_radius_squared)
+                {
+                    break;
+                }
+
+                const float normalized_distance =
+                    std::sqrt(candidate.first / support_radius_squared);
+                const float remaining = 1.0f - normalized_distance;
+                const float remaining_squared = remaining * remaining;
+                const float weight = remaining_squared * remaining_squared
+                    * (4.0f * normalized_distance + 1.0f);
+                if (weight <= 0.0f)
+                {
+                    continue;
+                }
+
+                embedding_indices.push_back(candidate.second);
+                embedding_weights.push_back(weight);
+                weight_sum += weight;
+            }
+
+            if (embedding_indices.size() == first_index || weight_sum <= 1.0e-12f)
             {
                 embedding_indices.push_back(candidates.front().second);
                 embedding_weights.push_back(1.0f);
             }
             else
             {
-                float weight_sum = 0.0f;
-                const std::size_t first_index = embedding_indices.size();
-                for (std::size_t influence = 0; influence < influence_count; ++influence)
-                {
-                    const float weight = 1.0f / std::max(candidates[influence].first, 1.0e-12f);
-                    embedding_indices.push_back(candidates[influence].second);
-                    embedding_weights.push_back(weight);
-                    weight_sum += weight;
-                }
-                for (std::size_t influence_index = first_index; influence_index < embedding_weights.size(); ++influence_index)
+                for (std::size_t influence_index = first_index;
+                    influence_index < embedding_weights.size(); ++influence_index)
                 {
                     embedding_weights[influence_index] /= weight_sum;
                 }
             }
+
             if (embedding_indices.size() > std::numeric_limits<std::uint32_t>::max())
             {
                 return fail(error_message, "Embedding influence count exceeds UINT32_MAX.");
