@@ -97,6 +97,33 @@ namespace boneflex
         }
     }
 
+    std::vector<transform> skeleton::build_skinning_palette() const
+    {
+        std::vector<transform> bind_global_poses(_bones.size());
+        std::vector<transform> palette(_bones.size());
+
+        for (std::size_t index = 0; index < _bones.size(); ++index)
+        {
+            const std::int32_t parent_index = _bones[index].parent_index;
+            if (parent_index == bone::root_parent)
+            {
+                bind_global_poses[index] = _bones[index].bind_local_pose;
+            }
+            else
+            {
+                bind_global_poses[index] =
+                    bind_global_poses[static_cast<std::size_t>(parent_index)]
+                    * _bones[index].bind_local_pose;
+            }
+
+            bind_global_poses[index].rotation = bind_global_poses[index].rotation.normalized();
+            palette[index] = _global_poses[index] * bind_global_poses[index].inverse();
+            palette[index].rotation = palette[index].rotation.normalized();
+        }
+
+        return palette;
+    }
+
     std::size_t skeleton::bone_count() const
     {
         return _bones.size();
