@@ -162,8 +162,7 @@ namespace boneflex
                     fixed_rest_center*=1.0f/fixed_weight_sum;
                     fixed_current_center*=1.0f/fixed_weight_sum;
                     translation_center=fixed_current_center
-                        - rotation.rotate(fixed_rest_center-rest_center)
-                        + rotation.rotate(rest_center);
+                        - rotation.rotate(fixed_rest_center-rest_center);
                 }
             }
             for (std::uint32_t i=begin;i<end;++i)
