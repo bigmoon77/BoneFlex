@@ -1,0 +1,45 @@
+﻿
+[2026-11-24 03:32:57.619] Developer PowerShell initialization
+[2026-11-24 03:32:59.966] **********************************************************************
+[2026-11-24 03:32:59.971] ** Visual Studio 2026 Developer PowerShell v18.10.3
+[2026-11-24 03:32:59.976] ** Copyright (c) 2026 Microsoft Corporation
+[2026-11-24 03:32:59.998] **********************************************************************
+[2026-11-24 03:33:00.012] START E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 03:33:00.121] Repository: E:\code\bigmoon77\BoneFlex
+[2026-11-24 03:33:00.126] BoneFlex build and direct Blender import smoke test started: 2026-11-24 03:33:00
+[2026-11-24 03:33:00.292] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26300.
+[2026-11-24 03:33:00.310] -- Configuring done (0.1s)
+[2026-11-24 03:33:00.886] -- Generating done (0.6s)
+[2026-11-24 03:33:00.901] -- Build files have been written to: E:/code/bigmoon77/BoneFlex/build
+[2026-11-24 03:33:01.071] MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.14.60+43b635718 (.NET Framework)
+[2026-11-24 03:33:01.114] 
+[2026-11-24 03:33:01.724]   boneflex.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex.lib
+[2026-11-24 03:33:01.881]   boneflex_basic_example.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_basic_example.exe
+[2026-11-24 03:33:02.012]   boneflex_blender_asset_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_demo.exe
+[2026-11-24 03:33:02.112]   boneflex_blender_asset_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_tests.exe
+[2026-11-24 03:33:02.224]   boneflex_distance_constraint_generation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_distance_constraint_generation_tests.exe
+[2026-11-24 03:33:02.382]   dx11_soft_body_demo.cpp
+[2026-11-24 03:33:04.690] E:\code\bigmoon77\BoneFlex\demos\dx11_soft_body_demo.cpp(1017,32): error C2664: 'HCURSOR LoadCursorW(HINSTANCE,LPCWSTR)': 蠑墓焚 2 繧・'LPSTR' 縺九ｉ 'LPCWSTR' 縺ｸ螟画鋤縺ｧ縺阪∪縺帙ｓ縲・[E:\code\bigmoon77\BoneFlex\build\boneflex_dx11_soft_body_demo.vcxproj]
+[2026-11-24 03:33:04.697]       E:\code\bigmoon77\BoneFlex\demos\dx11_soft_body_demo.cpp(1017,53):
+[2026-11-24 03:33:04.702]       謖・､ｺ縺輔ｌ縺溷梛縺ｯ髢｢騾｣縺後≠繧翫∪縺帙ｓ縲ょ､画鋤縺ｫ縺ｯ reinterpret_cast縲， 繧ｹ繧ｿ繧､繝ｫ 繧ｭ繝｣繧ｹ繝医∪縺溘・縺九▲縺薙〒蝗ｲ縺ｾ繧後◆髢｢謨ｰ繧ｹ繧ｿ繧､繝ｫ 繧ｭ繝｣繧ｹ繝医′蠢・ｦ√〒縺吶・
+[2026-11-24 03:33:04.719]       C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\winuser.h(10618,1):
+[2026-11-24 03:33:04.727]       'LoadCursorW' 縺ｮ螳｣險繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞
+[2026-11-24 03:33:04.732]       E:\code\bigmoon77\BoneFlex\demos\dx11_soft_body_demo.cpp(1017,32):
+[2026-11-24 03:33:04.739]       蠑墓焚繝ｪ繧ｹ繝・'(nullptr, LPSTR)' 繧剃ｸ閾ｴ縺輔○繧医≧縺ｨ縺励※縺・ｋ縺ｨ縺・
+[2026-11-24 03:33:04.744]   
+[2026-11-24 03:33:04.811]   boneflex_mesh_reduction_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_benchmark.exe
+[2026-11-24 03:33:04.890]   boneflex_mesh_reduction_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_tests.exe
+[2026-11-24 03:33:04.970]   boneflex_reduced_mesh_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_mesh_tests.exe
+[2026-11-24 03:33:05.057]   boneflex_reduced_soft_body_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_benchmark.exe
+[2026-11-24 03:33:05.134]   boneflex_reduced_soft_body_parameter_sweep.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_parameter_sweep.exe
+[2026-11-24 03:33:05.213]   boneflex_reduced_soft_body_solver_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_solver_tests.exe
+[2026-11-24 03:33:05.351]   boneflex_shape_matching_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_benchmark.exe
+[2026-11-24 03:33:05.424]   boneflex_shape_matching_cluster_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_cluster_tests.exe
+[2026-11-24 03:33:05.491]   boneflex_shape_matching_deformation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_deformation_tests.exe
+[2026-11-24 03:33:05.564]   boneflex_shape_matching_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_tests.exe
+[2026-11-24 03:33:05.658]   boneflex_skeleton_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skeleton_tests.exe
+[2026-11-24 03:33:05.732]   boneflex_skinning_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skinning_tests.exe
+[2026-11-24 03:33:05.816]   boneflex_xpbd_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_xpbd_tests.exe
+[2026-11-24 03:33:05.864] EXCEPTION: Build failed: 1
+[2026-11-24 03:33:05.869] END E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 03:33:05.874] All pulled command scripts processed. This Developer PowerShell window will remain open.
