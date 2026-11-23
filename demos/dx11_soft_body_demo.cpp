@@ -523,19 +523,23 @@ float4 PSMain(PSInput input) : SV_TARGET
         return true;
     }
 
-    boneflex::vec3 screen_to_world(const demo_state& demo, POINT point)
+    boneflex::vec3 screen_to_world(const demo_state& demo, POINT point, float world_z)
     {
-        const float aspect = static_cast<float>(demo.width) / static_cast<float>(demo.height);
-        const float half_height = 1.45f;
-        const float half_width = half_height * aspect;
+        constexpr float camera_z = -3.5f;
+        const float view_depth = std::max(0.1f, world_z - camera_z);
+        const float half_height = std::tan(XMConvertToRadians(45.0f) * 0.5f) * view_depth;
+        const float half_width = half_height
+            * static_cast<float>(demo.width) / static_cast<float>(demo.height);
         const float x = (static_cast<float>(point.x) / demo.width * 2.0f - 1.0f) * half_width;
         const float y = (1.0f - static_cast<float>(point.y) / demo.height * 2.0f) * half_height;
-        return boneflex::vec3(x, y, 0.0f);
+        return boneflex::vec3(x, y, world_z);
     }
 
     void begin_drag(demo_state& demo, POINT point)
     {
-        float nearest_distance_squared = 20.0f * 20.0f;
+        // Control points are not rendered as markers, so allow selecting the
+        // nearest point within a generous screen-space radius on the visible mesh.
+        float nearest_distance_squared = 64.0f * 64.0f;
         int nearest_index = -1;
         const auto& particles = demo.solver.particles();
         for (std::size_t i = 0; i < particles.size(); ++i)
@@ -554,7 +558,7 @@ float4 PSMain(PSInput input) : SV_TARGET
         }
         demo.selected_control_point = nearest_index;
         demo.dragging = nearest_index >= 0;
-        demo.drag_target = screen_to_world(demo, point);
+        demo.drag_target = screen_to_world(demo, point, 0.0f);
     }
 
     void update_simulation(demo_state& demo)
@@ -595,24 +599,23 @@ float4 PSMain(PSInput input) : SV_TARGET
                 particles[cp].velocity = boneflex::vec3();
             }
         }
-        std::fill(demo.control_accelerations.begin(), demo.control_accelerations.end(), boneflex::vec3());
-        if (demo.dragging && demo.selected_control_point >= 0)
-        {
-            const auto& particles = demo.solver.particles();
-            const boneflex::vec3 origin = particles[static_cast<std::size_t>(demo.selected_control_point)].position;
-            boneflex::vec3 target = screen_to_world(demo, demo.mouse_position);
-            target.z = origin.z;
-            const boneflex::vec3 delta = target - origin;
-            constexpr float radius = 0.42f;
-            constexpr float acceleration_strength = 180.0f;
 
-            for (std::size_t i = 0; i < particles.size(); ++i)
-            {
-                const float distance = (particles[i].position - origin).length();
-                if (distance >= radius) continue;
-                const float weight = 1.0f - distance / radius;
-                demo.control_accelerations[i] = delta * (acceleration_strength * weight * weight);
-            }
+        std::fill(demo.control_accelerations.begin(), demo.control_accelerations.end(), boneflex::vec3());
+        auto& particles = demo.solver.particles();
+        if (demo.dragging && demo.selected_control_point >= 0
+            && static_cast<std::size_t>(demo.selected_control_point) < particles.size())
+        {
+            const std::size_t selected = static_cast<std::size_t>(demo.selected_control_point);
+            boneflex::particle& dragged = particles[selected];
+            const boneflex::vec3 target = screen_to_world(
+                demo, demo.mouse_position, dragged.position.z);
+
+            // A temporary kinematic target is reliable with stiff shape matching:
+            // acceleration-only dragging was almost entirely canceled by the solver.
+            dragged.inverse_mass = 0.0f;
+            dragged.position = target;
+            dragged.previous_position = target;
+            dragged.velocity = boneflex::vec3();
         }
 
         if (!demo.solver.step(fixed_delta_time, demo.control_accelerations))
