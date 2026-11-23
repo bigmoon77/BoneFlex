@@ -77,7 +77,8 @@ namespace
         for (std::size_t i = 0; i < indices.size(); ++i)
             indices[i] = static_cast<std::uint32_t>(i);
         boneflex::shape_matching_clusters clusters;
-        require(clusters.set_data(mesh.control_point_count(), {0, static_cast<std::uint32_t>(indices.size())},
+        const std::uint32_t cluster_end = static_cast<std::uint32_t>(indices.size());
+        require(clusters.set_data(mesh.control_point_count(), {0, cluster_end},
             std::move(indices)), "Failed to create anchored shape matching cluster.");
 
         std::vector<boneflex::particle> particles(mesh.control_point_count());
