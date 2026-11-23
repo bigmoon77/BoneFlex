@@ -13,7 +13,10 @@ namespace boneflex
     struct mesh_reduction_options
     {
         std::size_t target_control_point_count = 5000;
-        // Minimum number of local influences when the support is sparse.\n        std::size_t embedding_influence_count = 4;\n        // Compact-kernel support radius measured in voxel cell widths.\n        float embedding_support_radius_scale = 2.75f;
+        // Minimum number of local influences when the support is sparse.
+        std::size_t embedding_influence_count = 4;
+        // Compact-kernel support radius measured in voxel cell widths.
+        float embedding_support_radius_scale = 2.75f;
     };
 
     // Builds a deterministic voxel-clustered surface mesh and a local
