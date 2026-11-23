@@ -17,6 +17,7 @@ if (Test-Path $blenderPath) {
     $sampleAsset = Join-Path $buildDirectory 'boneflex_test_character.bflex'
     $generatorScript = Join-Path $repoRoot 'blender\create_test_character.py'
     $sampleBlend = Join-Path $buildDirectory 'boneflex_test_character.blend'
+    $diagnosticBlend = 'E:\code\DesktopMascot\model\EL-FPr244\EL-FPr244.blend'
     $blenderStdout = Join-Path $buildDirectory 'blender_export.stdout.log'
     $blenderStderr = Join-Path $buildDirectory 'blender_export.stderr.log'
     Write-Output "Blender found. Generating test character: $sampleAsset"
@@ -80,7 +81,8 @@ if (Test-Path $blenderPath) {
     $env:BONEFLEX_BLENDER_EXE = $blenderPath
     $diagnosticStdout = Join-Path $buildDirectory 'dx11_diagnostic.stdout.log'
     $diagnosticStderr = Join-Path $buildDirectory 'dx11_diagnostic.stderr.log'
-    $diagnosticProcess = Start-Process -FilePath $dx11Demo -ArgumentList @($quote + $sampleBlend + $quote) -PassThru -RedirectStandardOutput $diagnosticStdout -RedirectStandardError $diagnosticStderr
+    if (-not (Test-Path $diagnosticBlend)) { throw "Diagnostic model not found: $diagnosticBlend" }
+    $diagnosticProcess = Start-Process -FilePath $dx11Demo -ArgumentList @($quote + $diagnosticBlend + $quote) -PassThru -RedirectStandardOutput $diagnosticStdout -RedirectStandardError $diagnosticStderr
     Start-Sleep -Seconds 3
     $diagnosticProcess.Refresh()
     if ($diagnosticProcess.HasExited) {
