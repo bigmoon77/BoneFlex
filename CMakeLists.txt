@@ -12,6 +12,7 @@ option(BONEFLEX_BUILD_BENCHMARKS "Build BoneFlex performance benchmarks" OFF)
 option(BONEFLEX_BUILD_DX11_DEMO "Build the Windows DirectX 11 interactive demo" OFF)
 
 add_library(boneflex
+    src/io/blender_asset.cpp
     src/animation/skeleton.cpp
     src/animation/skinning.cpp
     src/animation/skinning_weights.cpp
@@ -96,6 +97,12 @@ if(BONEFLEX_BUILD_TESTS)
     target_link_libraries(boneflex_distance_constraint_generation_tests PRIVATE BoneFlex::boneflex)
     add_test(NAME BoneFlex.DistanceConstraintGeneration COMMAND boneflex_distance_constraint_generation_tests)
 
+    add_executable(boneflex_blender_asset_tests
+        tests/test_blender_asset.cpp
+    )
+    target_link_libraries(boneflex_blender_asset_tests PRIVATE BoneFlex::boneflex)
+    add_test(NAME BoneFlex.BlenderAsset COMMAND boneflex_blender_asset_tests)
+
     add_executable(boneflex_reduced_mesh_tests
         tests/test_reduced_mesh.cpp
     )
@@ -108,6 +115,13 @@ if(BONEFLEX_BUILD_EXAMPLES)
         examples/basic_simulation.cpp
     )
     target_link_libraries(boneflex_basic_example PRIVATE BoneFlex::boneflex)
+endif()
+
+if(BONEFLEX_BUILD_EXAMPLES)
+    add_executable(boneflex_blender_asset_demo
+        demos/blender_asset_import_demo.cpp
+    )
+    target_link_libraries(boneflex_blender_asset_demo PRIVATE BoneFlex::boneflex)
 endif()
 
 if(BONEFLEX_BUILD_BENCHMARKS)
