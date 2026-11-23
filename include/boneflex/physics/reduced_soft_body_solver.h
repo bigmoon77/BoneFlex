@@ -45,6 +45,7 @@ namespace boneflex
     private:
         std::vector<particle> _particles;
         std::vector<vec3> _rest_positions;
+        std::vector<float> _max_deformation_distances;
         std::vector<xpbd_distance_constraint> _distance_constraints;
         shape_matching_clusters _clusters;
         reduced_soft_body_options _options;
