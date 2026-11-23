@@ -167,7 +167,7 @@ The imported mesh is normalized to fit the demo camera, reduced to control point
 
 The first import milestone is implemented: the Blender add-on writes the static deformation data to the versioned `.bflex` payload and optionally writes a standard `.glb` companion. The C++ importer validates and reconstructs the skeleton and CSR skinning data, then the import demo generates the reduced mesh and render embedding.
 
-The GLB currently serves as the portable scene/animation interchange copy. Importing and evaluating animated GLB clips, transferring skeleton motion into kinematic reduced-mesh anchors, and rendering the imported character in the DX11 demo are the next integration steps.
+The GLB currently serves as the portable scene/animation interchange copy. The DX11 demo can also accept a native `.blend` project by invoking the installed Blender executable for a headless conversion to the same static BoneFlex interchange format. Animation clip import and evaluation remain future work.
 
 
 ### Maximum deformation limit
