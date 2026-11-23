@@ -4,6 +4,7 @@
 #include <windowsx.h>
 #include <d3d11.h>
 #include <d3dcompiler.h>
+#include <commctrl.h>
 #include <DirectXMath.h>
 #include <wrl/client.h>
 
@@ -78,6 +79,12 @@ namespace
         bool has_imported_asset = false;
         bool animation_enabled = true;
         bool gravity_enabled = true;
+        float gravity_strength = 9.81f;
+        float distance_compliance = 1.0e-5f;
+        int smoothing_passes = 4;
+        HWND parameter_window = nullptr;
+        std::array<HWND, 7> parameter_sliders{};
+        std::array<HWND, 7> parameter_labels{};
         float animation_time = 0.0f;
         std::size_t animated_bone_index = 0;
         boneflex::vec3 imported_normalization_center{};
@@ -742,7 +749,7 @@ float4 PSMain(PSInput input) : SV_TARGET
         if (!demo.has_imported_asset)
             for (boneflex::particle& particle : particles) particle.inverse_mass = 1.0f;
         const boneflex::vec3 gravity = demo.gravity_enabled
-            ? boneflex::vec3(0.0f, -9.81f, 0.0f)
+            ? boneflex::vec3(0.0f, -demo.gravity_strength, 0.0f)
             : boneflex::vec3();
         for (std::size_t i = 0; i < particles.size(); ++i)
         {
@@ -789,7 +796,7 @@ float4 PSMain(PSInput input) : SV_TARGET
         // reconstruction while largely preserving the overall surface volume.
         constexpr float smooth_lambda = 0.35f;
         constexpr float smooth_mu = -0.36f;
-        for (int pass = 0; pass < 4; ++pass)
+        for (int pass = 0; pass < demo.smoothing_passes; ++pass)
         {
             const float coefficient = (pass == 0) ? smooth_lambda : smooth_mu;
             for (std::size_t i = 0; i < demo.deformed_positions.size(); ++i)
@@ -887,6 +894,136 @@ float4 PSMain(PSInput input) : SV_TARGET
             create_render_targets(demo);
             update_camera(demo);
         }
+    }
+
+    enum parameter_control_id
+    {
+        parameter_stiffness = 100,
+        parameter_compliance,
+        parameter_iterations,
+        parameter_damping,
+        parameter_max_deformation,
+        parameter_gravity,
+        parameter_smoothing
+    };
+
+    void refresh_parameter_labels(demo_state& demo)
+    {
+        const auto& options = demo.solver.options();
+        wchar_t text[128]{};
+        const std::array<std::wstring, 7> values = {
+            L"Shape matching stiffness: " + std::to_wstring(options.shape_matching_stiffness).substr(0, 5),
+            L"XPBD compliance: " + std::to_wstring(demo.distance_compliance),
+            L"Solver iterations: " + std::to_wstring(options.solver_iterations),
+            L"Velocity damping: " + std::to_wstring(options.velocity_damping).substr(0, 5),
+            L"Maximum deformation ratio: " + std::to_wstring(options.max_deformation_ratio).substr(0, 5),
+            L"Gravity: " + std::to_wstring(demo.gravity_strength).substr(0, 5),
+            L"Surface smoothing passes: " + std::to_wstring(demo.smoothing_passes)
+        };
+        for (std::size_t i = 0; i < values.size(); ++i)
+            if (demo.parameter_labels[i]) SetWindowTextW(demo.parameter_labels[i], values[i].c_str());
+    }
+
+    void apply_parameter_control(demo_state& demo, int id, int position)
+    {
+        boneflex::reduced_soft_body_options options = demo.solver.options();
+        switch (id)
+        {
+        case parameter_stiffness:
+            options.shape_matching_stiffness = static_cast<float>(position) / 100.0f;
+            break;
+        case parameter_compliance:
+            demo.distance_compliance = std::pow(10.0f, -8.0f + static_cast<float>(position) * 0.08f);
+            demo.solver.set_distance_constraint_compliance(demo.distance_compliance);
+            break;
+        case parameter_iterations:
+            options.solver_iterations = static_cast<std::size_t>(position);
+            break;
+        case parameter_damping:
+            options.velocity_damping = static_cast<float>(position) / 1000.0f;
+            break;
+        case parameter_max_deformation:
+            options.max_deformation_ratio = static_cast<float>(position) / 100.0f;
+            break;
+        case parameter_gravity:
+            demo.gravity_strength = static_cast<float>(position) / 10.0f;
+            break;
+        case parameter_smoothing:
+            demo.smoothing_passes = position;
+            break;
+        }
+        demo.solver.set_options(options);
+        refresh_parameter_labels(demo);
+    }
+
+    void create_parameter_slider(demo_state& demo, HWND window, int index,
+        int id, int y, int minimum, int maximum, int initial)
+    {
+        demo.parameter_labels[index] = CreateWindowExW(0, L"STATIC", L"", WS_CHILD | WS_VISIBLE,
+            16, y, 320, 22, window, nullptr, GetModuleHandleW(nullptr), nullptr);
+        HWND slider = CreateWindowExW(0, TRACKBAR_CLASSW, L"", WS_CHILD | WS_VISIBLE | TBS_AUTOTICKS,
+            16, y + 22, 320, 32, window, reinterpret_cast<HMENU>(static_cast<INT_PTR>(id)),
+            GetModuleHandleW(nullptr), nullptr);
+        demo.parameter_sliders[index] = slider;
+        SendMessageW(slider, TBM_SETRANGE, TRUE, MAKELPARAM(minimum, maximum));
+        SendMessageW(slider, TBM_SETPOS, TRUE, initial);
+    }
+
+    LRESULT CALLBACK parameter_window_proc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+    {
+        demo_state* demo = reinterpret_cast<demo_state*>(GetWindowLongPtrW(window, GWLP_USERDATA));
+        if (message == WM_NCCREATE)
+        {
+            const auto* create = reinterpret_cast<CREATESTRUCTW*>(lparam);
+            demo = static_cast<demo_state*>(create->lpCreateParams);
+            SetWindowLongPtrW(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(demo));
+        }
+        if (!demo) return DefWindowProcW(window, message, wparam, lparam);
+
+        switch (message)
+        {
+        case WM_CREATE:
+            create_parameter_slider(*demo, window, 0, parameter_stiffness, 12, 0, 100, 15);
+            create_parameter_slider(*demo, window, 1, parameter_compliance, 82, 0, 100, 37);
+            create_parameter_slider(*demo, window, 2, parameter_iterations, 152, 1, 12, 4);
+            create_parameter_slider(*demo, window, 3, parameter_damping, 222, 900, 1000, 995);
+            create_parameter_slider(*demo, window, 4, parameter_max_deformation, 292, 0, 200, 50);
+            create_parameter_slider(*demo, window, 5, parameter_gravity, 362, 0, 200, 98);
+            create_parameter_slider(*demo, window, 6, parameter_smoothing, 432, 0, 8, 4);
+            refresh_parameter_labels(*demo);
+            return 0;
+        case WM_HSCROLL:
+        {
+            HWND slider = reinterpret_cast<HWND>(lparam);
+            const int id = GetDlgCtrlID(slider);
+            const int position = static_cast<int>(SendMessageW(slider, TBM_GETPOS, 0, 0));
+            apply_parameter_control(*demo, id, position);
+            return 0;
+        }
+        case WM_CLOSE:
+            ShowWindow(window, SW_HIDE);
+            return 0;
+        }
+        return DefWindowProcW(window, message, wparam, lparam);
+    }
+
+    bool create_parameter_window(demo_state& demo, HINSTANCE instance)
+    {
+        INITCOMMONCONTROLSEX controls{ sizeof(controls), ICC_BAR_CLASSES };
+        InitCommonControlsEx(&controls);
+        WNDCLASSEXW window_class{};
+        window_class.cbSize = sizeof(window_class);
+        window_class.lpfnWndProc = parameter_window_proc;
+        window_class.hInstance = instance;
+        window_class.hCursor = LoadCursorW(nullptr, IDC_ARROW);
+        window_class.lpszClassName = L"BoneFlexParameterWindow";
+        RegisterClassExW(&window_class);
+        demo.parameter_window = CreateWindowExW(0, window_class.lpszClassName,
+            L"BoneFlex - Physics Parameters", WS_OVERLAPPEDWINDOW,
+            80, 80, 380, 570, demo.window, nullptr, instance, &demo);
+        if (!demo.parameter_window) return false;
+        ShowWindow(demo.parameter_window, SW_SHOW);
+        return true;
     }
 
     LRESULT CALLBACK window_proc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
@@ -1001,6 +1138,11 @@ int main(int argc, char** argv)
     if (converted_blend) DeleteFileW(temporary_asset_path.c_str());
 
     update_camera(demo);
+    if (!create_parameter_window(demo, instance))
+    {
+        MessageBoxW(demo.window, L"Failed to create the physics parameter window.", L"BoneFlex", MB_ICONERROR | MB_OK);
+        return 1;
+    }
     ShowWindow(demo.window, SW_SHOWDEFAULT);
     update_simulation(demo);
     std::cout << (asset_path.empty()
