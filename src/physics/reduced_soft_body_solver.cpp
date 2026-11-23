@@ -206,4 +206,44 @@ namespace boneflex
     const std::vector<vec3>& reduced_soft_body_solver::rest_positions() const { return _rest_positions; }
     const std::vector<xpbd_distance_constraint>& reduced_soft_body_solver::distance_constraints() const { return _distance_constraints; }
     const reduced_soft_body_options& reduced_soft_body_solver::options() const { return _options; }
+
+    bool reduced_soft_body_solver::set_options(const reduced_soft_body_options& options)
+    {
+        if (!_initialized || !valid_options(options))
+            return false;
+
+        _options = options;
+        std::fill(_max_deformation_distances.begin(), _max_deformation_distances.end(), 0.0f);
+        if (options.max_deformation_ratio > 0.0f)
+        {
+            std::vector<float> edge_length_sums(_particles.size(), 0.0f);
+            std::vector<std::size_t> edge_counts(_particles.size(), 0);
+            for (const xpbd_distance_constraint& constraint : _distance_constraints)
+            {
+                const std::size_t a = constraint.particle_a();
+                const std::size_t b = constraint.particle_b();
+                edge_length_sums[a] += constraint.rest_length();
+                edge_length_sums[b] += constraint.rest_length();
+                ++edge_counts[a];
+                ++edge_counts[b];
+            }
+            for (std::size_t i = 0; i < _particles.size(); ++i)
+            {
+                if (edge_counts[i] == 0) continue;
+                _max_deformation_distances[i] =
+                    edge_length_sums[i] / static_cast<float>(edge_counts[i])
+                    * options.max_deformation_ratio;
+            }
+        }
+        return true;
+    }
+
+    bool reduced_soft_body_solver::set_distance_constraint_compliance(float compliance)
+    {
+        if (!_initialized || !std::isfinite(compliance) || compliance < 0.0f)
+            return false;
+        for (xpbd_distance_constraint& constraint : _distance_constraints)
+            constraint.set_compliance(compliance);
+        return true;
+    }
 }
