@@ -19,6 +19,8 @@
 #include <chrono>
 #include <cmath>
 #include <cstring>
+#include <cstdlib>
+#include <filesystem>
 #include <iterator>
 #include <cstdint>
 #include <iostream>
@@ -138,6 +140,135 @@ namespace
                 indices.insert(indices.end(), { a, b, a + 1, a + 1, b, b + 1 });
             }
         }
+    }
+
+    std::wstring quote_argument(const std::wstring& value)
+    {
+        std::wstring result = L"\"";
+        std::size_t backslashes = 0;
+        for (wchar_t character : value)
+        {
+            if (character == L'\\')
+            {
+                ++backslashes;
+                continue;
+            }
+            if (character == L'"')
+            {
+                result.append(backslashes * 2 + 1, L'\\');
+                result += L'"';
+                backslashes = 0;
+                continue;
+            }
+            result.append(backslashes, L'\\');
+            backslashes = 0;
+            result += character;
+        }
+        result.append(backslashes * 2, L'\\');
+        result += L'"';
+        return result;
+    }
+
+    std::wstring widen_path(const std::string& value)
+    {
+        if (value.empty()) return {};
+        const int count = MultiByteToWideChar(CP_ACP, 0, value.c_str(), -1, nullptr, 0);
+        if (count <= 0) return {};
+        std::wstring result(static_cast<std::size_t>(count), L'\0');
+        MultiByteToWideChar(CP_ACP, 0, value.c_str(), -1, result.data(), count);
+        result.pop_back();
+        return result;
+    }
+
+    bool convert_blend_asset(const std::string& blend_path, std::wstring& output_path)
+    {
+        wchar_t executable_path[MAX_PATH]{};
+        const DWORD executable_length = GetModuleFileNameW(nullptr, executable_path, MAX_PATH);
+        if (executable_length == 0 || executable_length >= MAX_PATH)
+        {
+            std::cerr << "Could not locate the DX11 demo executable.\n";
+            return false;
+        }
+
+        std::filesystem::path script_path(executable_path);
+        script_path = script_path.parent_path() / L"import_blend_to_bflex.py";
+        if (!std::filesystem::exists(script_path))
+        {
+            std::cerr << "Blender import script is missing: " << script_path.string() << '\n';
+            return false;
+        }
+
+        wchar_t blender_environment[MAX_PATH * 4]{};
+        const DWORD environment_length = GetEnvironmentVariableW(
+            L"BONEFLEX_BLENDER_EXE", blender_environment, static_cast<DWORD>(std::size(blender_environment)));
+        std::filesystem::path blender_path = environment_length > 0
+            && environment_length < std::size(blender_environment)
+            ? std::filesystem::path(blender_environment)
+            : std::filesystem::path(L"E:\\SteamLibrary\\steamapps\\common\\Blender\\blender.exe");
+        if (!std::filesystem::exists(blender_path))
+        {
+            std::wcerr << L"Blender executable was not found: " << blender_path.wstring()
+                << L"\nSet BONEFLEX_BLENDER_EXE to override the path.\n";
+            return false;
+        }
+
+        wchar_t temporary_directory[MAX_PATH]{};
+        const DWORD directory_length = GetTempPathW(MAX_PATH, temporary_directory);
+        if (directory_length == 0 || directory_length >= MAX_PATH)
+        {
+            std::cerr << "Could not locate the temporary directory.\n";
+            return false;
+        }
+        wchar_t temporary_file[MAX_PATH]{};
+        if (GetTempFileNameW(temporary_directory, L"bfx", 0, temporary_file) == 0)
+        {
+            std::cerr << "Could not create a temporary asset path.\n";
+            return false;
+        }
+        DeleteFileW(temporary_file);
+        output_path = std::filesystem::path(temporary_file).replace_extension(L".bflex").wstring();
+
+        const std::wstring blend_wide = widen_path(blend_path);
+        if (blend_wide.empty())
+        {
+            std::wcerr << L"Could not convert the .blend path to Windows text.\n";
+            return false;
+        }
+
+        std::wstring command_line = quote_argument(blender_path.wstring())
+            + L" --background " + quote_argument(blend_wide)
+            + L" --python " + quote_argument(script_path.wstring())
+            + L" -- --output " + quote_argument(output_path);
+        STARTUPINFOW startup{};
+        startup.cb = sizeof(startup);
+        PROCESS_INFORMATION process{};
+        const BOOL created = CreateProcessW(
+            blender_path.c_str(), command_line.data(), nullptr, nullptr, TRUE,
+            CREATE_NO_WINDOW, nullptr, nullptr, &startup, &process);
+        if (!created)
+        {
+            std::wcerr << L"Could not start Blender. Windows error: " << GetLastError() << '\n';
+            DeleteFileW(output_path.c_str());
+            output_path.clear();
+            return false;
+        }
+
+        WaitForSingleObject(process.hProcess, INFINITE);
+        DWORD exit_code = 1;
+        GetExitCodeProcess(process.hProcess, &exit_code);
+        CloseHandle(process.hThread);
+        CloseHandle(process.hProcess);
+
+        if (exit_code != 0 || !std::filesystem::exists(output_path))
+        {
+            std::wcerr << L"Blender conversion failed with exit code " << exit_code << L".\n";
+            DeleteFileW(output_path.c_str());
+            output_path.clear();
+            return false;
+        }
+
+        std::wcout << L"Converted Blender project to temporary BoneFlex asset: " << output_path << L'\n';
+        return true;
     }
 
     bool initialize_simulation(demo_state& demo, const std::string& asset_path)
@@ -810,11 +941,30 @@ int main(int argc, char** argv)
 {
     if (argc > 2)
     {
-        std::cerr << "Usage: boneflex_dx11_soft_body_demo [character.bflex]\n";
+        std::cerr << "Usage: boneflex_dx11_soft_body_demo [character.bflex|character.blend]\n";
         return 1;
     }
 
-    const std::string asset_path = (argc == 2) ? argv[1] : std::string();
+    std::string asset_path = (argc == 2) ? argv[1] : std::string();
+    std::wstring temporary_asset_path;
+    bool converted_blend = false;
+    if (!asset_path.empty())
+    {
+        std::string extension = std::filesystem::path(asset_path).extension().string();
+        std::transform(extension.begin(), extension.end(), extension.begin(),
+            [](unsigned char value) { return static_cast<char>(std::tolower(value)); });
+        if (extension == ".blend")
+        {
+            if (!convert_blend_asset(asset_path, temporary_asset_path)) return 1;
+            asset_path = std::filesystem::path(temporary_asset_path).string();
+            converted_blend = true;
+        }
+        else if (extension != ".bflex")
+        {
+            std::cerr << "Unsupported model format. Use .blend or .bflex.\n";
+            return 1;
+        }
+    }
     HINSTANCE instance = GetModuleHandleW(nullptr);
     demo_state demo;
     active_demo = &demo;
@@ -842,10 +992,12 @@ int main(int argc, char** argv)
 
     if (!initialize_simulation(demo, asset_path) || !initialize_graphics(demo))
     {
+        if (converted_blend) DeleteFileW(temporary_asset_path.c_str());
         MessageBoxW(demo.window, L"Failed to initialize the BoneFlex demo. See the console for details.",
             L"BoneFlex", MB_ICONERROR | MB_OK);
         return 1;
     }
+    if (converted_blend) DeleteFileW(temporary_asset_path.c_str());
 
     update_camera(demo);
     ShowWindow(demo.window, SW_SHOWDEFAULT);
