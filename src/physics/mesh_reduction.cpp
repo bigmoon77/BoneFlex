@@ -121,7 +121,9 @@ namespace boneflex
             return fail(error_message, "Render mesh must contain a non-empty triangle index list.");
         }
         if (options.target_control_point_count == 0 || options.embedding_influence_count == 0
-            || options.embedding_influence_count > 16\n            || !std::isfinite(options.embedding_support_radius_scale)\n            || options.embedding_support_radius_scale <= 0.0f)
+            || options.embedding_influence_count > 16
+            || !std::isfinite(options.embedding_support_radius_scale)
+            || options.embedding_support_radius_scale <= 0.0f)
         {
             return fail(error_message, "Target control point count must be positive and embedding influences must be in [1, 16].");
         }
