@@ -106,3 +106,29 @@ cmake --build build --config Release --target boneflex_reduced_soft_body_paramet
 ```
 
 The default workload fixes cluster size at 128 and shape-matching stiffness at 0.80, then compares velocity damping values 0.93, 0.94, 0.95, 0.96, and 0.97. This fine sweep narrows the range around 0.95 after the wider sweep showed substantially better post-release recovery at 0.95 than at 0.98–0.999. Each case starts from the same 10,000-control-point sphere, applies a localized 30-frame pull, then releases it for 120 frames. It samples translation-removed RMS deformation in the pulled and far regions every 15 release frames, reporting recovery percentage relative to the pull RMS, pulled-region velocity RMS, and average CPU frame time for each interval. A release-frame-zero sample records deformation and velocity immediately after the pull. The sweep keeps overlap ratio, solver iterations, XPBD compliance, cluster size, and shape-matching stiffness fixed. Optional arguments are longitude and latitude segments.
+
+## DirectX 11 interactive demo
+
+The optional Windows demo visualizes the current CPU reference simulation on a dynamically updated DirectX 11 mesh. It creates a UV sphere, generates a reduced control mesh and render-vertex embedding, then runs XPBD distance constraints and clustered shape matching. The reconstructed render mesh is uploaded to a dynamic vertex buffer each frame.
+
+Build with Visual Studio / MSVC:
+
+```powershell
+cmake -S . -B build -DBONEFLEX_BUILD_DX11_DEMO=ON
+cmake --build build --config Release --target boneflex_dx11_soft_body_demo
+.\build\Release\boneflex_dx11_soft_body_demo.exe
+```
+
+Controls:
+
+- Hold the left mouse button on the sphere and drag to pull the surface.
+- Release the mouse button to observe shape recovery.
+- Press Esc to exit.
+
+This first demo intentionally uses CPU simulation, CPU render-vertex reconstruction, and CPU vertex-buffer updates. It establishes the end-to-end rendering and interaction path before introducing a compute-shader backend.
+
+## Blender integration roadmap
+
+The planned Blender workflow uses a Blender Python exporter to write a portable interchange asset rather than parsing the native .blend file format in the C++ library. The exporter will preserve the mesh, armature, skinning weights, bind data, and animation data needed by BoneFlex. A dedicated C++ importer will then build the library's skeleton, skinning, reduced-mesh, and embedding structures.
+
+The initial interchange format will be glTF 2.0 where its standard data model is sufficient, with a small sidecar file for BoneFlex-specific reduction settings and metadata. The exact sidecar schema will be established alongside the importer.
