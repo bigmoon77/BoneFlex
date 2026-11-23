@@ -108,6 +108,43 @@ namespace
         const float distance = (solver.particles()[0].position - solver.particles()[1].position).length();
         require(std::fabs(distance - 1.0f) < 1.0e-4f, "Integrated XPBD constraint was not satisfied.");
     }
+
+    void test_velocity_damping_is_frame_rate_scaled()
+    {
+        boneflex::reduced_mesh mesh = make_grid(2);
+        boneflex::shape_matching_cluster_options cluster_options;
+        cluster_options.cluster_size = 4;
+        boneflex::shape_matching_clusters clusters;
+        require(boneflex::generate_shape_matching_clusters(mesh, cluster_options, clusters),
+            "Failed to create damping test clusters.");
+
+        std::vector<boneflex::particle> particles(mesh.control_point_count());
+        for (std::size_t i = 0; i < particles.size(); ++i)
+        {
+            particles[i].position = mesh.rest_positions()[i];
+            particles[i].previous_position = particles[i].position;
+            particles[i].velocity = boneflex::vec3(1.0f, 0.0f, 0.0f);
+        }
+
+        boneflex::reduced_soft_body_options options;
+        options.gravity = boneflex::vec3();
+        options.shape_matching_stiffness = 0.0f;
+        options.velocity_damping = 0.5f;
+
+        boneflex::reduced_soft_body_solver solver_60_hz;
+        require(solver_60_hz.initialize(particles, mesh.rest_positions(), {}, clusters, options),
+            "60 Hz damping solver initialization failed.");
+        require(solver_60_hz.step(1.0f / 60.0f), "60 Hz damping solver step failed.");
+        require(std::fabs(solver_60_hz.particles()[0].velocity.x - 0.5f) < 1.0e-5f,
+            "Damping at 60 Hz did not apply one frame of velocity retention.");
+
+        boneflex::reduced_soft_body_solver solver_30_hz;
+        require(solver_30_hz.initialize(particles, mesh.rest_positions(), {}, clusters, options),
+            "30 Hz damping solver initialization failed.");
+        require(solver_30_hz.step(1.0f / 30.0f), "30 Hz damping solver step failed.");
+        require(std::fabs(solver_30_hz.particles()[0].velocity.x - 0.25f) < 1.0e-5f,
+            "Damping at 30 Hz was not scaled to two 60 Hz frames.");
+    }
 }
 
 int main()
@@ -116,6 +153,7 @@ int main()
     {
         test_gravity_and_fixed_particle();
         test_distance_constraint_is_solved();
+        test_velocity_damping_is_frame_rate_scaled();
     }
     catch (const std::exception& exception)
     {
