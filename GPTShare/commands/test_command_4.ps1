@@ -39,4 +39,4 @@ else {
     Write-Output "Blender executable not found; skipping the optional Blender round-trip smoke test."
 }
 
-Write-Output "DX11 soft-body tuning: 98% anchor threshold, shape matching stiffness 0.15, max deformation ratio 0.5, XPBD compliance 1e-5, gravity 9.81; G toggles gravity; A toggles imported skeleton animation."
+Write-Output "DX11 soft-body tuning: 98% anchor threshold, shape matching stiffness 0.15, max deformation ratio 0.15, XPBD compliance 1e-5, gravity 9.81; G toggles gravity; A toggles imported skeleton animation."
