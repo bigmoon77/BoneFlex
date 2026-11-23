@@ -24,6 +24,7 @@ namespace boneflex
         std::size_t particle_b() const;
         float rest_length() const;
         float compliance() const;
+        bool set_compliance(float compliance);
         float lambda() const;
 
     private:
