@@ -38,9 +38,9 @@ def _write_f32(stream, value):
 
 
 def _write_vec3(stream, value):
-    _write_f32(stream, value.x)
-    _write_f32(stream, value.y)
-    _write_f32(stream, value.z)
+    _write_f32(stream, value[0])
+    _write_f32(stream, value[1])
+    _write_f32(stream, value[2])
 
 
 def _write_quaternion(stream, value):
