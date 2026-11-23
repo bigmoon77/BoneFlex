@@ -77,8 +77,8 @@ namespace
 
         boneflex::blender_asset imported_asset;
         bool has_imported_asset = false;
-        bool animation_enabled = true;
-        bool gravity_enabled = true;
+        bool animation_enabled = false;
+        bool gravity_enabled = false;
         float gravity_strength = 9.81f;
         float distance_compliance = 1.0e-5f;
         int smoothing_passes = 2;
@@ -1149,9 +1149,10 @@ int main(int argc, char** argv)
     }
     ShowWindow(demo.window, SW_SHOWDEFAULT);
     update_simulation(demo);
+    std::cout << "Diagnostic startup: gravity disabled, skeleton animation paused.\n";
     std::cout << (asset_path.empty()
         ? "Drag the sphere with the left mouse button. Press G to toggle gravity; press Esc to exit.\n"
-        : "Imported Blender character with automatic skeleton anchors and gravity. Drag the surface; A toggles animation, G toggles gravity, Esc exits.\n");
+        : "Imported Blender character with automatic skeleton anchors. Drag the surface; A toggles animation, G toggles gravity, Esc exits.\n");
 
     auto previous_time = std::chrono::steady_clock::now();
     float accumulator = 0.0f;
