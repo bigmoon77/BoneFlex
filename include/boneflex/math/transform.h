@@ -20,6 +20,14 @@ namespace boneflex
             return rotation.normalized().conjugated().rotate(point - position);
         }
 
+        transform inverse() const
+        {
+            transform result;
+            result.rotation = rotation.normalized().conjugated();
+            result.position = result.rotation.rotate(position * -1.0f);
+            return result;
+        }
+
         transform operator*(const transform& child) const
         {
             transform result;
