@@ -338,7 +338,7 @@ int main(int argc, char** argv)
     }
 
     constexpr std::size_t cluster_sizes[] = {128};
-    constexpr float damping_values[] = {0.95f, 0.98f, 0.995f, 0.999f};
+    constexpr float damping_values[] = {0.93f, 0.94f, 0.95f, 0.96f, 0.97f};
 
     std::cout << std::fixed << std::setprecision(5);
     std::cout << "BoneFlex reduced soft-body parameter sweep\n";
@@ -346,7 +346,7 @@ int main(int argc, char** argv)
         << ", triangles: " << mesh.triangle_count()
         << ", XPBD constraints: " << distance_constraints.size() << '\n';
     std::cout << "Fixed settings: overlap=0.50, iterations=4, compliance=1.0e-6, stiffness=0.80\n";
-    std::cout << "Sweep: cluster size 128, velocity damping 0.95/0.98/0.995/0.999\n";
+    std::cout << "Sweep: cluster size 128, velocity damping 0.93/0.94/0.95/0.96/0.97\n";
     std::cout << "Pull/release: 30/120 frames at 60 Hz; release sampled every 15 frames\n";
     std::cout << "Metrics remove geometric-center translation; recovery is relative to pull RMS\n";
     std::cout << "\n"
