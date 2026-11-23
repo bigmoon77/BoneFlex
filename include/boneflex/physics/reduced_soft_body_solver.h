@@ -14,6 +14,7 @@ namespace boneflex
         std::size_t solver_iterations = 4;
         float shape_matching_stiffness = 0.15f;
         vec3 gravity = vec3(0.0f, -9.81f, 0.0f);
+        // Velocity retention per 1/60-second frame.
         float velocity_damping = 0.995f;
     };
 
