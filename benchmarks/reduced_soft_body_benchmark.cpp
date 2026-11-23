@@ -115,6 +115,233 @@ namespace
         return center / static_cast<float>(positions.size());
     }
 
+    struct quaternion
+    {
+        double w = 1.0;
+        double x = 0.0;
+        double y = 0.0;
+        double z = 0.0;
+    };
+
+    boneflex::vec3 rotate_vector(const quaternion& rotation, const boneflex::vec3& value)
+    {
+        const boneflex::vec3 q_vector(
+            static_cast<float>(rotation.x),
+            static_cast<float>(rotation.y),
+            static_cast<float>(rotation.z));
+        const boneflex::vec3 twice_cross(
+            2.0f * (q_vector.y * value.z - q_vector.z * value.y),
+            2.0f * (q_vector.z * value.x - q_vector.x * value.z),
+            2.0f * (q_vector.x * value.y - q_vector.y * value.x));
+        const boneflex::vec3 cross_again(
+            q_vector.y * twice_cross.z - q_vector.z * twice_cross.y,
+            q_vector.z * twice_cross.x - q_vector.x * twice_cross.z,
+            q_vector.x * twice_cross.y - q_vector.y * twice_cross.x);
+        return value + static_cast<float>(rotation.w) * twice_cross + cross_again;
+    }
+
+    quaternion conjugate(const quaternion& value)
+    {
+        return quaternion{value.w, -value.x, -value.y, -value.z};
+    }
+
+    quaternion largest_eigenvector_symmetric_4x4(double matrix[4][4])
+    {
+        double eigenvectors[4][4]{};
+        for (std::size_t i = 0; i < 4; ++i)
+        {
+            eigenvectors[i][i] = 1.0;
+        }
+
+        // Jacobi diagonalization keeps this small eigenproblem dependency-free.
+        for (std::size_t iteration = 0; iteration < 64; ++iteration)
+        {
+            std::size_t p = 0;
+            std::size_t q = 1;
+            double largest_off_diagonal = 0.0;
+            for (std::size_t row = 0; row < 4; ++row)
+            {
+                for (std::size_t column = row + 1; column < 4; ++column)
+                {
+                    const double magnitude = std::abs(matrix[row][column]);
+                    if (magnitude > largest_off_diagonal)
+                    {
+                        largest_off_diagonal = magnitude;
+                        p = row;
+                        q = column;
+                    }
+                }
+            }
+            if (largest_off_diagonal < 1.0e-12)
+            {
+                break;
+            }
+
+            const double angle = 0.5 * std::atan2(
+                2.0 * matrix[p][q], matrix[q][q] - matrix[p][p]);
+            const double cosine = std::cos(angle);
+            const double sine = std::sin(angle);
+            const double pp = matrix[p][p];
+            const double qq = matrix[q][q];
+            const double pq = matrix[p][q];
+
+            for (std::size_t index = 0; index < 4; ++index)
+            {
+                if (index == p || index == q)
+                {
+                    continue;
+                }
+                const double ip = matrix[index][p];
+                const double iq = matrix[index][q];
+                matrix[index][p] = cosine * ip - sine * iq;
+                matrix[p][index] = matrix[index][p];
+                matrix[index][q] = sine * ip + cosine * iq;
+                matrix[q][index] = matrix[index][q];
+            }
+
+            matrix[p][p] = cosine * cosine * pp
+                - 2.0 * sine * cosine * pq + sine * sine * qq;
+            matrix[q][q] = sine * sine * pp
+                + 2.0 * sine * cosine * pq + cosine * cosine * qq;
+            matrix[p][q] = 0.0;
+            matrix[q][p] = 0.0;
+
+            for (std::size_t row = 0; row < 4; ++row)
+            {
+                const double vp = eigenvectors[row][p];
+                const double vq = eigenvectors[row][q];
+                eigenvectors[row][p] = cosine * vp - sine * vq;
+                eigenvectors[row][q] = sine * vp + cosine * vq;
+            }
+        }
+
+        std::size_t largest_index = 0;
+        for (std::size_t i = 1; i < 4; ++i)
+        {
+            if (matrix[i][i] > matrix[largest_index][largest_index])
+            {
+                largest_index = i;
+            }
+        }
+
+        quaternion result{
+            eigenvectors[0][largest_index],
+            eigenvectors[1][largest_index],
+            eigenvectors[2][largest_index],
+            eigenvectors[3][largest_index]
+        };
+        const double length = std::sqrt(
+            result.w * result.w + result.x * result.x
+            + result.y * result.y + result.z * result.z);
+        if (length > 0.0)
+        {
+            result.w /= length;
+            result.x /= length;
+            result.y /= length;
+            result.z /= length;
+        }
+        return result;
+    }
+
+    std::vector<boneflex::vec3> align_rigid_transform_to_rest(
+        const std::vector<boneflex::vec3>& rest_positions,
+        const std::vector<boneflex::vec3>& current_positions)
+    {
+        std::vector<boneflex::vec3> aligned_positions;
+        if (rest_positions.size() != current_positions.size() || rest_positions.empty())
+        {
+            return aligned_positions;
+        }
+
+        const boneflex::vec3 rest_center = calculate_geometric_center(rest_positions);
+        const boneflex::vec3 current_center = calculate_geometric_center(current_positions);
+        double covariance[3][3]{};
+        for (std::size_t i = 0; i < rest_positions.size(); ++i)
+        {
+            const boneflex::vec3 rest = rest_positions[i] - rest_center;
+            const boneflex::vec3 current = current_positions[i] - current_center;
+            const double rest_values[3] = {rest.x, rest.y, rest.z};
+            const double current_values[3] = {current.x, current.y, current.z};
+            for (std::size_t row = 0; row < 3; ++row)
+            {
+                for (std::size_t column = 0; column < 3; ++column)
+                {
+                    covariance[row][column] += rest_values[row] * current_values[column];
+                }
+            }
+        }
+
+        const double sxx = covariance[0][0];
+        const double sxy = covariance[0][1];
+        const double sxz = covariance[0][2];
+        const double syx = covariance[1][0];
+        const double syy = covariance[1][1];
+        const double syz = covariance[1][2];
+        const double szx = covariance[2][0];
+        const double szy = covariance[2][1];
+        const double szz = covariance[2][2];
+
+        // Horn's absolute orientation method: largest eigenvector is the
+        // unit quaternion mapping the rest pose onto the current pose.
+        double horn_matrix[4][4] = {
+            {sxx + syy + szz, syz - szy, szx - sxz, sxy - syx},
+            {syz - szy, sxx - syy - szz, sxy + syx, szx + sxz},
+            {szx - sxz, sxy + syx, -sxx + syy - szz, syz + szy},
+            {sxy - syx, szx + sxz, syz + szy, -sxx - syy + szz}
+        };
+        const quaternion rest_to_current = largest_eigenvector_symmetric_4x4(horn_matrix);
+        const quaternion current_to_rest = conjugate(rest_to_current);
+
+        aligned_positions.reserve(current_positions.size());
+        for (const boneflex::vec3& position : current_positions)
+        {
+            aligned_positions.push_back(
+                rotate_vector(current_to_rest, position - current_center) + rest_center);
+        }
+        return aligned_positions;
+    }
+
+    bool validate_rigid_alignment()
+    {
+        const std::vector<boneflex::vec3> rest_positions = {
+            {1.0f, 0.0f, 0.0f},
+            {0.0f, 2.0f, 0.0f},
+            {0.0f, 0.0f, 3.0f},
+            {-1.0f, -1.0f, -1.0f},
+            {0.3f, 0.8f, -0.2f}
+        };
+        const double half_angle = 0.35;
+        const double axis_length = std::sqrt(14.0);
+        const quaternion rotation{
+            std::cos(half_angle),
+            std::sin(half_angle) / axis_length,
+            2.0 * std::sin(half_angle) / axis_length,
+            3.0 * std::sin(half_angle) / axis_length
+        };
+        const boneflex::vec3 translation(2.0f, -3.0f, 4.0f);
+        std::vector<boneflex::vec3> transformed_positions;
+        transformed_positions.reserve(rest_positions.size());
+        for (const boneflex::vec3& position : rest_positions)
+        {
+            transformed_positions.push_back(rotate_vector(rotation, position) + translation);
+        }
+
+        const std::vector<boneflex::vec3> aligned_positions =
+            align_rigid_transform_to_rest(rest_positions, transformed_positions);
+        if (aligned_positions.size() != rest_positions.size())
+        {
+            return false;
+        }
+        for (std::size_t i = 0; i < rest_positions.size(); ++i)
+        {
+            if ((aligned_positions[i] - rest_positions[i]).length_squared() > 1.0e-8f)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     displacement_metrics measure_deformation(
         const std::vector<boneflex::vec3>& rest_positions,
         const std::vector<boneflex::vec3>& current_positions,
@@ -167,6 +394,12 @@ namespace
 
 int main(int argc, char** argv)
 {
+    if (!validate_rigid_alignment())
+    {
+        std::cerr << "Rigid alignment validation failed.\n";
+        return 1;
+    }
+
     std::uint32_t longitude_segments = 200;
     std::uint32_t latitude_segments = 50;
     if (argc > 1) longitude_segments = static_cast<std::uint32_t>(std::stoul(argv[1]));
@@ -286,6 +519,11 @@ int main(int argc, char** argv)
     const boneflex::vec3 pull_center = calculate_geometric_center(positions_after_pull);
     const boneflex::vec3 release_center = calculate_geometric_center(positions_after_release);
 
+    const std::vector<boneflex::vec3> pull_rigid_aligned =
+        align_rigid_transform_to_rest(mesh.rest_positions(), positions_after_pull);
+    const std::vector<boneflex::vec3> release_rigid_aligned =
+        align_rigid_transform_to_rest(mesh.rest_positions(), positions_after_release);
+
     std::vector<std::size_t> all_indices(mesh.control_point_count());
     for (std::size_t i = 0; i < all_indices.size(); ++i)
     {
@@ -325,6 +563,23 @@ int main(int argc, char** argv)
         mesh.rest_positions(), positions_after_release, neighbor_region, rest_center, release_center);
     const displacement_metrics release_deformation_far = measure_deformation(
         mesh.rest_positions(), positions_after_release, far_region, rest_center, release_center);
+
+    const displacement_metrics pull_rigid_all = measure_displacement(
+        mesh.rest_positions(), pull_rigid_aligned, all_indices);
+    const displacement_metrics release_rigid_all = measure_displacement(
+        mesh.rest_positions(), release_rigid_aligned, all_indices);
+    const displacement_metrics pull_rigid_local = measure_displacement(
+        mesh.rest_positions(), pull_rigid_aligned, pull_region);
+    const displacement_metrics pull_rigid_neighbor = measure_displacement(
+        mesh.rest_positions(), pull_rigid_aligned, neighbor_region);
+    const displacement_metrics pull_rigid_far = measure_displacement(
+        mesh.rest_positions(), pull_rigid_aligned, far_region);
+    const displacement_metrics release_rigid_local = measure_displacement(
+        mesh.rest_positions(), release_rigid_aligned, pull_region);
+    const displacement_metrics release_rigid_neighbor = measure_displacement(
+        mesh.rest_positions(), release_rigid_aligned, neighbor_region);
+    const displacement_metrics release_rigid_far = measure_displacement(
+        mesh.rest_positions(), release_rigid_aligned, far_region);
 
     const double pull_average_ms = elapsed_ms(pull_begin, pull_end) / pull_frame_count;
     const double release_average_ms = elapsed_ms(release_begin, release_end) / release_frame_count;
@@ -377,5 +632,19 @@ int main(int argc, char** argv)
     print_region("Pull region", release_deformation_local);
     print_region("Neighbor region", release_deformation_neighbor);
     print_region("Far region", release_deformation_far);
+
+    std::cout << "\nDeformation after pull (best-fit rigid transform removed)\n";
+    std::cout << "Overall mean / RMS / max:    " << pull_rigid_all.mean << " / "
+        << pull_rigid_all.rms << " / " << pull_rigid_all.maximum << '\n';
+    print_region("Pull region", pull_rigid_local);
+    print_region("Neighbor region", pull_rigid_neighbor);
+    print_region("Far region", pull_rigid_far);
+
+    std::cout << "\nDeformation after release (best-fit rigid transform removed)\n";
+    std::cout << "Overall mean / RMS / max:    " << release_rigid_all.mean << " / "
+        << release_rigid_all.rms << " / " << release_rigid_all.maximum << '\n';
+    print_region("Pull region", release_rigid_local);
+    print_region("Neighbor region", release_rigid_neighbor);
+    print_region("Far region", release_rigid_far);
     return 0;
 }
