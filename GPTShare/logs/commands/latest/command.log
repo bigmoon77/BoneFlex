@@ -1,27 +1,11 @@
 ﻿
-[2026-11-24 01:30:50.444] Developer PowerShell initialization
-[2026-11-24 01:30:52.278] **********************************************************************
-[2026-11-24 01:30:52.283] ** Visual Studio 2026 Developer PowerShell v18.10.3
-[2026-11-24 01:30:52.287] ** Copyright (c) 2026 Microsoft Corporation
-[2026-11-24 01:30:52.308] **********************************************************************
-[2026-11-24 01:30:52.319] START E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
-[2026-11-24 01:30:52.406] BoneFlex DX11 demo build started: 2026-11-24 01:30:52
-[2026-11-24 01:30:52.563] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26300.
-[2026-11-24 01:30:52.579] -- Configuring done (0.1s)
-[2026-11-24 01:30:52.999] -- Generating done (0.4s)
-[2026-11-24 01:30:53.013] -- Build files have been written to: E:/code/bigmoon77/BoneFlex/build
-[2026-11-24 01:30:53.170] MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.14.60+43b635718 (.NET Framework)
-[2026-11-24 01:30:53.211] 
-[2026-11-24 01:30:53.633]   boneflex.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex.lib
-[2026-11-24 01:30:53.756]   boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_dx11_soft_body_demo.exe
-[2026-11-24 01:30:53.799] Build succeeded. Launching DX11 demo; close the demo window to finish this command.
-[2026-11-24 01:31:05.101] Render vertices: 4753
-[2026-11-24 01:31:05.106] Control points: 1202
-[2026-11-24 01:31:05.111] Reduced triangles: 2400
-[2026-11-24 01:31:05.116] Shape matching clusters: 42
-[2026-11-24 01:31:05.121] XPBD constraints: 3600
-[2026-11-24 01:31:05.125] Drag the sphere with the left mouse button. Press Esc to exit.
-[2026-11-24 01:31:05.130] DX11 demo closed.
-[2026-11-24 01:31:05.153] SUCCESS
-[2026-11-24 01:31:05.158] END E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
-[2026-11-24 01:31:05.162] All pulled command scripts processed. This Developer PowerShell window will remain open.
+[2026-11-24 01:39:08.314] Developer PowerShell initialization
+[2026-11-24 01:39:10.157] **********************************************************************
+[2026-11-24 01:39:10.162] ** Visual Studio 2026 Developer PowerShell v18.10.3
+[2026-11-24 01:39:10.167] ** Copyright (c) 2026 Microsoft Corporation
+[2026-11-24 01:39:10.187] **********************************************************************
+[2026-11-24 01:39:10.199] START E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 01:39:10.294] BoneFlex DX11 surface smoothing build started: 2026-11-24 01:39:10
+[2026-11-24 01:39:10.343] EXCEPTION: CMake Error: The source directory "E:/code/bigmoon77/BoneFlex/build" does not appear to contain CMakeLists.txt.
+[2026-11-24 01:39:10.348] END E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 01:39:10.353] All pulled command scripts processed. This Developer PowerShell window will remain open.
