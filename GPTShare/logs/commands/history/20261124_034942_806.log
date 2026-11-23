@@ -1,0 +1,117 @@
+﻿
+[2026-11-24 03:49:44.332] Developer PowerShell initialization
+[2026-11-24 03:49:46.437] **********************************************************************
+[2026-11-24 03:49:46.442] ** Visual Studio 2026 Developer PowerShell v18.10.3
+[2026-11-24 03:49:46.447] ** Copyright (c) 2026 Microsoft Corporation
+[2026-11-24 03:49:46.469] **********************************************************************
+[2026-11-24 03:49:46.482] START E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 03:49:46.600] Repository: E:\code\bigmoon77\BoneFlex
+[2026-11-24 03:49:46.606] BoneFlex build and direct Blender import smoke test started: 2026-11-24 03:49:46
+[2026-11-24 03:49:46.773] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26300.
+[2026-11-24 03:49:46.790] -- Configuring done (0.1s)
+[2026-11-24 03:49:47.321] -- Generating done (0.5s)
+[2026-11-24 03:49:47.336] -- Build files have been written to: E:/code/bigmoon77/BoneFlex/build
+[2026-11-24 03:49:47.548] MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.14.60+43b635718 (.NET Framework)
+[2026-11-24 03:49:47.590] 
+[2026-11-24 03:49:48.111]   boneflex.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex.lib
+[2026-11-24 03:49:48.242]   boneflex_basic_example.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_basic_example.exe
+[2026-11-24 03:49:48.323]   boneflex_blender_asset_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_demo.exe
+[2026-11-24 03:49:48.392]   boneflex_blender_asset_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_tests.exe
+[2026-11-24 03:49:48.464]   boneflex_distance_constraint_generation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_distance_constraint_generation_tests.exe
+[2026-11-24 03:49:48.663]   dx11_soft_body_demo.cpp
+[2026-11-24 03:49:52.933]   boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_dx11_soft_body_demo.exe
+[2026-11-24 03:49:53.202]   boneflex_mesh_reduction_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_benchmark.exe
+[2026-11-24 03:49:53.270]   boneflex_mesh_reduction_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_tests.exe
+[2026-11-24 03:49:53.331]   boneflex_reduced_mesh_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_mesh_tests.exe
+[2026-11-24 03:49:53.391]   boneflex_reduced_soft_body_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_benchmark.exe
+[2026-11-24 03:49:53.458]   boneflex_reduced_soft_body_parameter_sweep.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_parameter_sweep.exe
+[2026-11-24 03:49:53.522]   boneflex_reduced_soft_body_solver_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_solver_tests.exe
+[2026-11-24 03:49:53.593]   boneflex_shape_matching_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_benchmark.exe
+[2026-11-24 03:49:53.662]   boneflex_shape_matching_cluster_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_cluster_tests.exe
+[2026-11-24 03:49:53.723]   boneflex_shape_matching_deformation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_deformation_tests.exe
+[2026-11-24 03:49:53.788]   boneflex_shape_matching_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_tests.exe
+[2026-11-24 03:49:53.851]   boneflex_skeleton_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skeleton_tests.exe
+[2026-11-24 03:49:53.915]   boneflex_skinning_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skinning_tests.exe
+[2026-11-24 03:49:53.976]   boneflex_xpbd_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_xpbd_tests.exe
+[2026-11-24 03:49:54.170] Test project E:/code/bigmoon77/BoneFlex/build
+[2026-11-24 03:49:54.182]       Start  1: BoneFlex.XPBDDistanceConstraint
+[2026-11-24 03:49:54.195]  1/11 Test  #1: BoneFlex.XPBDDistanceConstraint ...........   Passed    0.01 sec
+[2026-11-24 03:49:54.201]       Start  2: BoneFlex.Skeleton
+[2026-11-24 03:49:54.212]  2/11 Test  #2: BoneFlex.Skeleton .........................   Passed    0.01 sec
+[2026-11-24 03:49:54.219]       Start  3: BoneFlex.Skinning
+[2026-11-24 03:49:54.229]  3/11 Test  #3: BoneFlex.Skinning .........................   Passed    0.01 sec
+[2026-11-24 03:49:54.235]       Start  4: BoneFlex.ShapeMatching
+[2026-11-24 03:49:54.250]  4/11 Test  #4: BoneFlex.ShapeMatching ....................   Passed    0.02 sec
+[2026-11-24 03:49:54.255]       Start  5: BoneFlex.ShapeMatchingDeformation
+[2026-11-24 03:49:54.274]  5/11 Test  #5: BoneFlex.ShapeMatchingDeformation .........   Passed    0.02 sec
+[2026-11-24 03:49:54.279]       Start  6: BoneFlex.ShapeMatchingClusterGeneration
+[2026-11-24 03:49:54.296]  6/11 Test  #6: BoneFlex.ShapeMatchingClusterGeneration ...   Passed    0.02 sec
+[2026-11-24 03:49:54.301]       Start  7: BoneFlex.MeshReduction
+[2026-11-24 03:49:54.324]  7/11 Test  #7: BoneFlex.MeshReduction ....................   Passed    0.03 sec
+[2026-11-24 03:49:54.330]       Start  8: BoneFlex.ReducedSoftBodySolver
+[2026-11-24 03:49:54.347]  8/11 Test  #8: BoneFlex.ReducedSoftBodySolver ............   Passed    0.02 sec
+[2026-11-24 03:49:54.367]       Start  9: BoneFlex.DistanceConstraintGeneration
+[2026-11-24 03:49:54.371]  9/11 Test  #9: BoneFlex.DistanceConstraintGeneration .....   Passed    0.02 sec
+[2026-11-24 03:49:54.377]       Start 10: BoneFlex.BlenderAsset
+[2026-11-24 03:49:54.390] 10/11 Test #10: BoneFlex.BlenderAsset .....................   Passed    0.02 sec
+[2026-11-24 03:49:54.398]       Start 11: BoneFlex.ReducedMesh
+[2026-11-24 03:49:54.412] 11/11 Test #11: BoneFlex.ReducedMesh ......................   Passed    0.02 sec
+[2026-11-24 03:49:54.419] 
+[2026-11-24 03:49:54.424] 100% tests passed, 0 tests failed out of 11
+[2026-11-24 03:49:54.430] 
+[2026-11-24 03:49:54.434] Total Test time (real) =   0.25 sec
+[2026-11-24 03:49:54.439] Build and all unit tests succeeded.
+[2026-11-24 03:49:54.446] Blender found. Generating test character: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.bflex
+[2026-11-24 03:49:55.472] Blender fixture exit code: 0
+[2026-11-24 03:49:55.481] Info: Saved as "boneflex_test_character.blend"
+[2026-11-24 03:49:55.485]   BLEND: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend
+[2026-11-24 03:49:55.490] BoneFlex test character exported:
+[2026-11-24 03:49:55.495]   BFLEX: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.bflex
+[2026-11-24 03:49:55.500] Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
+[2026-11-24 03:49:55.507] 
+[2026-11-24 03:49:55.515] Blender quit
+[2026-11-24 03:49:55.550] BoneFlex Blender asset import demo
+[2026-11-24 03:49:55.555] Vertices:             610
+[2026-11-24 03:49:55.559] Triangles:            1216
+[2026-11-24 03:49:55.564] Bones:                2
+[2026-11-24 03:49:55.569] Skinning influences:  770
+[2026-11-24 03:49:55.573] Reduced control pts:  610
+[2026-11-24 03:49:55.579] Reduced triangles:    1216
+[2026-11-24 03:49:55.584] Embedding influences: 2322
+[2026-11-24 03:49:55.588] Bind-pose skinning:   passed
+[2026-11-24 03:49:55.593] Checking converter dependencies.
+[2026-11-24 03:49:55.601] Found: E:\code\bigmoon77\BoneFlex\build\Release\import_blend_to_bflex.py
+[2026-11-24 03:49:55.606] Found: E:\code\bigmoon77\BoneFlex\build\Release\boneflex_exporter.py
+[2026-11-24 03:49:55.613] Testing direct .blend loading through the DX11 demo: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend
+[2026-11-24 03:50:00.754] ===== DX11 stdout =====
+[2026-11-24 03:50:00.765] 00:00.547  blend            | Read blend: "E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend"
+[2026-11-24 03:50:00.771] BoneFlex .blend import conversion completed:
+[2026-11-24 03:50:00.781]   Scene: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend
+[2026-11-24 03:50:00.786]   Mesh: BoneFlexTestCharacter
+[2026-11-24 03:50:00.791]   Asset: C:\Users\User\AppData\Local\Temp\bfx8C18.bflex
+[2026-11-24 03:50:00.800] Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
+[2026-11-24 03:50:00.805] 
+[2026-11-24 03:50:00.809] Blender quit
+[2026-11-24 03:50:00.816] Converted Blender project to temporary BoneFlex asset: C:\Users\User\AppData\Local\Temp\bfx8C18.bflex
+[2026-11-24 03:50:00.821] Render vertices: 610
+[2026-11-24 03:50:00.826] Control points: 610
+[2026-11-24 03:50:00.832] Reduced triangles: 1216
+[2026-11-24 03:50:00.837] Shape matching clusters: 39
+[2026-11-24 03:50:00.841] XPBD constraints: 1824
+[2026-11-24 03:50:00.847] Kinematic anchors: 450
+[2026-11-24 03:50:00.851] Dynamic control points: 160
+[2026-11-24 03:50:00.857] Anchor threshold: 98% dominant bone weight
+[2026-11-24 03:50:00.862] Shape matching stiffness: 0.15
+[2026-11-24 03:50:00.866] Maximum deformation ratio: 0.5
+[2026-11-24 03:50:00.871] Animated bone: Upper
+[2026-11-24 03:50:00.876] Diagnostic startup: gravity disabled, skeleton animation paused.
+[2026-11-24 03:50:00.881] Imported Blender character with automatic skeleton anchors. Drag the surface; A toggles animation, G toggles gravity, Esc exits.
+[2026-11-24 03:50:00.886] ===== DX11 stderr =====
+[2026-11-24 03:50:00.893] DX11 .blend conversion, humanoid initialization, and GUI startup succeeded.
+[2026-11-24 03:50:00.899] Launching interactive drift diagnostic. Gravity and skeleton animation should start disabled.
+[2026-11-24 03:50:03.918] Interactive DX11 diagnostic is running (PID: 6260).
+[2026-11-24 03:50:03.923] Observe the model without dragging. Gravity and animation are disabled initially. Press G or A only after the no-input check.
+[2026-11-24 03:50:03.928] Physics tuning GUI: stiffness, XPBD compliance, solver iterations, velocity damping, maximum deformation, gravity, and surface smoothing.
+[2026-11-24 03:50:03.941] SUCCESS
+[2026-11-24 03:50:03.946] END E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 03:50:03.952] All pulled command scripts processed. This Developer PowerShell window will remain open.
