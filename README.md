@@ -34,6 +34,8 @@ Planned runtime pipeline:
 
 The skinning reference uses a compact CSR representation (`offsets`, `bone_indices`, `weights`) so vertices can have a variable number of influences. Per-vertex weights are validated and normalized when loaded.
 
+The reduced-mesh foundation stores simulation control points and surface triangle connectivity separately from render topology. A second CSR structure (`vertex_embedding`) maps each render vertex to a weighted set of control points. The CPU reconstruction function is the reference implementation for future GPU deformation kernels.
+
 ## Build
 
 Requirements: CMake 3.20+ and a C++20 compiler.
@@ -46,7 +48,7 @@ ctest --test-dir build -C Release --output-on-failure
 
 ## Current status
 
-The current milestone includes a dependency-free C++20 library, an XPBD distance constraint, skeletal hierarchy evaluation, compact CSR skinning weights, and a CPU reference skinning path. Reduced meshes, shape matching, GPU execution, and the interactive demo are subsequent milestones.
+The current milestone includes a dependency-free C++20 library, an XPBD distance constraint, skeletal hierarchy evaluation, compact CSR skinning weights, a CPU reference skinning path, reduced surface mesh storage, and CPU render-vertex reconstruction. Automatic reduction, embedding generation, shape matching, GPU execution, and the interactive demo are subsequent milestones.
 
 ## Design principles
 
