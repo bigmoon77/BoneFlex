@@ -10,6 +10,7 @@ option(BONEFLEX_BUILD_TESTS "Build BoneFlex tests" ON)
 option(BONEFLEX_BUILD_EXAMPLES "Build BoneFlex examples" ON)
 
 add_library(boneflex
+    src/animation/skeleton.cpp
     src/physics/xpbd_distance_constraint.cpp
 )
 
@@ -33,6 +34,7 @@ if(BONEFLEX_BUILD_TESTS)
     enable_testing()
     add_executable(boneflex_tests
         tests/test_xpbd_distance_constraint.cpp
+        tests/test_skeleton.cpp
     )
     target_link_libraries(boneflex_tests PRIVATE BoneFlex::boneflex)
     add_test(NAME BoneFlex.XPBDDistanceConstraint COMMAND boneflex_tests)
