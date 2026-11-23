@@ -145,7 +145,9 @@ namespace boneflex
             }
         }
 
-        const float damping = std::pow(_options.velocity_damping, delta_time);
+        // velocity_damping is the velocity retention per 1/60-second frame.
+        // Scale the exponent so the damping remains consistent at other time steps.
+        const float damping = std::pow(_options.velocity_damping, delta_time * 60.0f);
         for (particle& value : _particles)
         {
             if (value.inverse_mass > 0.0f)
