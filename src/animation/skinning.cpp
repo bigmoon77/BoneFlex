@@ -1,5 +1,7 @@
 #include <boneflex/animation/skinning.h>
 
+#include <utility>
+
 namespace boneflex
 {
     bool skin_vertices(
