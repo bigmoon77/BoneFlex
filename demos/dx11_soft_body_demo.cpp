@@ -80,6 +80,7 @@ namespace
         bool animation_enabled = false;
         bool gravity_enabled = false;
         bool initial_physics_diagnostic_logged = false;
+        std::uint64_t physics_diagnostic_frame = 0;
         float gravity_strength = 9.81f;
         float distance_compliance = 1.0e-5f;
         int smoothing_passes = 2;
@@ -803,24 +804,54 @@ float4 PSMain(PSInput input) : SV_TARGET
             return;
         }
 
-        if (!demo.initial_physics_diagnostic_logged)
+        ++demo.physics_diagnostic_frame;
+        if (!demo.initial_physics_diagnostic_logged
+            || (demo.physics_diagnostic_frame % 60) == 0)
         {
             float maximum_solver_displacement = 0.0f;
+            float maximum_rest_deviation = 0.0f;
+            float maximum_speed = 0.0f;
             std::size_t maximum_solver_index = 0;
+            std::size_t maximum_deviation_index = 0;
+            std::size_t maximum_speed_index = 0;
             for (std::size_t i = 0; i < particles.size(); ++i)
             {
-                const float displacement = (particles[i].position - positions_before_solver[i]).length();
-                if (displacement > maximum_solver_displacement)
+                if (!positions_before_solver.empty())
                 {
-                    maximum_solver_displacement = displacement;
-                    maximum_solver_index = i;
+                    const float displacement = (particles[i].position - positions_before_solver[i]).length();
+                    if (displacement > maximum_solver_displacement)
+                    {
+                        maximum_solver_displacement = displacement;
+                        maximum_solver_index = i;
+                    }
+                }
+                const float rest_deviation =
+                    (particles[i].position - demo.reduced.rest_positions()[i]).length();
+                if (rest_deviation > maximum_rest_deviation)
+                {
+                    maximum_rest_deviation = rest_deviation;
+                    maximum_deviation_index = i;
+                }
+                const float speed = particles[i].velocity.length();
+                if (speed > maximum_speed)
+                {
+                    maximum_speed = speed;
+                    maximum_speed_index = i;
                 }
             }
-            std::cout << "Initial physics diagnostic: max anchor target error = "
-                << maximum_anchor_target_error << " at control point " << maximum_anchor_target_index
-                << ", max solver displacement = " << maximum_solver_displacement
-                << " at control point " << maximum_solver_index << '\\n';
-            demo.initial_physics_diagnostic_logged = true;
+            if (!demo.initial_physics_diagnostic_logged)
+            {
+                std::cout << "Initial physics diagnostic: max anchor target error = "
+                    << maximum_anchor_target_error << " at control point " << maximum_anchor_target_index
+                    << ", max solver displacement = " << maximum_solver_displacement
+                    << " at control point " << maximum_solver_index << '\\n';
+                demo.initial_physics_diagnostic_logged = true;
+            }
+            std::cout << "Physics stability frame " << demo.physics_diagnostic_frame
+                << ": max rest deviation = " << maximum_rest_deviation
+                << " at control point " << maximum_deviation_index
+                << ", max speed = " << maximum_speed
+                << " at control point " << maximum_speed_index << '\\n';
         }
 
         std::vector<boneflex::vec3> control_positions;
