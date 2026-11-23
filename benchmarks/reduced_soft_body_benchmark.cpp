@@ -1,4 +1,5 @@
 #include <boneflex/physics/reduced_soft_body_solver.h>
+#include <boneflex/physics/distance_constraint_generation.h>
 #include <boneflex/physics/reduced_mesh.h>
 #include <boneflex/physics/shape_matching_cluster_generation.h>
 
@@ -168,6 +169,15 @@ int main(int argc, char** argv)
         pull_accelerations[i] = boneflex::vec3(12.0f * smooth_falloff, 0.0f, 0.0f);
     }
 
+    boneflex::distance_constraint_generation_options constraint_options;
+    constraint_options.compliance = 1.0e-6f;
+    std::vector<boneflex::xpbd_distance_constraint> distance_constraints;
+    if (!boneflex::generate_distance_constraints(mesh, constraint_options, distance_constraints, &error_message))
+    {
+        std::cerr << "Distance constraint generation failed: " << error_message << '\n';
+        return 1;
+    }
+
     boneflex::reduced_soft_body_options options;
     options.solver_iterations = 4;
     options.shape_matching_stiffness = 0.12f;
@@ -175,7 +185,7 @@ int main(int argc, char** argv)
     options.velocity_damping = 0.995f;
 
     boneflex::reduced_soft_body_solver solver;
-    if (!solver.initialize(particles, mesh.rest_positions(), {}, clusters, options))
+    if (!solver.initialize(particles, mesh.rest_positions(), distance_constraints, clusters, options))
     {
         std::cerr << "Solver initialization failed.\n";
         return 1;
@@ -251,6 +261,8 @@ int main(int argc, char** argv)
     std::cout << "BoneFlex localized-pull soft body benchmark\n";
     std::cout << "Control points:              " << solver.particle_count() << '\n';
     std::cout << "Shape matching clusters:     " << clusters.cluster_count() << '\n';
+    std::cout << "XPBD distance constraints:   " << distance_constraints.size() << '\n';
+    std::cout << "XPBD compliance:             " << constraint_options.compliance << '\n';
     std::cout << "Solver iterations:           " << options.solver_iterations << '\n';
     std::cout << "Pull acceleration:           12.0 m/s^2 (+X, smooth falloff)\n";
     std::cout << "Pull / release frames:       " << pull_frame_count << " / " << release_frame_count << '\n';
