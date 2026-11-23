@@ -99,4 +99,4 @@ else {
 }
 Write-Output "Physics tuning GUI: stiffness, XPBD compliance, solver iterations, velocity damping, maximum deformation, gravity, and surface smoothing."
 Write-Output "Drag interaction now uses a soft XPBD position target."
-Write-Output "Capture the first-frame Initial physics diagnostic line before interacting; it reports anchor target error and solver displacement."
+Write-Output "Capture the first-frame Initial physics diagnostic and Physics stability frame 60/120/180 lines; these report rest deviation and maximum speed over time."
