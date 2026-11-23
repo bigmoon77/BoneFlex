@@ -155,6 +155,56 @@ namespace
         }
     }
 
+    void test_drag_target_does_not_change_fixed_anchor_configuration()
+    {
+        boneflex::reduced_mesh mesh = make_grid(4);
+        boneflex::shape_matching_cluster_options cluster_options;
+        cluster_options.cluster_size = 8;
+        cluster_options.overlap_ratio = 0.75f;
+        boneflex::shape_matching_clusters clusters;
+        require(boneflex::generate_shape_matching_clusters(mesh, cluster_options, clusters),
+            "Failed to create drag target clusters.");
+
+        std::vector<boneflex::particle> particles(mesh.control_point_count());
+        for (std::size_t i = 0; i < particles.size(); ++i)
+        {
+            particles[i].position = mesh.rest_positions()[i];
+            particles[i].previous_position = particles[i].position;
+        }
+        particles[0].inverse_mass = 0.0f;
+
+        boneflex::reduced_soft_body_options options;
+        options.gravity = boneflex::vec3();
+        options.shape_matching_stiffness = 0.15f;
+        options.max_deformation_ratio = 0.0f;
+        options.solver_iterations = 4;
+
+        boneflex::reduced_soft_body_solver solver;
+        require(solver.initialize(particles, mesh.rest_positions(), {}, clusters, options),
+            "Drag target solver initialization failed.");
+
+        const std::size_t dragged_index = particles.size() - 1;
+        const boneflex::vec3 original_position = solver.particles()[dragged_index].position;
+        const boneflex::vec3 target_position = original_position + boneflex::vec3(0.0f, 0.25f, 0.0f);
+        const std::vector<boneflex::xpbd_position_target> targets = {
+            { dragged_index, target_position, 1.0e-4f }
+        };
+
+        require(solver.step(1.0f / 60.0f, {}, targets), "Drag target solver step failed.");
+        const auto& result = solver.particles();
+        require(result[0].inverse_mass == 0.0f,
+            "A permanent kinematic anchor changed inverse mass.");
+        require((result[0].position - particles[0].position).length() < 1.0e-7f,
+            "A permanent kinematic anchor moved while dragging another particle.");
+        require(result[dragged_index].inverse_mass == 1.0f,
+            "A drag target changed the particle inverse mass.");
+        require((result[dragged_index].position - original_position).length() > 1.0e-4f,
+            "The XPBD drag target did not move its particle.");
+        require((result[dragged_index].position - target_position).length()
+            < (original_position - target_position).length(),
+            "The XPBD drag target did not move toward its target.");
+    }
+
     void test_distance_constraint_is_solved()
     {
         std::vector<boneflex::vec3> rest_positions = {
@@ -296,6 +346,7 @@ int main()
         test_gravity_and_fixed_particle();
         test_anchored_shape_matching_restores_translation();
         test_shape_matching_remains_stable_without_external_forces();
+        test_drag_target_does_not_change_fixed_anchor_configuration();
         test_distance_constraint_is_solved();
         test_maximum_deformation_ratio();
         test_velocity_damping_is_frame_rate_scaled();

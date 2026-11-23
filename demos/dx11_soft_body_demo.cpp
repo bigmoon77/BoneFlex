@@ -105,6 +105,7 @@ namespace
         std::vector<boneflex::xpbd_distance_constraint> constraints;
         boneflex::shape_matching_clusters clusters;
         boneflex::vec3 drag_target{};
+        std::vector<boneflex::xpbd_position_target> drag_position_targets;
         XMMATRIX view = XMMatrixIdentity();
         XMMATRIX projection = XMMatrixIdentity();
     };
@@ -764,23 +765,21 @@ float4 PSMain(PSInput input) : SV_TARGET
             const bool anchored = demo.has_imported_asset && demo.control_anchors[i];
             demo.control_accelerations[i] = anchored ? boneflex::vec3() : gravity;
         }
+        demo.drag_position_targets.clear();
         if (demo.dragging && demo.selected_control_point >= 0
             && static_cast<std::size_t>(demo.selected_control_point) < particles.size())
         {
             const std::size_t selected = static_cast<std::size_t>(demo.selected_control_point);
-            boneflex::particle& dragged = particles[selected];
             const boneflex::vec3 target = screen_to_world(
-                demo, demo.mouse_position, dragged.position.z);
+                demo, demo.mouse_position, particles[selected].position.z);
 
-            // A temporary kinematic target is reliable with stiff shape matching:
-            // acceleration-only dragging was almost entirely canceled by the solver.
-            dragged.inverse_mass = 0.0f;
-            dragged.position = target;
-            dragged.previous_position = target;
-            dragged.velocity = boneflex::vec3();
+            // Keep inverse_mass unchanged: dragging is an XPBD attachment, not
+            // a newly-created Shape Matching anchor.
+            demo.drag_position_targets.push_back({ selected, target, 1.0e-4f });
         }
 
-        if (!demo.solver.step(fixed_delta_time, demo.control_accelerations))
+        if (!demo.solver.step(
+            fixed_delta_time, demo.control_accelerations, demo.drag_position_targets))
         {
             std::cerr << "Soft-body simulation step failed.\n";
             demo.running = false;

@@ -9,6 +9,15 @@
 
 namespace boneflex
 {
+    // A temporary XPBD attachment used for interactions such as mouse dragging.
+    // It does not change the particle's inverse mass or the solver's fixed anchors.
+    struct xpbd_position_target
+    {
+        std::size_t particle_index = 0;
+        vec3 position;
+        float compliance = 1.0e-4f;
+    };
+
     struct reduced_soft_body_options
     {
         std::size_t solver_iterations = 4;
@@ -33,7 +42,11 @@ namespace boneflex
             const reduced_soft_body_options& options = {}
         );
 
-        bool step(float delta_time, const std::vector<vec3>& external_accelerations = {});
+        bool step(
+            float delta_time,
+            const std::vector<vec3>& external_accelerations = {},
+            const std::vector<xpbd_position_target>& position_targets = {}
+        );
 
         std::size_t particle_count() const;
         const std::vector<particle>& particles() const;

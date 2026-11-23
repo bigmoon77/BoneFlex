@@ -94,7 +94,8 @@ namespace boneflex
 
     bool reduced_soft_body_solver::step(
         float delta_time,
-        const std::vector<vec3>& external_accelerations)
+        const std::vector<vec3>& external_accelerations,
+        const std::vector<xpbd_position_target>& position_targets)
     {
         if (!_initialized || !std::isfinite(delta_time) || delta_time <= 0.0f
             || (!external_accelerations.empty() && external_accelerations.size() != _particles.size()))
@@ -104,6 +105,16 @@ namespace boneflex
         for (const vec3& acceleration : external_accelerations)
         {
             if (!finite_vec3(acceleration))
+            {
+                return false;
+            }
+        }
+        for (const xpbd_position_target& target : position_targets)
+        {
+            if (target.particle_index >= _particles.size()
+                || !finite_vec3(target.position)
+                || !std::isfinite(target.compliance)
+                || target.compliance < 0.0f)
             {
                 return false;
             }
@@ -143,6 +154,8 @@ namespace boneflex
         for (std::size_t i = 0; i < _particles.size(); ++i)
             fixed_point_weights[i] = _particles[i].inverse_mass <= 0.0f ? 1.0f : 0.0f;
         std::vector<vec3> matched_positions;
+        // XPBD multipliers are accumulated across solver iterations and reset each frame.
+        std::vector<vec3> position_target_lambdas(position_targets.size());
         const float iteration_stiffness = _options.shape_matching_stiffness <= 0.0f
             ? 0.0f
             : 1.0f - std::pow(
@@ -187,6 +200,26 @@ namespace boneflex
                     }
                     _particles[i].position = fitted + deformation;
                 }
+            }
+
+            // Apply temporary interaction targets after shape matching. The target
+            // remains a soft XPBD constraint and never becomes a permanent anchor.
+            for (std::size_t i = 0; i < position_targets.size(); ++i)
+            {
+                const xpbd_position_target& target = position_targets[i];
+                particle& value = _particles[target.particle_index];
+                if (value.inverse_mass <= 0.0f) continue;
+
+                const float alpha = target.compliance / delta_time_squared;
+                const float denominator = value.inverse_mass + alpha;
+                if (denominator <= 0.0f) continue;
+
+                const vec3 constraint_value = value.position - target.position;
+                const vec3 delta_lambda = (
+                    constraint_value * -1.0f - position_target_lambdas[i] * alpha)
+                    / denominator;
+                value.position += delta_lambda * value.inverse_mass;
+                position_target_lambdas[i] += delta_lambda;
             }
         }
 
