@@ -322,6 +322,7 @@ namespace
                 << "Dynamic control points: " << (demo.control_anchors.size() - anchor_count) << '\n'
                 << "Anchor threshold: 98% dominant bone weight\n"
                 << "Shape matching stiffness: 0.15\n"
+                << "Maximum deformation ratio: 0.5\n"
                 << "Animated bone: " << demo.imported_asset.rig.bones()[demo.animated_bone_index].name << '\n';
         }
         return true;
