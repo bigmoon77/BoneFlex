@@ -72,7 +72,22 @@ def _get_active_mesh_and_armature(context):
 
 
 def _build_bone_data(armature_object):
-    bones = list(armature_object.data.bones)
+    source_bones = list(armature_object.data.bones)
+    ordered_bones = []
+    visited = set()
+
+    def append_parent_first(bone):
+        if bone.name in visited:
+            return
+        if bone.parent is not None:
+            append_parent_first(bone.parent)
+        visited.add(bone.name)
+        ordered_bones.append(bone)
+
+    for source_bone in source_bones:
+        append_parent_first(source_bone)
+
+    bones = ordered_bones
     indices = {bone.name: index for index, bone in enumerate(bones)}
     result = []
 
