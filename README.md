@@ -102,7 +102,7 @@ Build and run the optional parameter sweep:
 ```powershell
 cmake -S . -B build -DBONEFLEX_BUILD_BENCHMARKS=ON
 cmake --build build --config Release --target boneflex_reduced_soft_body_parameter_sweep
-.\\build\\Release\\boneflex_reduced_soft_body_parameter_sweep.exe
+.\build\Release\boneflex_reduced_soft_body_parameter_sweep.exe
 ```
 
 The default workload compares cluster sizes 16, 32, and 64 against shape-matching stiffness values 0.05, 0.12, 0.25, and 0.50. Each case starts from the same 10,000-control-point sphere, uses the same XPBD edge constraints and 30-frame pull / 60-frame release sequence, and reports cluster generation cost, average frame time, and translation-removed deformation RMS in the pulled and far regions. The sweep isolates cluster size and stiffness while keeping overlap ratio, solver iterations, XPBD compliance, and velocity damping fixed. Optional arguments are longitude and latitude segments.
