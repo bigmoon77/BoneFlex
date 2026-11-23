@@ -170,14 +170,15 @@ namespace
 
         constexpr std::size_t warmup_count = 5;
         constexpr std::size_t pull_frame_count = 30;
-        constexpr std::size_t release_frame_count = 60;
+        constexpr std::size_t release_sample_interval = 15;
+        constexpr std::size_t release_frame_count = 120;
         constexpr float delta_time = 1.0f / 60.0f;
 
         for (std::size_t i = 0; i < warmup_count; ++i)
         {
             if (!solver.step(delta_time))
             {
-                std::cerr << "Warmup step failed.\n";
+                std::cerr << "Warmup step failed.\\n";
                 return false;
             }
         }
@@ -187,49 +188,55 @@ namespace
         {
             if (!solver.step(delta_time, pull_accelerations))
             {
-                std::cerr << "Pull step failed.\n";
+                std::cerr << "Pull step failed.\\n";
                 return false;
             }
         }
         const clock_type::time_point pull_end = clock_type::now();
         const deformation_metrics pull_metrics =
             measure_deformation(mesh.rest_positions(), solver.particles(), pull_region);
-
-        const clock_type::time_point release_begin = clock_type::now();
-        for (std::size_t i = 0; i < release_frame_count; ++i)
-        {
-            if (!solver.step(delta_time))
-            {
-                std::cerr << "Release step failed.\n";
-                return false;
-            }
-        }
-        const clock_type::time_point release_end = clock_type::now();
-        const deformation_metrics release_metrics =
-            measure_deformation(mesh.rest_positions(), solver.particles(), pull_region);
-        const deformation_metrics far_metrics =
-            measure_deformation(mesh.rest_positions(), solver.particles(), far_region);
-
         const double pull_time = elapsed_ms(pull_begin, pull_end)
             / static_cast<double>(pull_frame_count);
-        const double release_time = elapsed_ms(release_begin, release_end)
-            / static_cast<double>(release_frame_count);
-        const double recovery_percent = pull_metrics.rms > 1.0e-8
-            ? (1.0 - release_metrics.rms / pull_metrics.rms) * 100.0
-            : 0.0;
 
-        std::cout << std::setw(7) << cluster_size
-            << std::setw(11) << stiffness
-            << std::setw(11) << clusters.cluster_count()
-            << std::setw(13) << clusters.control_point_indices().size()
-            << std::setw(13) << pull_metrics.rms
-            << std::setw(14) << release_metrics.rms
-            << std::setw(13) << far_metrics.rms
-            << std::setw(13) << recovery_percent
-            << std::setw(13) << pull_time
-            << std::setw(14) << release_time
-            << std::setw(13) << elapsed_ms(cluster_begin, cluster_end)
-            << '\n';
+        std::size_t released_frames = 0;
+        while (released_frames < release_frame_count)
+        {
+            const clock_type::time_point interval_begin = clock_type::now();
+            for (std::size_t i = 0; i < release_sample_interval; ++i)
+            {
+                if (!solver.step(delta_time))
+                {
+                    std::cerr << "Release step failed.\\n";
+                    return false;
+                }
+            }
+            const clock_type::time_point interval_end = clock_type::now();
+            released_frames += release_sample_interval;
+
+            const deformation_metrics release_metrics =
+                measure_deformation(mesh.rest_positions(), solver.particles(), pull_region);
+            const deformation_metrics far_metrics =
+                measure_deformation(mesh.rest_positions(), solver.particles(), far_region);
+            const double recovery_percent = pull_metrics.rms > 1.0e-8
+                ? (1.0 - release_metrics.rms / pull_metrics.rms) * 100.0
+                : 0.0;
+            const double release_time = elapsed_ms(interval_begin, interval_end)
+                / static_cast<double>(release_sample_interval);
+
+            std::cout << std::setw(7) << cluster_size
+                << std::setw(11) << stiffness
+                << std::setw(11) << clusters.cluster_count()
+                << std::setw(13) << clusters.control_point_indices().size()
+                << std::setw(13) << pull_metrics.rms
+                << std::setw(12) << released_frames
+                << std::setw(14) << release_metrics.rms
+                << std::setw(13) << far_metrics.rms
+                << std::setw(13) << recovery_percent
+                << std::setw(13) << pull_time
+                << std::setw(14) << release_time
+                << std::setw(13) << elapsed_ms(cluster_begin, cluster_end)
+                << '\\n';
+        }
         return true;
     }
 }
@@ -289,8 +296,8 @@ int main(int argc, char** argv)
         }
     }
 
-    constexpr std::size_t cluster_sizes[] = {64, 96, 128};
-    constexpr float stiffness_values[] = {0.50f, 0.65f, 0.80f, 1.00f};
+    constexpr std::size_t cluster_sizes[] = {128};
+    constexpr float stiffness_values[] = {0.70f, 0.80f, 0.90f, 1.00f};
 
     std::cout << std::fixed << std::setprecision(5);
     std::cout << "BoneFlex reduced soft-body parameter sweep\n";
@@ -298,21 +305,23 @@ int main(int argc, char** argv)
         << ", triangles: " << mesh.triangle_count()
         << ", XPBD constraints: " << distance_constraints.size() << '\n';
     std::cout << "Fixed settings: overlap=0.50, iterations=4, compliance=1.0e-6, damping=0.995\n";
-    std::cout << "Sweep: cluster sizes 64/96/128, stiffness 0.50/0.65/0.80/1.00\n";
-    std::cout << "Pull/release: 30/60 frames at 60 Hz; metrics remove geometric-center translation\n";
-    std::cout << "\n"
+    std::cout << "Sweep: cluster size 128, stiffness 0.70/0.80/0.90/1.00\n";
+    std::cout << "Pull/release: 30/120 frames at 60 Hz; release sampled every 15 frames\n";
+    std::cout << "Metrics remove geometric-center translation; recovery is relative to pull RMS\n";
+    std::cout << "\\n"
         << std::setw(7) << "Cluster"
         << std::setw(11) << "Stiffness"
         << std::setw(11) << "Clusters"
         << std::setw(13) << "Memberships"
         << std::setw(13) << "Pull RMS"
+        << std::setw(12) << "Release fr"
         << std::setw(14) << "Release RMS"
         << std::setw(13) << "Far RMS"
         << std::setw(13) << "Recovery %"
         << std::setw(13) << "Pull ms/f"
         << std::setw(14) << "Release ms/f"
         << std::setw(13) << "Build ms"
-        << '\n';
+        << '\\n';
 
     for (std::size_t cluster_size : cluster_sizes)
     {
