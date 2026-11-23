@@ -11,8 +11,7 @@ ctest --test-dir (Join-Path $repoRoot 'build') -C Release --output-on-failure
 if ($LASTEXITCODE -ne 0) { throw "Tests failed: $LASTEXITCODE" }
 Write-Output "Build and all unit tests succeeded, including shape matching and reduced soft body tests."
 
-$blender = Get-Command blender -ErrorAction SilentlyContinue
-$blenderPath = if ($null -ne $blender) { $blenderPath } else { Join-Path 'E:\SteamLibrary\steamapps\common\Blender' 'blender.exe' }
+$blenderPath = Join-Path 'E:\SteamLibrary\steamapps\common\Blender' 'blender.exe'
 if (Test-Path $blenderPath) {
     $sampleAsset = Join-Path (Join-Path $repoRoot 'build') 'boneflex_test_character.bflex'
     $generatorScript = Join-Path $repoRoot 'blender\create_test_character.py'
@@ -42,8 +41,9 @@ if (Test-Path $blenderPath) {
     Write-Output "Testing direct .blend loading through the DX11 demo: $sampleBlend"
     $env:BONEFLEX_BLENDER_EXE = $blenderPath
     $blendProcess = Start-Process -FilePath $dx11Demo -ArgumentList @($sampleBlend) -PassThru -Wait
-    if ($blendProcess.ExitCode -ne 0) { throw "DX11 .blend import failed: $($blendProcess.ExitCode)" }
+    $blendExitCode = $blendProcess.ExitCode
     Remove-Item Env:BONEFLEX_BLENDER_EXE -ErrorAction SilentlyContinue
+    if ($blendExitCode -ne 0) { throw "DX11 .blend import failed: $blendExitCode" }
 }
 else {
     Write-Output "Blender executable not found at '$blenderPath'; skipping the optional Blender round-trip smoke test."
