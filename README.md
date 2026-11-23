@@ -147,6 +147,14 @@ Controls:
 
 This first demo intentionally uses CPU simulation, CPU render-vertex reconstruction, and CPU vertex-buffer updates. It establishes the end-to-end rendering and interaction path before introducing a compute-shader backend.
 
+Pass a Blender-exported `.bflex` asset as the first argument to render and simulate the imported character instead of the built-in sphere:
+
+```powershell
+.\\build\\Release\\boneflex_dx11_soft_body_demo.exe .\\path\\to\\character.bflex
+```
+
+The imported mesh is evaluated in its bind pose, normalized to fit the demo camera, reduced to control points, and simulated with the same XPBD + shape-matching pipeline. This first character path applies soft-body simulation to the imported surface; animated pose playback and skeleton-driven kinematic anchors are subsequent work.
+
 ## Blender integration roadmap
 
 The first import milestone is implemented: the Blender add-on writes the static deformation data to the versioned `.bflex` payload and optionally writes a standard `.glb` companion. The C++ importer validates and reconstructs the skeleton and CSR skinning data, then the import demo generates the reduced mesh and render embedding.
