@@ -15,6 +15,7 @@ import bpy
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", default="//test_character.bflex")
+    parser.add_argument("--skip-glb", action="store_true")
     args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     return parser.parse_args(args)
 
@@ -103,11 +104,16 @@ def main():
     create_weighted_mesh(armature_object)
 
     exporter = load_exporter()
-    result_path = exporter.export_boneflex_asset(bpy.context, output_path, export_glb=True)
+    result_path = exporter.export_boneflex_asset(
+        bpy.context,
+        output_path,
+        export_glb=not args.skip_glb,
+    )
 
     print("BoneFlex test character exported:")
     print("  BFLEX: " + output_path)
-    print("  GLB:   " + result_path)
+    if not args.skip_glb:
+        print("  GLB:   " + result_path)
 
 
 if __name__ == "__main__":
