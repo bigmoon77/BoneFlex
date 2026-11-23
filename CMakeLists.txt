@@ -124,4 +124,9 @@ if(BONEFLEX_BUILD_BENCHMARKS)
         benchmarks/reduced_soft_body_benchmark.cpp
     )
     target_link_libraries(boneflex_reduced_soft_body_benchmark PRIVATE BoneFlex::boneflex)
+
+    add_executable(boneflex_reduced_soft_body_parameter_sweep
+        benchmarks/reduced_soft_body_parameter_sweep.cpp
+    )
+    target_link_libraries(boneflex_reduced_soft_body_parameter_sweep PRIVATE BoneFlex::boneflex)
 endif()
