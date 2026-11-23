@@ -91,8 +91,23 @@ if (Test-Path $blenderPath) {
         if (Test-Path $diagnosticStderr) { Get-Content $diagnosticStderr | ForEach-Object { Write-Output $_ } }
         throw "Interactive DX11 diagnostic exited during startup."
     }
-    Write-Output "Interactive DX11 diagnostic is running (PID: $($diagnosticProcess.Id))."
-    Write-Output "Observe the model without dragging. Gravity and animation are disabled initially. Press G or A only after the no-input check."
+    Write-Output "Interactive DX11 diagnostic started (PID: $($diagnosticProcess.Id))."
+    Write-Output "Capturing the real model for 3 seconds with no input; gravity and animation remain disabled."
+    Start-Sleep -Seconds 3
+    $diagnosticProcess.Refresh()
+    if (-not $diagnosticProcess.HasExited) {
+        [void]$diagnosticProcess.CloseMainWindow()
+        if (-not $diagnosticProcess.WaitForExit(10000)) {
+            Stop-Process -Id $diagnosticProcess.Id -Force
+            Remove-Item Env:BONEFLEX_BLENDER_EXE -ErrorAction SilentlyContinue
+            throw "Interactive DX11 diagnostic did not close after capture."
+        }
+    }
+    Remove-Item Env:BONEFLEX_BLENDER_EXE -ErrorAction SilentlyContinue
+    Write-Output "===== Real model DX11 stdout ====="
+    if (Test-Path $diagnosticStdout) { Get-Content $diagnosticStdout | ForEach-Object { Write-Output $_ } }
+    Write-Output "===== Real model DX11 stderr ====="
+    if (Test-Path $diagnosticStderr) { Get-Content $diagnosticStderr | ForEach-Object { Write-Output $_ } }
 }
 else {
     Write-Output "Blender executable not found at '$blenderPath'; skipping Blender smoke test."
