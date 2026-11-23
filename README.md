@@ -26,7 +26,7 @@ BoneFlex/
 
 Planned runtime pipeline:
 
-1. Evaluate the input skeleton pose.
+1. Evaluate the input skeleton pose using the animation module.
 2. Update kinematic anchors from the skeleton.
 3. Solve reduced softbody constraints (XPBD and shape matching).
 4. Transfer reduced deformation to the render mesh.
@@ -44,7 +44,7 @@ ctest --test-dir build -C Release --output-on-failure
 
 ## Current status
 
-The initial milestone establishes a dependency-free C++20 library, a small XPBD distance-constraint core, and automated tests. Skeleton integration, reduced meshes, shape matching, GPU execution, and the interactive demo are subsequent milestones.
+The current milestone includes a dependency-free C++20 library, an XPBD distance constraint, and a skeletal hierarchy with local/global pose evaluation. Reduced meshes, shape matching, GPU execution, and the interactive demo are subsequent milestones.
 
 ## Design principles
 
