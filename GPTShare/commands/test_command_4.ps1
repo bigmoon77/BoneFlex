@@ -12,9 +12,11 @@ if ($LASTEXITCODE -ne 0) { throw "Tests failed: $LASTEXITCODE" }
 Write-Output "Build and all unit tests succeeded, including shape matching and reduced soft body tests."
 
 $blender = Get-Command blender -ErrorAction SilentlyContinue
-if ($null -ne $blender) {
+$blenderPath = if ($null -ne $blender) { $blender.Source } else { Join-Path 'E:\SteamLibrary\steamapps\common\Blender' 'blender.exe' }
+if (Test-Path $blenderPath) {
     $sampleAsset = Join-Path (Join-Path $repoRoot 'build') 'boneflex_test_character.bflex'
     $generatorScript = Join-Path $repoRoot 'blender\create_test_character.py'
+    $sampleBlend = Join-Path (Join-Path $repoRoot 'build') 'boneflex_test_character.blend'
     $blenderStdout = Join-Path (Join-Path $repoRoot 'build') 'blender_export.stdout.log'
     $blenderStderr = Join-Path (Join-Path $repoRoot 'build') 'blender_export.stderr.log'
     Write-Output "Blender found. Generating a test character: $sampleAsset"
@@ -24,7 +26,8 @@ if ($null -ne $blender) {
         '--python', ($quote + $generatorScript + $quote),
         '--',
         '--output', ($quote + $sampleAsset + $quote),
-        '--skip-glb'
+        '--skip-glb',
+        '--save-blend'
     ) -Wait -PassThru -NoNewWindow -RedirectStandardOutput $blenderStdout -RedirectStandardError $blenderStderr
     Write-Output "Blender exit code: $($blenderProcess.ExitCode)"
     Write-Output "===== Blender stdout ====="
@@ -34,9 +37,16 @@ if ($null -ne $blender) {
     if ($blenderProcess.ExitCode -ne 0) { throw "Blender test character export failed: $($blenderProcess.ExitCode)" }
     & (Join-Path $repoRoot 'build\Release\boneflex_blender_asset_demo.exe') $sampleAsset
     if ($LASTEXITCODE -ne 0) { throw "Blender-exported asset import demo failed: $LASTEXITCODE" }
+
+    $dx11Demo = Join-Path $repoRoot 'build\Release\boneflex_dx11_soft_body_demo.exe'
+    Write-Output "Testing direct .blend loading through the DX11 demo: $sampleBlend"
+    $env:BONEFLEX_BLENDER_EXE = $blenderPath
+    $blendProcess = Start-Process -FilePath $dx11Demo -ArgumentList @($sampleBlend) -PassThru -Wait
+    if ($blendProcess.ExitCode -ne 0) { throw "DX11 .blend import failed: $($blendProcess.ExitCode)" }
+    Remove-Item Env:BONEFLEX_BLENDER_EXE -ErrorAction SilentlyContinue
 }
 else {
-    Write-Output "Blender executable not found; skipping the optional Blender round-trip smoke test."
+    Write-Output "Blender executable not found at '$blenderPath'; skipping the optional Blender round-trip smoke test."
 }
 
 Write-Output "DX11 soft-body tuning: 98% anchor threshold, shape matching stiffness 0.15, max deformation ratio 0.5, cluster overlap 0.75, Taubin smoothing 4 passes, XPBD compliance 1e-5, gravity 9.81; G toggles gravity; A toggles imported skeleton animation."
