@@ -789,12 +789,9 @@ float4 PSMain(PSInput input) : SV_TARGET
         }
 
         std::vector<boneflex::vec3> positions_before_solver;
-        if (!demo.initial_physics_diagnostic_logged)
-        {
-            positions_before_solver.reserve(particles.size());
-            for (const boneflex::particle& value : particles)
-                positions_before_solver.push_back(value.position);
-        }
+        positions_before_solver.reserve(particles.size());
+        for (const boneflex::particle& value : particles)
+            positions_before_solver.push_back(value.position);
 
         if (!demo.solver.step(
             fixed_delta_time, demo.control_accelerations, demo.drag_position_targets))
@@ -805,8 +802,11 @@ float4 PSMain(PSInput input) : SV_TARGET
         }
 
         ++demo.physics_diagnostic_frame;
+        const bool detailed_physics_trace =
+            demo.physics_diagnostic_frame >= 90 && demo.physics_diagnostic_frame <= 130;
         if (!demo.initial_physics_diagnostic_logged
-            || (demo.physics_diagnostic_frame % 60) == 0)
+            || (demo.physics_diagnostic_frame % 60) == 0
+            || detailed_physics_trace)
         {
             float maximum_solver_displacement = 0.0f;
             float maximum_rest_deviation = 0.0f;
@@ -851,7 +851,16 @@ float4 PSMain(PSInput input) : SV_TARGET
                 << ": max rest deviation = " << maximum_rest_deviation
                 << " at control point " << maximum_deviation_index
                 << ", max speed = " << maximum_speed
-                << " at control point " << maximum_speed_index << '\\n';
+                << " at control point " << maximum_speed_index;
+            if (detailed_physics_trace)
+            {
+                std::cout << ", max step displacement = " << maximum_solver_displacement
+                    << " at control point " << maximum_solver_index
+                    << ", drag active = " << (demo.dragging ? "true" : "false")
+                    << ", gravity = " << (demo.gravity_enabled ? "true" : "false")
+                    << ", animation = " << (demo.animation_enabled ? "true" : "false");
+            }
+            std::cout << '\\n';
         }
 
         std::vector<boneflex::vec3> control_positions;
