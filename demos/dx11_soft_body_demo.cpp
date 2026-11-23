@@ -248,7 +248,7 @@ namespace
 
         boneflex::shape_matching_cluster_options cluster_options;
         cluster_options.cluster_size = 64;
-        cluster_options.overlap_ratio = 0.5f;
+        cluster_options.overlap_ratio = 0.75f;
         if (!boneflex::generate_shape_matching_clusters(
             demo.reduced, cluster_options, demo.clusters, &error))
         {
@@ -276,7 +276,7 @@ namespace
         boneflex::reduced_soft_body_options solver_options;
         solver_options.solver_iterations = 4;
         solver_options.shape_matching_stiffness = 0.15f;
-        solver_options.max_deformation_ratio = 0.15f;
+        solver_options.max_deformation_ratio = 0.5f;
         solver_options.velocity_damping = 0.995f;
         solver_options.gravity = boneflex::vec3();
 
@@ -322,7 +322,7 @@ namespace
                 << "Dynamic control points: " << (demo.control_anchors.size() - anchor_count) << '\n'
                 << "Anchor threshold: 98% dominant bone weight\n"
                 << "Shape matching stiffness: 0.15\n"
-                << "Maximum deformation ratio: 0.15\n"
+                << "Maximum deformation ratio: 0.5\n"
                 << "Animated bone: " << demo.imported_asset.rig.bones()[demo.animated_bone_index].name << '\n';
         }
         return true;
@@ -657,7 +657,7 @@ float4 PSMain(PSInput input) : SV_TARGET
         // reconstruction while largely preserving the overall surface volume.
         constexpr float smooth_lambda = 0.35f;
         constexpr float smooth_mu = -0.36f;
-        for (int pass = 0; pass < 2; ++pass)
+        for (int pass = 0; pass < 4; ++pass)
         {
             const float coefficient = (pass == 0) ? smooth_lambda : smooth_mu;
             for (std::size_t i = 0; i < demo.deformed_positions.size(); ++i)
