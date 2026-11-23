@@ -78,6 +78,8 @@ namespace
         boneflex::reduced_soft_body_solver solver;
         std::vector<boneflex::vec3> deformed_positions;
         std::vector<boneflex::vec3> accumulated_normals;
+        std::vector<std::vector<std::uint32_t>> render_neighbors;
+        std::vector<boneflex::vec3> smoothing_positions;
         std::vector<boneflex::xpbd_distance_constraint> constraints;
         boneflex::shape_matching_clusters clusters;
         boneflex::vec3 drag_target{};
@@ -188,6 +190,22 @@ namespace
         demo.deformed_positions = demo.render_rest_positions;
         demo.accumulated_normals.resize(demo.render_rest_positions.size());
         demo.render_vertices.resize(demo.render_rest_positions.size());
+        demo.render_neighbors.resize(demo.render_rest_positions.size());
+        demo.smoothing_positions.resize(demo.render_rest_positions.size());
+        for (std::size_t i = 0; i < demo.render_indices.size(); i += 3)
+        {
+            const std::uint32_t a = demo.render_indices[i];
+            const std::uint32_t b = demo.render_indices[i + 1];
+            const std::uint32_t c = demo.render_indices[i + 2];
+            demo.render_neighbors[a].insert(demo.render_neighbors[a].end(), { b, c });
+            demo.render_neighbors[b].insert(demo.render_neighbors[b].end(), { a, c });
+            demo.render_neighbors[c].insert(demo.render_neighbors[c].end(), { a, b });
+        }
+        for (auto& neighbors : demo.render_neighbors)
+        {
+            std::sort(neighbors.begin(), neighbors.end());
+            neighbors.erase(std::unique(neighbors.begin(), neighbors.end()), neighbors.end());
+        }
 
         std::cout << "Render vertices: " << demo.render_rest_positions.size() << '\n'
             << "Control points: " << demo.reduced.control_point_count() << '\n'
@@ -471,6 +489,31 @@ float4 PSMain(PSInput input) : SV_TARGET
             std::cerr << "Render mesh reconstruction failed.\n";
             demo.running = false;
             return;
+        }
+
+        // Taubin smoothing suppresses piecewise-linear artifacts from reduced-mesh
+        // reconstruction while largely preserving the overall surface volume.
+        constexpr float smooth_lambda = 0.35f;
+        constexpr float smooth_mu = -0.36f;
+        for (int pass = 0; pass < 2; ++pass)
+        {
+            const float coefficient = (pass == 0) ? smooth_lambda : smooth_mu;
+            for (std::size_t i = 0; i < demo.deformed_positions.size(); ++i)
+            {
+                const auto& neighbors = demo.render_neighbors[i];
+                if (neighbors.empty())
+                {
+                    demo.smoothing_positions[i] = demo.deformed_positions[i];
+                    continue;
+                }
+                boneflex::vec3 average;
+                for (std::uint32_t neighbor : neighbors)
+                    average += demo.deformed_positions[neighbor];
+                average *= 1.0f / static_cast<float>(neighbors.size());
+                demo.smoothing_positions[i] = demo.deformed_positions[i]
+                    + (average - demo.deformed_positions[i]) * coefficient;
+            }
+            demo.deformed_positions.swap(demo.smoothing_positions);
         }
 
         std::fill(demo.accumulated_normals.begin(), demo.accumulated_normals.end(), boneflex::vec3());
