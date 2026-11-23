@@ -19,6 +19,8 @@ namespace boneflex
                 && std::isfinite(options.shape_matching_stiffness)
                 && options.shape_matching_stiffness >= 0.0f
                 && options.shape_matching_stiffness <= 1.0f
+                && std::isfinite(options.max_deformation_ratio)
+                && options.max_deformation_ratio >= 0.0f
                 && finite_vec3(options.gravity)
                 && std::isfinite(options.velocity_damping)
                 && options.velocity_damping >= 0.0f
@@ -62,6 +64,28 @@ namespace boneflex
         _particles = particles;
         _rest_positions = rest_positions;
         _distance_constraints = distance_constraints;
+        _max_deformation_distances.assign(particles.size(), 0.0f);
+        std::vector<float> incident_edge_length_sums(particles.size(), 0.0f);
+        std::vector<std::size_t> incident_edge_counts(particles.size(), 0);
+        for (const xpbd_distance_constraint& constraint : _distance_constraints)
+        {
+            const std::size_t a = constraint.particle_a();
+            const std::size_t b = constraint.particle_b();
+            incident_edge_length_sums[a] += constraint.rest_length();
+            incident_edge_length_sums[b] += constraint.rest_length();
+            ++incident_edge_counts[a];
+            ++incident_edge_counts[b];
+        }
+        if (options.max_deformation_ratio > 0.0f)
+        {
+            for (std::size_t i = 0; i < particles.size(); ++i)
+            {
+                if (incident_edge_counts[i] == 0) continue;
+                const float average_edge_length = incident_edge_length_sums[i]
+                    / static_cast<float>(incident_edge_counts[i]);
+                _max_deformation_distances[i] = average_edge_length * options.max_deformation_ratio;
+            }
+        }
         _clusters = clusters;
         _options = options;
         _initialized = true;
@@ -131,16 +155,29 @@ namespace boneflex
                 }
                 if (!solve_shape_matching(
                     _rest_positions, current_positions, _clusters,
-                    _options.shape_matching_stiffness, matched_positions))
+                    1.0f, matched_positions))
                 {
                     return false;
                 }
                 for (std::size_t i = 0; i < _particles.size(); ++i)
                 {
-                    if (_particles[i].inverse_mass > 0.0f)
+                    if (_particles[i].inverse_mass <= 0.0f) continue;
+
+                    const vec3 current = _particles[i].position;
+                    const vec3 fitted = matched_positions[i];
+                    vec3 deformation = current + (fitted - current)
+                        * _options.shape_matching_stiffness - fitted;
+
+                    const float maximum_deformation = _max_deformation_distances[i];
+                    if (maximum_deformation > 0.0f)
                     {
-                        _particles[i].position = matched_positions[i];
+                        const float deformation_length = deformation.length();
+                        if (deformation_length > maximum_deformation)
+                        {
+                            deformation *= maximum_deformation / deformation_length;
+                        }
                     }
+                    _particles[i].position = fitted + deformation;
                 }
             }
         }
