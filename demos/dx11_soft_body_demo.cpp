@@ -148,7 +148,7 @@ namespace
             demo.has_imported_asset = true;
             if (!demo.imported_asset.skin_current_pose(demo.render_rest_positions))
             {
-                std::cerr << "Imported bind-pose skinning failed.\\n";
+                std::cerr << "Imported bind-pose skinning failed.\n";
                 return false;
             }
             demo.render_indices = demo.imported_asset.triangle_indices;
@@ -170,7 +170,7 @@ namespace
             const float maximum_extent = std::max({ extent.x, extent.y, extent.z });
             if (!std::isfinite(maximum_extent) || maximum_extent <= 1.0e-6f)
             {
-                std::cerr << "Imported mesh has invalid or degenerate bounds.\\n";
+                std::cerr << "Imported mesh has invalid or degenerate bounds.\n";
                 return false;
             }
             const float normalization_scale = 2.0f / maximum_extent;
@@ -686,7 +686,7 @@ int main(int argc, char** argv)
 {
     if (argc > 2)
     {
-        std::cerr << "Usage: boneflex_dx11_soft_body_demo [character.bflex]\\n";
+        std::cerr << "Usage: boneflex_dx11_soft_body_demo [character.bflex]\n";
         return 1;
     }
 
