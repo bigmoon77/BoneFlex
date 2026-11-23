@@ -8,6 +8,7 @@
 #include <wrl/client.h>
 
 #include <boneflex/io/blender_asset.h>
+#include <boneflex/math/quat.h>
 #include <boneflex/physics/distance_constraint_generation.h>
 #include <boneflex/physics/mesh_reduction.h>
 #include <boneflex/physics/reduced_soft_body_solver.h>
@@ -71,6 +72,14 @@ namespace
         ComPtr<ID3D11RasterizerState> rasterizer_state;
 
         boneflex::blender_asset imported_asset;
+        bool has_imported_asset = false;
+        bool animation_enabled = true;
+        float animation_time = 0.0f;
+        std::size_t animated_bone_index = 0;
+        boneflex::vec3 imported_normalization_center{};
+        float imported_normalization_scale = 1.0f;
+        std::vector<float> control_bone_weights;
+        std::vector<bool> control_anchors;
         std::vector<boneflex::vec3> render_rest_positions;
         std::vector<std::uint32_t> render_indices;
         std::vector<render_vertex> render_vertices;
@@ -150,6 +159,7 @@ namespace
                 return false;
             }
             demo.render_indices = demo.imported_asset.triangle_indices;
+            demo.has_imported_asset = true;
 
             boneflex::vec3 minimum = demo.render_rest_positions.front();
             boneflex::vec3 maximum = minimum;
@@ -172,6 +182,8 @@ namespace
                 return false;
             }
             const float normalization_scale = 2.0f / maximum_extent;
+            demo.imported_normalization_center = center;
+            demo.imported_normalization_scale = normalization_scale;
             for (boneflex::vec3& position : demo.render_rest_positions)
             {
                 position = (position - center) * normalization_scale;
@@ -189,6 +201,48 @@ namespace
         {
             std::cerr << "Mesh reduction failed: " << error << '\n';
             return false;
+        }
+
+        if (demo.has_imported_asset)
+        {
+            const std::size_t control_count = demo.reduced.control_point_count();
+            const std::size_t bone_count = demo.imported_asset.rig.bone_count();
+            demo.control_bone_weights.assign(control_count * bone_count, 0.0f);
+            demo.control_anchors.assign(control_count, false);
+            const auto& eo = demo.embedding.offsets();
+            const auto& ei = demo.embedding.control_point_indices();
+            const auto& ew = demo.embedding.weights();
+            const auto& so = demo.imported_asset.weights.offsets();
+            const auto& sb = demo.imported_asset.weights.bone_indices();
+            const auto& sw = demo.imported_asset.weights.weights();
+            for (std::size_t vertex = 0; vertex < demo.render_rest_positions.size(); ++vertex)
+            {
+                for (std::size_t e = eo[vertex]; e < eo[vertex + 1]; ++e)
+                {
+                    const std::size_t cp = ei[e];
+                    for (std::size_t w = so[vertex]; w < so[vertex + 1]; ++w)
+                        demo.control_bone_weights[cp * bone_count + sb[w]] += ew[e] * sw[w];
+                }
+            }
+            for (std::size_t cp = 0; cp < control_count; ++cp)
+            {
+                float total = 0.0f, maximum = 0.0f;
+                for (std::size_t b = 0; b < bone_count; ++b)
+                {
+                    const float weight = demo.control_bone_weights[cp * bone_count + b];
+                    total += weight;
+                    maximum = std::max(maximum, weight);
+                }
+                if (total > 1.0e-8f)
+                {
+                    for (std::size_t b = 0; b < bone_count; ++b)
+                        demo.control_bone_weights[cp * bone_count + b] /= total;
+                    demo.control_anchors[cp] = maximum / total >= 0.90f;
+                }
+            }
+            const auto& bones = demo.imported_asset.rig.bones();
+            for (std::size_t i = 0; i < bones.size(); ++i)
+                if (bones[i].parent_index >= 0) { demo.animated_bone_index = i; break; }
         }
 
         boneflex::shape_matching_cluster_options cluster_options;
@@ -497,6 +551,42 @@ float4 PSMain(PSInput input) : SV_TARGET
 
     void update_simulation(demo_state& demo)
     {
+        if (demo.has_imported_asset)
+        {
+            auto& rig = demo.imported_asset.rig;
+            rig.reset_pose();
+            if (demo.animation_enabled)
+            {
+                demo.animation_time += fixed_delta_time;
+                const float angle = std::sin(demo.animation_time * 1.6f) * 0.42f;
+                boneflex::transform pose = rig.local_poses()[demo.animated_bone_index];
+                pose.rotation = pose.rotation * boneflex::quat::from_axis_angle(
+                    boneflex::vec3(0.0f, 0.0f, 1.0f), angle);
+                rig.set_local_pose(demo.animated_bone_index, pose);
+            }
+            rig.update_global_pose();
+            const auto palette = rig.build_skinning_palette();
+            const std::size_t bone_count = rig.bone_count();
+            auto& particles = demo.solver.particles();
+            for (std::size_t cp = 0; cp < particles.size(); ++cp)
+            {
+                particles[cp].inverse_mass = demo.control_anchors[cp] ? 0.0f : 1.0f;
+                if (!demo.control_anchors[cp]) continue;
+                const boneflex::vec3 source = demo.reduced.rest_positions()[cp]
+                    / demo.imported_normalization_scale + demo.imported_normalization_center;
+                boneflex::vec3 skinned;
+                for (std::size_t b = 0; b < bone_count; ++b)
+                {
+                    const float weight = demo.control_bone_weights[cp * bone_count + b];
+                    if (weight > 0.0f) skinned += palette[b].transform_point(source) * weight;
+                }
+                const boneflex::vec3 target = (skinned - demo.imported_normalization_center)
+                    * demo.imported_normalization_scale;
+                particles[cp].position = target;
+                particles[cp].previous_position = target;
+                particles[cp].velocity = boneflex::vec3();
+            }
+        }
         std::fill(demo.control_accelerations.begin(), demo.control_accelerations.end(), boneflex::vec3());
         if (demo.dragging && demo.selected_control_point >= 0)
         {
@@ -670,6 +760,11 @@ float4 PSMain(PSInput input) : SV_TARGET
             return 0;
         case WM_KEYDOWN:
             if (wparam == VK_ESCAPE) PostQuitMessage(0);
+            if (wparam == 'A' && demo->has_imported_asset)
+            {
+                demo->animation_enabled = !demo->animation_enabled;
+                std::cout << "Skeleton animation " << (demo->animation_enabled ? "enabled" : "paused") << '\\n';
+            }
             return 0;
         case WM_DESTROY:
             PostQuitMessage(0);
