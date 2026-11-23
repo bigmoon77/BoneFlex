@@ -149,15 +149,17 @@ namespace
         for (int frame = 0; frame < 240; ++frame)
         {
             require(solver.step(1.0f / 60.0f), "Shape matching stability step failed.");
-            for (const boneflex::particle& value : solver.particles())
+            const auto& simulated_particles = solver.particles();
+            for (std::size_t i = 0; i < simulated_particles.size(); ++i)
             {
+                const boneflex::particle& value = simulated_particles[i];
                 require(std::isfinite(value.position.x) && std::isfinite(value.position.y)
                     && std::isfinite(value.position.z), "Shape matching produced a non-finite position.");
                 require(std::isfinite(value.velocity.x) && std::isfinite(value.velocity.y)
                     && std::isfinite(value.velocity.z), "Shape matching produced a non-finite velocity.");
                 require(value.velocity.length() < 20.0f,
                     "Shape matching generated an excessive velocity without external forces.");
-                require((value.position - mesh.rest_positions()[&value - solver.particles().data()]).length() < 1.0f,
+                require((value.position - mesh.rest_positions()[i]).length() < 1.0f,
                     "Shape matching caused unbounded displacement without external forces.");
             }
         }
