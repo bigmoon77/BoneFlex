@@ -98,3 +98,4 @@ else {
     Write-Output "Blender executable not found at '$blenderPath'; skipping Blender smoke test."
 }
 Write-Output "Physics tuning GUI: stiffness, XPBD compliance, solver iterations, velocity damping, maximum deformation, gravity, and surface smoothing."
+Write-Output "Drag interaction now uses a soft XPBD position target. Check both initial contact and continuous dragging for sudden cluster-wide motion."
