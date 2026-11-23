@@ -622,7 +622,8 @@ int main()
     }
 
     update_camera(demo);
-    ShowWindow(demo.window, show_command);
+    ShowWindow(demo.window, SW_SHOWDEFAULT);
+    update_simulation(demo);
     std::cout << "Drag the sphere with the left mouse button. Press Esc to exit.\n";
 
     auto previous_time = std::chrono::steady_clock::now();
