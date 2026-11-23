@@ -238,7 +238,7 @@ namespace
                 {
                     for (std::size_t b = 0; b < bone_count; ++b)
                         demo.control_bone_weights[cp * bone_count + b] /= total;
-                    demo.control_anchors[cp] = maximum / total >= 0.90f;
+                    demo.control_anchors[cp] = maximum / total >= 0.98f;
                 }
             }
             const auto& bones = demo.imported_asset.rig.bones();
@@ -257,7 +257,7 @@ namespace
         }
 
         boneflex::distance_constraint_generation_options constraint_options;
-        constraint_options.compliance = 1.0e-6f;
+        constraint_options.compliance = 1.0e-5f;
         if (!boneflex::generate_distance_constraints(
             demo.reduced, constraint_options, demo.constraints, &error))
         {
@@ -275,8 +275,8 @@ namespace
 
         boneflex::reduced_soft_body_options solver_options;
         solver_options.solver_iterations = 4;
-        solver_options.shape_matching_stiffness = 0.80f;
-        solver_options.velocity_damping = 0.93f;
+        solver_options.shape_matching_stiffness = 0.15f;
+        solver_options.velocity_damping = 0.995f;
         solver_options.gravity = boneflex::vec3();
 
         if (!demo.solver.initialize(
@@ -318,6 +318,9 @@ namespace
             const std::size_t anchor_count = static_cast<std::size_t>(
                 std::count(demo.control_anchors.begin(), demo.control_anchors.end(), true));
             std::cout << "Kinematic anchors: " << anchor_count << '\n'
+                << "Dynamic control points: " << (demo.control_anchors.size() - anchor_count) << '\n'
+                << "Anchor threshold: 98% dominant bone weight\n'
+                << "Shape matching stiffness: 0.15\n'
                 << "Animated bone: " << demo.imported_asset.rig.bones()[demo.animated_bone_index].name << '\n';
         }
         return true;
@@ -605,7 +608,7 @@ float4 PSMain(PSInput input) : SV_TARGET
         if (!demo.has_imported_asset)
             for (boneflex::particle& particle : particles) particle.inverse_mass = 1.0f;
         const boneflex::vec3 gravity = demo.gravity_enabled
-            ? boneflex::vec3(0.0f, -2.0f, 0.0f)
+            ? boneflex::vec3(0.0f, -9.81f, 0.0f)
             : boneflex::vec3();
         for (std::size_t i = 0; i < particles.size(); ++i)
         {
