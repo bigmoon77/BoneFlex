@@ -71,7 +71,6 @@ namespace
         ComPtr<ID3D11RasterizerState> rasterizer_state;
 
         boneflex::blender_asset imported_asset;
-        bool has_imported_asset = false;
         std::vector<boneflex::vec3> render_rest_positions;
         std::vector<std::uint32_t> render_indices;
         std::vector<render_vertex> render_vertices;
@@ -145,7 +144,6 @@ namespace
                 std::cerr << "Blender asset import failed: " << import_error << '\n';
                 return false;
             }
-            demo.has_imported_asset = true;
             if (!demo.imported_asset.skin_current_pose(demo.render_rest_positions))
             {
                 std::cerr << "Imported bind-pose skinning failed.\n";
