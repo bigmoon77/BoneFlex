@@ -104,6 +104,16 @@ namespace
         boneflex::reduced_soft_body_solver solver;
         require(solver.initialize(particles, rest_positions, constraints, clusters, options),
             "Constraint solver initialization failed.");
+        require(solver.set_distance_constraint_compliance(1.0e-4f),
+            "Runtime XPBD compliance update failed.");
+        require(std::fabs(solver.distance_constraints()[0].compliance() - 1.0e-4f) < 1.0e-8f,
+            "Runtime XPBD compliance was not applied.");
+        require(solver.set_distance_constraint_compliance(0.0f),
+            "XPBD compliance reset failed.");
+        options.solver_iterations = 2;
+        require(solver.set_options(options), "Runtime solver option update failed.");
+        require(solver.options().solver_iterations == 2,
+            "Runtime solver iteration count was not applied.");
         require(solver.step(1.0f / 60.0f), "Constraint solver step failed.");
         const float distance = (solver.particles()[0].position - solver.particles()[1].position).length();
         require(std::fabs(distance - 1.0f) < 1.0e-4f, "Integrated XPBD constraint was not satisfied.");
