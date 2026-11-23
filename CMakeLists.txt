@@ -18,6 +18,7 @@ add_library(boneflex
     src/physics/mesh_reduction.cpp
     src/physics/shape_matching.cpp
     src/physics/shape_matching_cluster_generation.cpp
+    src/physics/reduced_soft_body_solver.cpp
     src/physics/xpbd_distance_constraint.cpp
 )
 
@@ -81,6 +82,12 @@ if(BONEFLEX_BUILD_TESTS)
     target_link_libraries(boneflex_mesh_reduction_tests PRIVATE BoneFlex::boneflex)
     add_test(NAME BoneFlex.MeshReduction COMMAND boneflex_mesh_reduction_tests)
 
+    add_executable(boneflex_reduced_soft_body_solver_tests
+        tests/test_reduced_soft_body_solver.cpp
+    )
+    target_link_libraries(boneflex_reduced_soft_body_solver_tests PRIVATE BoneFlex::boneflex)
+    add_test(NAME BoneFlex.ReducedSoftBodySolver COMMAND boneflex_reduced_soft_body_solver_tests)
+
     add_executable(boneflex_reduced_mesh_tests
         tests/test_reduced_mesh.cpp
     )
@@ -105,4 +112,9 @@ if(BONEFLEX_BUILD_BENCHMARKS)
         benchmarks/shape_matching_benchmark.cpp
     )
     target_link_libraries(boneflex_shape_matching_benchmark PRIVATE BoneFlex::boneflex)
+
+    add_executable(boneflex_reduced_soft_body_benchmark
+        benchmarks/reduced_soft_body_benchmark.cpp
+    )
+    target_link_libraries(boneflex_reduced_soft_body_benchmark PRIVATE BoneFlex::boneflex)
 endif()
