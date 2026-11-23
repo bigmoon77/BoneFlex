@@ -8,6 +8,7 @@ project(BoneFlex
 
 option(BONEFLEX_BUILD_TESTS "Build BoneFlex tests" ON)
 option(BONEFLEX_BUILD_EXAMPLES "Build BoneFlex examples" ON)
+option(BONEFLEX_BUILD_BENCHMARKS "Build BoneFlex performance benchmarks" OFF)
 
 add_library(boneflex
     src/animation/skeleton.cpp
@@ -79,4 +80,11 @@ if(BONEFLEX_BUILD_EXAMPLES)
         examples/basic_simulation.cpp
     )
     target_link_libraries(boneflex_basic_example PRIVATE BoneFlex::boneflex)
+endif()
+
+if(BONEFLEX_BUILD_BENCHMARKS)
+    add_executable(boneflex_mesh_reduction_benchmark
+        benchmarks/mesh_reduction_benchmark.cpp
+    )
+    target_link_libraries(boneflex_mesh_reduction_benchmark PRIVATE BoneFlex::boneflex)
 endif()
