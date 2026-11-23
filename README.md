@@ -48,7 +48,7 @@ ctest --test-dir build -C Release --output-on-failure
 
 ## Current status
 
-The current milestone includes a dependency-free C++20 library, an XPBD distance constraint, skeletal hierarchy evaluation, compact CSR skinning weights, a CPU reference skinning path, reduced surface mesh storage, and CPU render-vertex reconstruction. Automatic reduction, embedding generation, shape matching, GPU execution, and the interactive demo are subsequent milestones.
+The current milestone includes a dependency-free C++20 library, an XPBD distance constraint, skeletal hierarchy evaluation, compact CSR skinning weights, a CPU reference skinning path, reduced surface mesh storage, CPU render-vertex reconstruction, and a CPU clustered rigid shape-matching reference solver. Automatic cluster generation and render embedding generation, GPU execution, and the interactive demo are subsequent milestones.
 
 ## Design principles
 
