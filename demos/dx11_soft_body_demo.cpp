@@ -74,6 +74,7 @@ namespace
         boneflex::blender_asset imported_asset;
         bool has_imported_asset = false;
         bool animation_enabled = true;
+        bool gravity_enabled = true;
         float animation_time = 0.0f;
         std::size_t animated_bone_index = 0;
         boneflex::vec3 imported_normalization_center{};
@@ -276,7 +277,7 @@ namespace
         solver_options.solver_iterations = 4;
         solver_options.shape_matching_stiffness = 0.80f;
         solver_options.velocity_damping = 0.93f;
-        solver_options.gravity = boneflex::vec3(0.0f, 0.0f, 0.0f);
+        solver_options.gravity = boneflex::vec3();
 
         if (!demo.solver.initialize(
             particles, demo.reduced.rest_positions(), demo.constraints,
@@ -600,8 +601,15 @@ float4 PSMain(PSInput input) : SV_TARGET
             }
         }
 
-        std::fill(demo.control_accelerations.begin(), demo.control_accelerations.end(), boneflex::vec3());
         auto& particles = demo.solver.particles();
+        const boneflex::vec3 gravity = demo.gravity_enabled
+            ? boneflex::vec3(0.0f, -2.0f, 0.0f)
+            : boneflex::vec3();
+        for (std::size_t i = 0; i < particles.size(); ++i)
+        {
+            const bool anchored = demo.has_imported_asset && demo.control_anchors[i];
+            demo.control_accelerations[i] = anchored ? boneflex::vec3() : gravity;
+        }
         if (demo.dragging && demo.selected_control_point >= 0
             && static_cast<std::size_t>(demo.selected_control_point) < particles.size())
         {
@@ -776,6 +784,11 @@ float4 PSMain(PSInput input) : SV_TARGET
                 demo->animation_enabled = !demo->animation_enabled;
                 std::cout << "Skeleton animation " << (demo->animation_enabled ? "enabled" : "paused") << '\n';
             }
+            if (wparam == 'G')
+            {
+                demo->gravity_enabled = !demo->gravity_enabled;
+                std::cout << "Gravity " << (demo->gravity_enabled ? "enabled" : "disabled") << '\n';
+            }
             return 0;
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -831,8 +844,8 @@ int main(int argc, char** argv)
     ShowWindow(demo.window, SW_SHOWDEFAULT);
     update_simulation(demo);
     std::cout << (asset_path.empty()
-        ? "Drag the sphere with the left mouse button. Press Esc to exit.\n"
-        : "Imported Blender character with skeleton-driven anchors. Drag the surface; press A to pause/resume animation. Press Esc to exit.\n");
+        ? "Drag the sphere with the left mouse button. Press G to toggle gravity; press Esc to exit.\n"
+        : "Imported Blender character with automatic skeleton anchors and gravity. Drag the surface; A toggles animation, G toggles gravity, Esc exits.\n");
 
     auto previous_time = std::chrono::steady_clock::now();
     float accumulator = 0.0f;
