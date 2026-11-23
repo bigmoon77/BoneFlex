@@ -149,6 +149,6 @@ This first demo intentionally uses CPU simulation, CPU render-vertex reconstruct
 
 ## Blender integration roadmap
 
-The planned Blender workflow uses a Blender Python exporter to write a portable interchange asset rather than parsing the native .blend file format in the C++ library. The exporter will preserve the mesh, armature, skinning weights, bind data, and animation data needed by BoneFlex. A dedicated C++ importer will then build the library's skeleton, skinning, reduced-mesh, and embedding structures.
+The first import milestone is implemented: the Blender add-on writes the static deformation data to the versioned `.bflex` payload and optionally writes a standard `.glb` companion. The C++ importer validates and reconstructs the skeleton and CSR skinning data, then the import demo generates the reduced mesh and render embedding.
 
-The initial interchange format will be glTF 2.0 where its standard data model is sufficient, with a small sidecar file for BoneFlex-specific reduction settings and metadata. The exact sidecar schema will be established alongside the importer.
+The GLB currently serves as the portable scene/animation interchange copy. Importing and evaluating animated GLB clips, transferring skeleton motion into kinematic reduced-mesh anchors, and rendering the imported character in the DX11 demo are the next integration steps.
