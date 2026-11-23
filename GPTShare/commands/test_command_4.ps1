@@ -40,10 +40,20 @@ if (Test-Path $blenderPath) {
     $dx11Demo = Join-Path $repoRoot 'build\Release\boneflex_dx11_soft_body_demo.exe'
     Write-Output "Testing direct .blend loading through the DX11 demo: $sampleBlend"
     $env:BONEFLEX_BLENDER_EXE = $blenderPath
-    $blendProcess = Start-Process -FilePath $dx11Demo -ArgumentList @($sampleBlend) -PassThru -Wait
+    $blendProcess = Start-Process -FilePath $dx11Demo -ArgumentList @($quote + $sampleBlend + $quote) -PassThru
+    Start-Sleep -Seconds 5
+    $blendProcess.Refresh()
+    if (-not $blendProcess.HasExited) {
+        [void]$blendProcess.CloseMainWindow()
+        if (-not $blendProcess.WaitForExit(10000)) {
+            Stop-Process -Id $blendProcess.Id -Force
+            throw "DX11 demo did not close after the smoke test."
+        }
+    }
     $blendExitCode = $blendProcess.ExitCode
     Remove-Item Env:BONEFLEX_BLENDER_EXE -ErrorAction SilentlyContinue
     if ($blendExitCode -ne 0) { throw "DX11 .blend import failed: $blendExitCode" }
+    Write-Output "DX11 .blend conversion and demo startup succeeded."
 }
 else {
     Write-Output "Blender executable not found at '$blenderPath'; skipping the optional Blender round-trip smoke test."
