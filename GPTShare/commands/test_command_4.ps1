@@ -75,6 +75,22 @@ if (Test-Path $blenderPath) {
         throw "DX11 demo did not report successful humanoid asset initialization."
     }
     Write-Output "DX11 .blend conversion, humanoid initialization, and GUI startup succeeded."
+
+    Write-Output "Launching interactive drift diagnostic. Gravity and skeleton animation should start disabled."
+    $env:BONEFLEX_BLENDER_EXE = $blenderPath
+    $diagnosticStdout = Join-Path $buildDirectory 'dx11_diagnostic.stdout.log'
+    $diagnosticStderr = Join-Path $buildDirectory 'dx11_diagnostic.stderr.log'
+    $diagnosticProcess = Start-Process -FilePath $dx11Demo -ArgumentList @($quote + $sampleBlend + $quote) -PassThru -RedirectStandardOutput $diagnosticStdout -RedirectStandardError $diagnosticStderr
+    Start-Sleep -Seconds 3
+    $diagnosticProcess.Refresh()
+    if ($diagnosticProcess.HasExited) {
+        Remove-Item Env:BONEFLEX_BLENDER_EXE -ErrorAction SilentlyContinue
+        if (Test-Path $diagnosticStdout) { Get-Content $diagnosticStdout | ForEach-Object { Write-Output $_ } }
+        if (Test-Path $diagnosticStderr) { Get-Content $diagnosticStderr | ForEach-Object { Write-Output $_ } }
+        throw "Interactive DX11 diagnostic exited during startup."
+    }
+    Write-Output "Interactive DX11 diagnostic is running (PID: $($diagnosticProcess.Id))."
+    Write-Output "Observe the model without dragging. Gravity and animation are disabled initially. Press G or A only after the no-input check."
 }
 else {
     Write-Output "Blender executable not found at '$blenderPath'; skipping Blender smoke test."
