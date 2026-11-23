@@ -9,6 +9,7 @@ project(BoneFlex
 option(BONEFLEX_BUILD_TESTS "Build BoneFlex tests" ON)
 option(BONEFLEX_BUILD_EXAMPLES "Build BoneFlex examples" ON)
 option(BONEFLEX_BUILD_BENCHMARKS "Build BoneFlex performance benchmarks" OFF)
+option(BONEFLEX_BUILD_DX11_DEMO "Build the Windows DirectX 11 interactive demo" OFF)
 
 add_library(boneflex
     src/animation/skeleton.cpp
@@ -129,4 +130,20 @@ if(BONEFLEX_BUILD_BENCHMARKS)
         benchmarks/reduced_soft_body_parameter_sweep.cpp
     )
     target_link_libraries(boneflex_reduced_soft_body_parameter_sweep PRIVATE BoneFlex::boneflex)
+endif()
+
+if(BONEFLEX_BUILD_DX11_DEMO)
+    if(NOT WIN32)
+        message(FATAL_ERROR "BONEFLEX_BUILD_DX11_DEMO requires Windows.")
+    endif()
+
+    add_executable(boneflex_dx11_soft_body_demo
+        demos/dx11_soft_body_demo.cpp
+    )
+    target_link_libraries(boneflex_dx11_soft_body_demo
+        PRIVATE
+            BoneFlex::boneflex
+            d3d11
+            d3dcompiler
+    )
 endif()
