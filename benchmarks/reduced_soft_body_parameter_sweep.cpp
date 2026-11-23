@@ -214,6 +214,9 @@ namespace
             / static_cast<double>(pull_frame_count);
         const double release_time = elapsed_ms(release_begin, release_end)
             / static_cast<double>(release_frame_count);
+        const double recovery_percent = pull_metrics.rms > 1.0e-8
+            ? (1.0 - release_metrics.rms / pull_metrics.rms) * 100.0
+            : 0.0;
 
         std::cout << std::setw(7) << cluster_size
             << std::setw(11) << stiffness
@@ -222,6 +225,7 @@ namespace
             << std::setw(13) << pull_metrics.rms
             << std::setw(14) << release_metrics.rms
             << std::setw(13) << far_metrics.rms
+            << std::setw(13) << recovery_percent
             << std::setw(13) << pull_time
             << std::setw(14) << release_time
             << std::setw(13) << elapsed_ms(cluster_begin, cluster_end)
@@ -285,8 +289,8 @@ int main(int argc, char** argv)
         }
     }
 
-    constexpr std::size_t cluster_sizes[] = {16, 32, 64};
-    constexpr float stiffness_values[] = {0.05f, 0.12f, 0.25f, 0.50f};
+    constexpr std::size_t cluster_sizes[] = {64, 96, 128};
+    constexpr float stiffness_values[] = {0.50f, 0.65f, 0.80f, 1.00f};
 
     std::cout << std::fixed << std::setprecision(5);
     std::cout << "BoneFlex reduced soft-body parameter sweep\n";
@@ -294,6 +298,7 @@ int main(int argc, char** argv)
         << ", triangles: " << mesh.triangle_count()
         << ", XPBD constraints: " << distance_constraints.size() << '\n';
     std::cout << "Fixed settings: overlap=0.50, iterations=4, compliance=1.0e-6, damping=0.995\n";
+    std::cout << "Sweep: cluster sizes 64/96/128, stiffness 0.50/0.65/0.80/1.00\n";
     std::cout << "Pull/release: 30/60 frames at 60 Hz; metrics remove geometric-center translation\n";
     std::cout << "\n"
         << std::setw(7) << "Cluster"
@@ -303,6 +308,7 @@ int main(int argc, char** argv)
         << std::setw(13) << "Pull RMS"
         << std::setw(14) << "Release RMS"
         << std::setw(13) << "Far RMS"
+        << std::setw(13) << "Recovery %"
         << std::setw(13) << "Pull ms/f"
         << std::setw(14) << "Release ms/f"
         << std::setw(13) << "Build ms"
