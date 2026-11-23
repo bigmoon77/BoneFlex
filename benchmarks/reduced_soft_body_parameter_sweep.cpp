@@ -123,11 +123,28 @@ namespace
         return metrics;
     }
 
+    double measure_velocity_rms(
+        const std::vector<boneflex::particle>& particles,
+        const std::vector<std::size_t>& region)
+    {
+        if (region.empty())
+        {
+            return 0.0;
+        }
+
+        double squared_sum = 0.0;
+        for (std::size_t index : region)
+        {
+            squared_sum += static_cast<double>(particles[index].velocity.length_squared());
+        }
+        return std::sqrt(squared_sum / static_cast<double>(region.size()));
+    }
+
     bool run_case(
         const boneflex::reduced_mesh& mesh,
         const std::vector<boneflex::xpbd_distance_constraint>& distance_constraints,
         std::size_t cluster_size,
-        float stiffness,
+        float velocity_damping,
         const std::vector<boneflex::vec3>& pull_accelerations,
         const std::vector<std::size_t>& pull_region,
         const std::vector<std::size_t>& far_region)
@@ -156,9 +173,10 @@ namespace
 
         boneflex::reduced_soft_body_options solver_options;
         solver_options.solver_iterations = 4;
+        constexpr float stiffness = 0.80f;
         solver_options.shape_matching_stiffness = stiffness;
         solver_options.gravity = boneflex::vec3();
-        solver_options.velocity_damping = 0.995f;
+        solver_options.velocity_damping = velocity_damping;
 
         boneflex::reduced_soft_body_solver solver;
         if (!solver.initialize(
@@ -198,6 +216,24 @@ namespace
         const double pull_time = elapsed_ms(pull_begin, pull_end)
             / static_cast<double>(pull_frame_count);
 
+        const deformation_metrics initial_far_metrics =
+            measure_deformation(mesh.rest_positions(), solver.particles(), far_region);
+        std::cout << std::setw(7) << cluster_size
+            << std::setw(11) << velocity_damping
+            << std::setw(11) << stiffness
+            << std::setw(11) << clusters.cluster_count()
+            << std::setw(13) << clusters.control_point_indices().size()
+            << std::setw(13) << pull_metrics.rms
+            << std::setw(12) << 0
+            << std::setw(14) << pull_metrics.rms
+            << std::setw(13) << initial_far_metrics.rms
+            << std::setw(13) << 0.0
+            << std::setw(13) << measure_velocity_rms(solver.particles(), pull_region)
+            << std::setw(13) << pull_time
+            << std::setw(14) << 0.0
+            << std::setw(13) << elapsed_ms(cluster_begin, cluster_end)
+            << '\n';
+
         std::size_t released_frames = 0;
         while (released_frames < release_frame_count)
         {
@@ -223,7 +259,11 @@ namespace
             const double release_time = elapsed_ms(interval_begin, interval_end)
                 / static_cast<double>(release_sample_interval);
 
+            const double velocity_rms =
+                measure_velocity_rms(solver.particles(), pull_region);
+
             std::cout << std::setw(7) << cluster_size
+                << std::setw(11) << velocity_damping
                 << std::setw(11) << stiffness
                 << std::setw(11) << clusters.cluster_count()
                 << std::setw(13) << clusters.control_point_indices().size()
@@ -232,6 +272,7 @@ namespace
                 << std::setw(14) << release_metrics.rms
                 << std::setw(13) << far_metrics.rms
                 << std::setw(13) << recovery_percent
+                << std::setw(13) << velocity_rms
                 << std::setw(13) << pull_time
                 << std::setw(14) << release_time
                 << std::setw(13) << elapsed_ms(cluster_begin, cluster_end)
@@ -297,19 +338,20 @@ int main(int argc, char** argv)
     }
 
     constexpr std::size_t cluster_sizes[] = {128};
-    constexpr float stiffness_values[] = {0.70f, 0.80f, 0.90f, 1.00f};
+    constexpr float damping_values[] = {0.95f, 0.98f, 0.995f, 0.999f};
 
     std::cout << std::fixed << std::setprecision(5);
     std::cout << "BoneFlex reduced soft-body parameter sweep\n";
     std::cout << "Control points: " << mesh.control_point_count()
         << ", triangles: " << mesh.triangle_count()
         << ", XPBD constraints: " << distance_constraints.size() << '\n';
-    std::cout << "Fixed settings: overlap=0.50, iterations=4, compliance=1.0e-6, damping=0.995\n";
-    std::cout << "Sweep: cluster size 128, stiffness 0.70/0.80/0.90/1.00\n";
+    std::cout << "Fixed settings: overlap=0.50, iterations=4, compliance=1.0e-6, stiffness=0.80\n";
+    std::cout << "Sweep: cluster size 128, velocity damping 0.95/0.98/0.995/0.999\n";
     std::cout << "Pull/release: 30/120 frames at 60 Hz; release sampled every 15 frames\n";
     std::cout << "Metrics remove geometric-center translation; recovery is relative to pull RMS\n";
     std::cout << "\n"
         << std::setw(7) << "Cluster"
+        << std::setw(11) << "Damping"
         << std::setw(11) << "Stiffness"
         << std::setw(11) << "Clusters"
         << std::setw(13) << "Memberships"
@@ -318,6 +360,7 @@ int main(int argc, char** argv)
         << std::setw(14) << "Release RMS"
         << std::setw(13) << "Far RMS"
         << std::setw(13) << "Recovery %"
+        << std::setw(13) << "Velocity RMS"
         << std::setw(13) << "Pull ms/f"
         << std::setw(14) << "Release ms/f"
         << std::setw(13) << "Build ms"
@@ -325,10 +368,10 @@ int main(int argc, char** argv)
 
     for (std::size_t cluster_size : cluster_sizes)
     {
-        for (float stiffness : stiffness_values)
+        for (float damping : damping_values)
         {
             if (!run_case(
-                mesh, distance_constraints, cluster_size, stiffness,
+                mesh, distance_constraints, cluster_size, damping,
                 pull_accelerations, pull_region, far_region))
             {
                 return 1;
