@@ -602,6 +602,8 @@ float4 PSMain(PSInput input) : SV_TARGET
         }
 
         auto& particles = demo.solver.particles();
+        if (!demo.has_imported_asset)
+            for (boneflex::particle& particle : particles) particle.inverse_mass = 1.0f;
         const boneflex::vec3 gravity = demo.gravity_enabled
             ? boneflex::vec3(0.0f, -2.0f, 0.0f)
             : boneflex::vec3();
