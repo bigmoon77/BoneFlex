@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 Set-Location $repoRoot
 Write-Output "Repository: $repoRoot"
-Write-Output "BoneFlex DX11 kinematic drag fix build and Blender import smoke test started: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+Write-Output "BoneFlex gravity-enabled arbitrary-model build and Blender import smoke test started: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 cmake -S $repoRoot -B (Join-Path $repoRoot 'build') -DBONEFLEX_BUILD_EXAMPLES=ON -DBONEFLEX_BUILD_DX11_DEMO=ON -DBONEFLEX_BUILD_BENCHMARKS=ON
 if ($LASTEXITCODE -ne 0) { throw "CMake configure failed: $LASTEXITCODE" }
 cmake --build (Join-Path $repoRoot 'build') --config Release
@@ -39,4 +39,4 @@ else {
     Write-Output "Blender executable not found; skipping the optional Blender round-trip smoke test."
 }
 
-Write-Output "DX11 drag fix: kinematic selected control point with perspective-correct cursor mapping; selection radius 64px."
+Write-Output "DX11 arbitrary-model soft body: scale-independent downward gravity on dynamic control points; G toggles gravity; A toggles imported skeleton animation."
