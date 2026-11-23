@@ -17,6 +17,7 @@ add_library(boneflex
     src/physics/reduced_mesh.cpp
     src/physics/mesh_reduction.cpp
     src/physics/shape_matching.cpp
+    src/physics/shape_matching_cluster_generation.cpp
     src/physics/xpbd_distance_constraint.cpp
 )
 
@@ -61,6 +62,12 @@ if(BONEFLEX_BUILD_TESTS)
     )
     target_link_libraries(boneflex_shape_matching_tests PRIVATE BoneFlex::boneflex)
     add_test(NAME BoneFlex.ShapeMatching COMMAND boneflex_shape_matching_tests)
+
+    add_executable(boneflex_shape_matching_cluster_tests
+        tests/test_shape_matching_cluster_generation.cpp
+    )
+    target_link_libraries(boneflex_shape_matching_cluster_tests PRIVATE BoneFlex::boneflex)
+    add_test(NAME BoneFlex.ShapeMatchingClusterGeneration COMMAND boneflex_shape_matching_cluster_tests)
 
     add_executable(boneflex_mesh_reduction_tests
         tests/test_mesh_reduction.cpp
