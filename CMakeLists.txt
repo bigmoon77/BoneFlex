@@ -154,6 +154,11 @@ if(BONEFLEX_BUILD_DX11_DEMO)
     add_executable(boneflex_dx11_soft_body_demo
         demos/dx11_soft_body_demo.cpp
     )
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/blender/import_blend_to_bflex.py
+        ${CMAKE_CURRENT_BINARY_DIR}/import_blend_to_bflex.py
+        COPYONLY
+    )
     target_link_libraries(boneflex_dx11_soft_body_demo
         PRIVATE
             BoneFlex::boneflex
