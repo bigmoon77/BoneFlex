@@ -161,7 +161,7 @@ Pass a Blender-exported `.bflex` asset as the first argument to render and simul
 .\\build\\Release\\boneflex_dx11_soft_body_demo.exe .\\path\\to\\character.bflex
 ```
 
-The imported mesh is evaluated in its bind pose, normalized to fit the demo camera, reduced to control points, and simulated with the same XPBD + shape-matching pipeline. This first character path applies soft-body simulation to the imported surface; animated pose playback and skeleton-driven kinematic anchors are subsequent work.
+The imported mesh is normalized to fit the demo camera, reduced to control points, and simulated with the same XPBD + shape-matching pipeline. Control-point bone weights are accumulated through the render embedding. Control points with a dominant bone influence of at least 90% become kinematic anchors and follow the evaluated skeleton pose; blended transition points remain dynamic for soft-body deformation. The demo currently drives the first child bone with a procedural oscillation so the full skeleton-to-anchor-to-softbody-to-render path can be inspected. Press **A** to pause/resume this motion and drag the unanchored surface with the left mouse button. This is an initial rigid-region anchoring strategy; animation clip import and more advanced blended anchor constraints remain future work.
 
 ## Blender integration roadmap
 
