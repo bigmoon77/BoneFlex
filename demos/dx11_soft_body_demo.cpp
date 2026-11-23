@@ -91,9 +91,6 @@ namespace
         float imported_normalization_scale = 1.0f;
         std::vector<float> control_bone_weights;
         std::vector<bool> control_anchors;
-        std::vector<boneflex::vec3> control_targets;
-        std::vector<boneflex::vec3> previous_control_targets;
-        bool control_targets_initialized = false;
         std::vector<boneflex::vec3> render_rest_positions;
         std::vector<std::uint32_t> render_indices;
         std::vector<render_vertex> render_vertices;
@@ -352,8 +349,6 @@ namespace
             const std::size_t bone_count = demo.imported_asset.rig.bone_count();
             demo.control_bone_weights.assign(control_count * bone_count, 0.0f);
             demo.control_anchors.assign(control_count, false);
-            demo.control_targets = demo.reduced.rest_positions();
-            demo.previous_control_targets = demo.control_targets;
             const auto& eo = demo.embedding.offsets();
             const auto& ei = demo.embedding.control_point_indices();
             const auto& ew = demo.embedding.weights();
@@ -749,7 +744,6 @@ float4 PSMain(PSInput input) : SV_TARGET
                 const boneflex::vec3 target = total_weight > 1.0e-8f
                     ? (skinned - demo.imported_normalization_center) * demo.imported_normalization_scale
                     : demo.reduced.rest_positions()[cp];
-                demo.control_targets[cp] = target;
                 if (demo.control_anchors[cp])
                 {
                     particles[cp].position = target;
@@ -765,25 +759,11 @@ float4 PSMain(PSInput input) : SV_TARGET
         const boneflex::vec3 gravity = demo.gravity_enabled
             ? boneflex::vec3(0.0f, -demo.gravity_strength, 0.0f)
             : boneflex::vec3();
-        constexpr float skin_spring_stiffness = 80.0f;
-        constexpr float skin_spring_damping = 16.0f;
         for (std::size_t i = 0; i < particles.size(); ++i)
         {
             const bool anchored = demo.has_imported_asset && demo.control_anchors[i];
             demo.control_accelerations[i] = anchored ? boneflex::vec3() : gravity;
-            if (demo.has_imported_asset && !anchored)
-            {
-                const boneflex::vec3 target_velocity = demo.control_targets_initialized
-                    ? (demo.control_targets[i] - demo.previous_control_targets[i]) / fixed_delta_time
-                    : boneflex::vec3();
-                const boneflex::vec3 position_error = demo.control_targets[i] - particles[i].position;
-                const boneflex::vec3 velocity_error = target_velocity - particles[i].velocity;
-                demo.control_accelerations[i] +=
-                    position_error * skin_spring_stiffness + velocity_error * skin_spring_damping;
-            }
-            demo.previous_control_targets[i] = demo.control_targets[i];
         }
-        demo.control_targets_initialized = true;
         if (demo.dragging && demo.selected_control_point >= 0
             && static_cast<std::size_t>(demo.selected_control_point) < particles.size())
         {
