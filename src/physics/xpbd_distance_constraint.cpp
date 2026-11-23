@@ -94,6 +94,15 @@ namespace boneflex
         return _compliance;
     }
 
+    bool xpbd_distance_constraint::set_compliance(float compliance)
+    {
+        if (!std::isfinite(compliance) || compliance < 0.0f)
+            return false;
+        _compliance = compliance;
+        _lambda = 0.0f;
+        return true;
+    }
+
     float xpbd_distance_constraint::lambda() const
     {
         return _lambda;
