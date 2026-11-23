@@ -175,5 +175,5 @@ The GLB currently serves as the portable scene/animation interchange copy. Impor
 The reduced soft-body solver supports `reduced_soft_body_options::max_deformation_ratio`.
 It limits each dynamic control point's residual displacement from its locally fitted
 Shape Matching position. The limit is scaled by that control point's average incident
-rest-edge length, so it is independent of the model's world-space scale. The DX11 demo currently uses `0.15`, allowing a residual of up to 15% of the local average edge length. Increase this value for softer deformation; setting it to `0.0` disables the limit. Kinematic points and the rigid motion of the fitted shape
+rest-edge length, so it is independent of the model's world-space scale. The DX11 demo currently uses `0.5`, allowing a residual of up to 50% of the local average edge length. Increase this value for softer deformation; setting it to `0.0` disables the limit. Kinematic points and the rigid motion of the fitted shape
 remain unaffected.
