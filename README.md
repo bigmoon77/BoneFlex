@@ -26,11 +26,13 @@ BoneFlex/
 
 Planned runtime pipeline:
 
-1. Evaluate the input skeleton pose using the animation module.
+1. Evaluate the input skeleton pose using the animation module and build the skinning palette.
 2. Update kinematic anchors from the skeleton.
 3. Solve reduced softbody constraints (XPBD and shape matching).
 4. Transfer reduced deformation to the render mesh.
 5. Upload the deformed mesh through a selectable compute backend.
+
+The skinning reference uses a compact CSR representation (`offsets`, `bone_indices`, `weights`) so vertices can have a variable number of influences. Per-vertex weights are validated and normalized when loaded.
 
 ## Build
 
@@ -44,7 +46,7 @@ ctest --test-dir build -C Release --output-on-failure
 
 ## Current status
 
-The current milestone includes a dependency-free C++20 library, an XPBD distance constraint, and a skeletal hierarchy with local/global pose evaluation. Reduced meshes, shape matching, GPU execution, and the interactive demo are subsequent milestones.
+The current milestone includes a dependency-free C++20 library, an XPBD distance constraint, skeletal hierarchy evaluation, compact CSR skinning weights, and a CPU reference skinning path. Reduced meshes, shape matching, GPU execution, and the interactive demo are subsequent milestones.
 
 ## Design principles
 
