@@ -52,25 +52,31 @@ if (Test-Path $blenderPath) {
     $blendProcess = Start-Process -FilePath $dx11Demo -ArgumentList @($quote + $sampleBlend + $quote) -PassThru -RedirectStandardOutput $dx11Stdout -RedirectStandardError $dx11Stderr
     Start-Sleep -Seconds 5
     $blendProcess.Refresh()
-    if (-not $blendProcess.HasExited) {
-        [void]$blendProcess.CloseMainWindow()
-        if (-not $blendProcess.WaitForExit(10000)) {
-            Stop-Process -Id $blendProcess.Id -Force
-            Remove-Item Env:BONEFLEX_BLENDER_EXE -ErrorAction SilentlyContinue
-            throw "DX11 demo did not close after the smoke test."
-        }
+    if ($blendProcess.HasExited) {
+        Remove-Item Env:BONEFLEX_BLENDER_EXE -ErrorAction SilentlyContinue
+        Write-Output "DX11 demo exited before the GUI smoke test completed."
+        if (Test-Path $dx11Stdout) { Get-Content $dx11Stdout | ForEach-Object { Write-Output $_ } }
+        if (Test-Path $dx11Stderr) { Get-Content $dx11Stderr | ForEach-Object { Write-Output $_ } }
+        throw "DX11 demo failed during .blend loading or GUI initialization."
     }
-    $blendExitCode = $blendProcess.ExitCode
+    [void]$blendProcess.CloseMainWindow()
+    if (-not $blendProcess.WaitForExit(10000)) {
+        Stop-Process -Id $blendProcess.Id -Force
+        Remove-Item Env:BONEFLEX_BLENDER_EXE -ErrorAction SilentlyContinue
+        throw "DX11 demo did not close after the smoke test."
+    }
     Remove-Item Env:BONEFLEX_BLENDER_EXE -ErrorAction SilentlyContinue
-    Write-Output "DX11 demo exit code: $blendExitCode"
     Write-Output "===== DX11 stdout ====="
     if (Test-Path $dx11Stdout) { Get-Content $dx11Stdout | ForEach-Object { Write-Output $_ } }
     Write-Output "===== DX11 stderr ====="
     if (Test-Path $dx11Stderr) { Get-Content $dx11Stderr | ForEach-Object { Write-Output $_ } }
-    if ($blendExitCode -ne 0) { throw "DX11 .blend import failed: $blendExitCode" }
-    Write-Output "DX11 .blend conversion and demo startup succeeded."
+    $dx11Output = if (Test-Path $dx11Stdout) { Get-Content $dx11Stdout -Raw } else { '' }
+    if ($dx11Output -notmatch 'Control points:' -or $dx11Output -notmatch 'Kinematic anchors:') {
+        throw "DX11 demo did not report successful humanoid asset initialization."
+    }
+    Write-Output "DX11 .blend conversion, humanoid initialization, and GUI startup succeeded."
 }
 else {
     Write-Output "Blender executable not found at '$blenderPath'; skipping Blender smoke test."
 }
-Write-Output "DX11 tuning: anchor threshold 98%, shape matching stiffness 0.15, max deformation ratio 0.5, cluster overlap 0.75, Taubin smoothing 4 passes."
+Write-Output "Physics tuning GUI: stiffness, XPBD compliance, solver iterations, velocity damping, maximum deformation, gravity, and surface smoothing."
