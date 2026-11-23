@@ -142,7 +142,7 @@ namespace
             std::string import_error;
             if (!boneflex::load_blender_asset(asset_path, demo.imported_asset, &import_error))
             {
-                std::cerr << "Blender asset import failed: " << import_error << '\\n';
+                std::cerr << "Blender asset import failed: " << import_error << '\n';
                 return false;
             }
             demo.has_imported_asset = true;
