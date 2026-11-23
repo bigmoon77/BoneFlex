@@ -1,0 +1,11 @@
+﻿
+[2026-11-24 03:21:51.527] Developer PowerShell initialization
+[2026-11-24 03:21:53.800] **********************************************************************
+[2026-11-24 03:21:53.804] ** Visual Studio 2026 Developer PowerShell v18.10.3
+[2026-11-24 03:21:53.810] ** Copyright (c) 2026 Microsoft Corporation
+[2026-11-24 03:21:53.831] **********************************************************************
+[2026-11-24 03:21:53.843] START E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 03:21:53.940] Repository: E:\code\bigmoon77\BoneFlex
+[2026-11-24 03:21:53.948] BoneFlex build and direct Blender import smoke test started: 2026-11-24 03:21:53
+[2026-11-24 03:21:54.113] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26300.
+[2026-11-24 03:21:54.132] -- Configuring done (0.1s)
