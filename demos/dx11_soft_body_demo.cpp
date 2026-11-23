@@ -602,7 +602,7 @@ int main()
     window_class.style = CS_HREDRAW | CS_VREDRAW;
     window_class.lpfnWndProc = window_proc;
     window_class.hInstance = instance;
-    window_class.hCursor = LoadCursorW(nullptr, IDC_ARROW);
+    window_class.hCursor = LoadCursorW(nullptr, MAKEINTRESOURCEW(32512));
     window_class.lpszClassName = L"BoneFlexDx11DemoWindow";
     if (!RegisterClassExW(&window_class)) return 1;
 
