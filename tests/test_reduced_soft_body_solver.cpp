@@ -115,6 +115,54 @@ namespace
             "Kinematic anchor did not restore cluster translation after gravity was disabled.");
     }
 
+    void test_shape_matching_remains_stable_without_external_forces()
+    {
+        boneflex::reduced_mesh mesh = make_grid(4);
+        boneflex::shape_matching_cluster_options cluster_options;
+        cluster_options.cluster_size = 8;
+        cluster_options.overlap_ratio = 0.75f;
+        boneflex::shape_matching_clusters clusters;
+        require(boneflex::generate_shape_matching_clusters(mesh, cluster_options, clusters),
+            "Failed to create shape matching stability clusters.");
+
+        std::vector<boneflex::particle> particles(mesh.control_point_count());
+        for (std::size_t i = 0; i < particles.size(); ++i)
+        {
+            particles[i].position = mesh.rest_positions()[i];
+            particles[i].previous_position = particles[i].position;
+        }
+        particles[0].inverse_mass = 0.0f;
+        particles.back().position.y += 0.25f;
+        particles.back().previous_position = particles.back().position;
+
+        boneflex::reduced_soft_body_options options;
+        options.gravity = boneflex::vec3();
+        options.shape_matching_stiffness = 0.15f;
+        options.max_deformation_ratio = 0.0f;
+        options.solver_iterations = 4;
+        options.velocity_damping = 0.995f;
+
+        boneflex::reduced_soft_body_solver solver;
+        require(solver.initialize(particles, mesh.rest_positions(), {}, clusters, options),
+            "Shape matching stability solver initialization failed.");
+
+        for (int frame = 0; frame < 240; ++frame)
+        {
+            require(solver.step(1.0f / 60.0f), "Shape matching stability step failed.");
+            for (const boneflex::particle& value : solver.particles())
+            {
+                require(std::isfinite(value.position.x) && std::isfinite(value.position.y)
+                    && std::isfinite(value.position.z), "Shape matching produced a non-finite position.");
+                require(std::isfinite(value.velocity.x) && std::isfinite(value.velocity.y)
+                    && std::isfinite(value.velocity.z), "Shape matching produced a non-finite velocity.");
+                require(value.velocity.length() < 20.0f,
+                    "Shape matching generated an excessive velocity without external forces.");
+                require((value.position - mesh.rest_positions()[&value - solver.particles().data()]).length() < 1.0f,
+                    "Shape matching caused unbounded displacement without external forces.");
+            }
+        }
+    }
+
     void test_distance_constraint_is_solved()
     {
         std::vector<boneflex::vec3> rest_positions = {
@@ -255,6 +303,7 @@ int main()
     {
         test_gravity_and_fixed_particle();
         test_anchored_shape_matching_restores_translation();
+        test_shape_matching_remains_stable_without_external_forces();
         test_distance_constraint_is_solved();
         test_maximum_deformation_ratio();
         test_velocity_damping_is_frame_rate_scaled();
