@@ -13,6 +13,8 @@ namespace boneflex
     {
         std::size_t solver_iterations = 4;
         float shape_matching_stiffness = 0.15f;
+        // Maximum residual from the locally fitted shape, as a multiple of the average incident rest-edge length. Zero disables the limit.
+        float max_deformation_ratio = 0.5f;
         vec3 gravity = vec3(0.0f, -9.81f, 0.0f);
         // Velocity retention per 1/60-second frame.
         float velocity_damping = 0.995f;
