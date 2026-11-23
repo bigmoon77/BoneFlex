@@ -32,12 +32,17 @@ endif()
 
 if(BONEFLEX_BUILD_TESTS)
     enable_testing()
-    add_executable(boneflex_tests
+    add_executable(boneflex_xpbd_tests
         tests/test_xpbd_distance_constraint.cpp
+    )
+    target_link_libraries(boneflex_xpbd_tests PRIVATE BoneFlex::boneflex)
+    add_test(NAME BoneFlex.XPBDDistanceConstraint COMMAND boneflex_xpbd_tests)
+
+    add_executable(boneflex_skeleton_tests
         tests/test_skeleton.cpp
     )
-    target_link_libraries(boneflex_tests PRIVATE BoneFlex::boneflex)
-    add_test(NAME BoneFlex.XPBDDistanceConstraint COMMAND boneflex_tests)
+    target_link_libraries(boneflex_skeleton_tests PRIVATE BoneFlex::boneflex)
+    add_test(NAME BoneFlex.Skeleton COMMAND boneflex_skeleton_tests)
 endif()
 
 if(BONEFLEX_BUILD_EXAMPLES)
