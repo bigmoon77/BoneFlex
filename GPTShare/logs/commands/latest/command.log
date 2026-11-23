@@ -1,83 +1,84 @@
 ﻿
-[2026-11-24 02:23:28.157] Developer PowerShell initialization
-[2026-11-24 02:23:30.133] **********************************************************************
-[2026-11-24 02:23:30.140] ** Visual Studio 2026 Developer PowerShell v18.10.3
-[2026-11-24 02:23:30.144] ** Copyright (c) 2026 Microsoft Corporation
-[2026-11-24 02:23:30.167] **********************************************************************
-[2026-11-24 02:23:30.180] START E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
-[2026-11-24 02:23:30.291] Repository: E:\code\bigmoon77\BoneFlex
-[2026-11-24 02:23:30.297] BoneFlex Blender exporter tuple serialization fix verification started: 2026-11-24 02:23:30
-[2026-11-24 02:23:30.459] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26300.
-[2026-11-24 02:23:30.477] -- Configuring done (0.1s)
-[2026-11-24 02:23:30.995] -- Generating done (0.5s)
-[2026-11-24 02:23:31.011] -- Build files have been written to: E:/code/bigmoon77/BoneFlex/build
-[2026-11-24 02:23:31.201] MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.14.60+43b635718 (.NET Framework)
-[2026-11-24 02:23:31.278] 
-[2026-11-24 02:23:31.836]   boneflex.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex.lib
-[2026-11-24 02:23:31.944]   boneflex_basic_example.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_basic_example.exe
-[2026-11-24 02:23:32.011]   boneflex_blender_asset_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_demo.exe
-[2026-11-24 02:23:32.072]   boneflex_blender_asset_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_tests.exe
-[2026-11-24 02:23:32.137]   boneflex_distance_constraint_generation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_distance_constraint_generation_tests.exe
-[2026-11-24 02:23:32.198]   boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_dx11_soft_body_demo.exe
-[2026-11-24 02:23:32.259]   boneflex_mesh_reduction_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_benchmark.exe
-[2026-11-24 02:23:32.324]   boneflex_mesh_reduction_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_tests.exe
-[2026-11-24 02:23:32.394]   boneflex_reduced_mesh_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_mesh_tests.exe
-[2026-11-24 02:23:32.461]   boneflex_reduced_soft_body_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_benchmark.exe
-[2026-11-24 02:23:32.528]   boneflex_reduced_soft_body_parameter_sweep.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_parameter_sweep.exe
-[2026-11-24 02:23:32.591]   boneflex_reduced_soft_body_solver_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_solver_tests.exe
-[2026-11-24 02:23:32.654]   boneflex_shape_matching_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_benchmark.exe
-[2026-11-24 02:23:32.717]   boneflex_shape_matching_cluster_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_cluster_tests.exe
-[2026-11-24 02:23:32.779]   boneflex_shape_matching_deformation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_deformation_tests.exe
-[2026-11-24 02:23:32.841]   boneflex_shape_matching_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_tests.exe
-[2026-11-24 02:23:32.918]   boneflex_skeleton_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skeleton_tests.exe
-[2026-11-24 02:23:32.981]   boneflex_skinning_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skinning_tests.exe
-[2026-11-24 02:23:33.046]   boneflex_xpbd_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_xpbd_tests.exe
-[2026-11-24 02:23:33.308] Test project E:/code/bigmoon77/BoneFlex/build
-[2026-11-24 02:23:33.320]       Start  1: BoneFlex.XPBDDistanceConstraint
-[2026-11-24 02:23:33.333]  1/11 Test  #1: BoneFlex.XPBDDistanceConstraint ...........   Passed    0.01 sec
-[2026-11-24 02:23:33.340]       Start  2: BoneFlex.Skeleton
-[2026-11-24 02:23:33.350]  2/11 Test  #2: BoneFlex.Skeleton .........................   Passed    0.01 sec
-[2026-11-24 02:23:33.356]       Start  3: BoneFlex.Skinning
-[2026-11-24 02:23:33.366]  3/11 Test  #3: BoneFlex.Skinning .........................   Passed    0.01 sec
-[2026-11-24 02:23:33.372]       Start  4: BoneFlex.ShapeMatching
-[2026-11-24 02:23:33.381]  4/11 Test  #4: BoneFlex.ShapeMatching ....................   Passed    0.01 sec
-[2026-11-24 02:23:33.387]       Start  5: BoneFlex.ShapeMatchingDeformation
-[2026-11-24 02:23:33.397]  5/11 Test  #5: BoneFlex.ShapeMatchingDeformation .........   Passed    0.01 sec
-[2026-11-24 02:23:33.403]       Start  6: BoneFlex.ShapeMatchingClusterGeneration
-[2026-11-24 02:23:33.413]  6/11 Test  #6: BoneFlex.ShapeMatchingClusterGeneration ...   Passed    0.01 sec
-[2026-11-24 02:23:33.417]       Start  7: BoneFlex.MeshReduction
-[2026-11-24 02:23:33.437]  7/11 Test  #7: BoneFlex.MeshReduction ....................   Passed    0.02 sec
-[2026-11-24 02:23:33.442]       Start  8: BoneFlex.ReducedSoftBodySolver
-[2026-11-24 02:23:33.454]  8/11 Test  #8: BoneFlex.ReducedSoftBodySolver ............   Passed    0.01 sec
-[2026-11-24 02:23:33.460]       Start  9: BoneFlex.DistanceConstraintGeneration
-[2026-11-24 02:23:33.476]  9/11 Test  #9: BoneFlex.DistanceConstraintGeneration .....   Passed    0.02 sec
-[2026-11-24 02:23:33.481]       Start 10: BoneFlex.BlenderAsset
-[2026-11-24 02:23:33.500] 10/11 Test #10: BoneFlex.BlenderAsset .....................   Passed    0.02 sec
-[2026-11-24 02:23:33.507]       Start 11: BoneFlex.ReducedMesh
-[2026-11-24 02:23:33.515] 11/11 Test #11: BoneFlex.ReducedMesh ......................   Passed    0.01 sec
-[2026-11-24 02:23:33.523] 
-[2026-11-24 02:23:33.529] 100% tests passed, 0 tests failed out of 11
-[2026-11-24 02:23:33.533] 
-[2026-11-24 02:23:33.539] Total Test time (real) =   0.21 sec
-[2026-11-24 02:23:33.544] Blender importer build and tests succeeded.
-[2026-11-24 02:23:33.557] Blender found. Generating a test character: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.bflex
-[2026-11-24 02:23:34.587] Blender exit code: 0
-[2026-11-24 02:23:34.593] ===== Blender stdout =====
-[2026-11-24 02:23:34.600] BoneFlex test character exported:
-[2026-11-24 02:23:34.607]   BFLEX: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.bflex
-[2026-11-24 02:23:34.612] Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
-[2026-11-24 02:23:34.617] 
-[2026-11-24 02:23:34.624] Blender quit
-[2026-11-24 02:23:34.629] ===== Blender stderr =====
-[2026-11-24 02:23:34.671] BoneFlex Blender asset import demo
-[2026-11-24 02:23:34.676] Vertices:             610
-[2026-11-24 02:23:34.680] Triangles:            1216
-[2026-11-24 02:23:34.685] Bones:                2
-[2026-11-24 02:23:34.690] Skinning influences:  770
-[2026-11-24 02:23:34.695] Reduced control pts:  610
-[2026-11-24 02:23:34.699] Reduced triangles:    1216
-[2026-11-24 02:23:34.704] Embedding influences: 2322
-[2026-11-24 02:23:34.708] Bind-pose skinning:   passed
-[2026-11-24 02:23:34.721] SUCCESS
-[2026-11-24 02:23:34.727] END E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
-[2026-11-24 02:23:34.731] All pulled command scripts processed. This Developer PowerShell window will remain open.
+[2026-11-24 02:32:44.356] Developer PowerShell initialization
+[2026-11-24 02:32:46.270] **********************************************************************
+[2026-11-24 02:32:46.274] ** Visual Studio 2026 Developer PowerShell v18.10.3
+[2026-11-24 02:32:46.279] ** Copyright (c) 2026 Microsoft Corporation
+[2026-11-24 02:32:46.300] **********************************************************************
+[2026-11-24 02:32:46.313] START E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 02:32:46.423] Repository: E:\code\bigmoon77\BoneFlex
+[2026-11-24 02:32:46.429] BoneFlex animated Blender character DX11 build and import smoke test started: 2026-11-24 02:32:46
+[2026-11-24 02:32:46.593] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26300.
+[2026-11-24 02:32:46.611] -- Configuring done (0.1s)
+[2026-11-24 02:32:47.090] -- Generating done (0.5s)
+[2026-11-24 02:32:47.105] -- Build files have been written to: E:/code/bigmoon77/BoneFlex/build
+[2026-11-24 02:32:47.283] MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.14.60+43b635718 (.NET Framework)
+[2026-11-24 02:32:47.324] 
+[2026-11-24 02:32:47.768]   boneflex.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex.lib
+[2026-11-24 02:32:47.880]   boneflex_basic_example.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_basic_example.exe
+[2026-11-24 02:32:47.955]   boneflex_blender_asset_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_demo.exe
+[2026-11-24 02:32:48.020]   boneflex_blender_asset_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_tests.exe
+[2026-11-24 02:32:48.100]   boneflex_distance_constraint_generation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_distance_constraint_generation_tests.exe
+[2026-11-24 02:32:48.263]   dx11_soft_body_demo.cpp
+[2026-11-24 02:32:51.913]   boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_dx11_soft_body_demo.exe
+[2026-11-24 02:32:51.979]   boneflex_mesh_reduction_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_benchmark.exe
+[2026-11-24 02:32:52.045]   boneflex_mesh_reduction_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_tests.exe
+[2026-11-24 02:32:52.105]   boneflex_reduced_mesh_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_mesh_tests.exe
+[2026-11-24 02:32:52.170]   boneflex_reduced_soft_body_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_benchmark.exe
+[2026-11-24 02:32:52.229]   boneflex_reduced_soft_body_parameter_sweep.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_parameter_sweep.exe
+[2026-11-24 02:32:52.292]   boneflex_reduced_soft_body_solver_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_solver_tests.exe
+[2026-11-24 02:32:52.351]   boneflex_shape_matching_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_benchmark.exe
+[2026-11-24 02:32:52.411]   boneflex_shape_matching_cluster_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_cluster_tests.exe
+[2026-11-24 02:32:52.473]   boneflex_shape_matching_deformation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_deformation_tests.exe
+[2026-11-24 02:32:52.533]   boneflex_shape_matching_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_tests.exe
+[2026-11-24 02:32:52.591]   boneflex_skeleton_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skeleton_tests.exe
+[2026-11-24 02:32:52.666]   boneflex_skinning_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skinning_tests.exe
+[2026-11-24 02:32:52.726]   boneflex_xpbd_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_xpbd_tests.exe
+[2026-11-24 02:32:52.927] Test project E:/code/bigmoon77/BoneFlex/build
+[2026-11-24 02:32:52.938]       Start  1: BoneFlex.XPBDDistanceConstraint
+[2026-11-24 02:32:52.951]  1/11 Test  #1: BoneFlex.XPBDDistanceConstraint ...........   Passed    0.01 sec
+[2026-11-24 02:32:52.958]       Start  2: BoneFlex.Skeleton
+[2026-11-24 02:32:52.969]  2/11 Test  #2: BoneFlex.Skeleton .........................   Passed    0.01 sec
+[2026-11-24 02:32:52.974]       Start  3: BoneFlex.Skinning
+[2026-11-24 02:32:52.984]  3/11 Test  #3: BoneFlex.Skinning .........................   Passed    0.01 sec
+[2026-11-24 02:32:52.989]       Start  4: BoneFlex.ShapeMatching
+[2026-11-24 02:32:52.999]  4/11 Test  #4: BoneFlex.ShapeMatching ....................   Passed    0.01 sec
+[2026-11-24 02:32:53.004]       Start  5: BoneFlex.ShapeMatchingDeformation
+[2026-11-24 02:32:53.013]  5/11 Test  #5: BoneFlex.ShapeMatchingDeformation .........   Passed    0.01 sec
+[2026-11-24 02:32:53.019]       Start  6: BoneFlex.ShapeMatchingClusterGeneration
+[2026-11-24 02:32:53.027]  6/11 Test  #6: BoneFlex.ShapeMatchingClusterGeneration ...   Passed    0.01 sec
+[2026-11-24 02:32:53.032]       Start  7: BoneFlex.MeshReduction
+[2026-11-24 02:32:53.049]  7/11 Test  #7: BoneFlex.MeshReduction ....................   Passed    0.02 sec
+[2026-11-24 02:32:53.054]       Start  8: BoneFlex.ReducedSoftBodySolver
+[2026-11-24 02:32:53.064]  8/11 Test  #8: BoneFlex.ReducedSoftBodySolver ............   Passed    0.01 sec
+[2026-11-24 02:32:53.069]       Start  9: BoneFlex.DistanceConstraintGeneration
+[2026-11-24 02:32:53.084]  9/11 Test  #9: BoneFlex.DistanceConstraintGeneration .....   Passed    0.02 sec
+[2026-11-24 02:32:53.089]       Start 10: BoneFlex.BlenderAsset
+[2026-11-24 02:32:53.106] 10/11 Test #10: BoneFlex.BlenderAsset .....................   Passed    0.02 sec
+[2026-11-24 02:32:53.112]       Start 11: BoneFlex.ReducedMesh
+[2026-11-24 02:32:53.121] 11/11 Test #11: BoneFlex.ReducedMesh ......................   Passed    0.01 sec
+[2026-11-24 02:32:53.129] 
+[2026-11-24 02:32:53.136] 100% tests passed, 0 tests failed out of 11
+[2026-11-24 02:32:53.141] 
+[2026-11-24 02:32:53.146] Total Test time (real) =   0.20 sec
+[2026-11-24 02:32:53.151] Blender importer build and tests succeeded.
+[2026-11-24 02:32:53.163] Blender found. Generating a test character: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.bflex
+[2026-11-24 02:32:54.221] Blender exit code: 0
+[2026-11-24 02:32:54.225] ===== Blender stdout =====
+[2026-11-24 02:32:54.232] BoneFlex test character exported:
+[2026-11-24 02:32:54.237]   BFLEX: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.bflex
+[2026-11-24 02:32:54.241] Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
+[2026-11-24 02:32:54.245] 
+[2026-11-24 02:32:54.251] Blender quit
+[2026-11-24 02:32:54.257] ===== Blender stderr =====
+[2026-11-24 02:32:54.306] BoneFlex Blender asset import demo
+[2026-11-24 02:32:54.312] Vertices:             610
+[2026-11-24 02:32:54.317] Triangles:            1216
+[2026-11-24 02:32:54.321] Bones:                2
+[2026-11-24 02:32:54.326] Skinning influences:  770
+[2026-11-24 02:32:54.332] Reduced control pts:  610
+[2026-11-24 02:32:54.336] Reduced triangles:    1216
+[2026-11-24 02:32:54.340] Embedding influences: 2322
+[2026-11-24 02:32:54.345] Bind-pose skinning:   passed
+[2026-11-24 02:32:54.358] SUCCESS
+[2026-11-24 02:32:54.364] END E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 02:32:54.370] All pulled command scripts processed. This Developer PowerShell window will remain open.
