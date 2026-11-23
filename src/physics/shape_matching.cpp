@@ -108,10 +108,22 @@ namespace boneflex
         const std::vector<vec3>& current_positions, const shape_matching_clusters& clusters,
         float stiffness, std::vector<vec3>& output_positions)
     {
+        return solve_shape_matching(
+            rest_positions, current_positions, clusters, std::vector<float>(), stiffness, output_positions);
+    }
+
+    bool solve_shape_matching(const std::vector<vec3>& rest_positions,
+        const std::vector<vec3>& current_positions, const shape_matching_clusters& clusters,
+        const std::vector<float>& fixed_point_weights,
+        float stiffness, std::vector<vec3>& output_positions)
+    {
         if (rest_positions.empty() || rest_positions.size()!=current_positions.size()
             || rest_positions.size()!=clusters.control_point_count()
-            || clusters.cluster_count()==0 || !std::isfinite(stiffness) || stiffness<0.0f || stiffness>1.0f)
+            || clusters.cluster_count()==0 || !std::isfinite(stiffness) || stiffness<0.0f || stiffness>1.0f
+            || (!fixed_point_weights.empty() && fixed_point_weights.size()!=rest_positions.size()))
             return false;
+        for (float weight : fixed_point_weights)
+            if (!std::isfinite(weight) || weight < 0.0f) return false;
         for (std::size_t i=0;i<rest_positions.size();++i)
             if (!std::isfinite(rest_positions[i].x)||!std::isfinite(rest_positions[i].y)||!std::isfinite(rest_positions[i].z)
                 ||!std::isfinite(current_positions[i].x)||!std::isfinite(current_positions[i].y)||!std::isfinite(current_positions[i].z))
@@ -129,10 +141,35 @@ namespace boneflex
             const float inverse_count=1.0f/static_cast<float>(end-begin);
             rest_center*=inverse_count; current_center*=inverse_count;
             const quat rotation=fit_rotation(rest_positions,current_positions,indices,begin,end,rest_center,current_center);
+
+            vec3 translation_center = current_center;
+            if (!fixed_point_weights.empty())
+            {
+                vec3 fixed_rest_center;
+                vec3 fixed_current_center;
+                float fixed_weight_sum = 0.0f;
+                for (std::uint32_t i=begin;i<end;++i)
+                {
+                    const std::uint32_t index=indices[i];
+                    const float weight=fixed_point_weights[index];
+                    if (weight <= 0.0f) continue;
+                    fixed_rest_center+=rest_positions[index]*weight;
+                    fixed_current_center+=current_positions[index]*weight;
+                    fixed_weight_sum+=weight;
+                }
+                if (fixed_weight_sum > 0.0f)
+                {
+                    fixed_rest_center*=1.0f/fixed_weight_sum;
+                    fixed_current_center*=1.0f/fixed_weight_sum;
+                    translation_center=fixed_current_center
+                        - rotation.rotate(fixed_rest_center-rest_center)
+                        + rotation.rotate(rest_center);
+                }
+            }
             for (std::uint32_t i=begin;i<end;++i)
             {
                 const std::uint32_t index=indices[i];
-                accumulated[index]+=current_center+rotation.rotate(rest_positions[index]-rest_center);
+                accumulated[index]+=translation_center+rotation.rotate(rest_positions[index]-rest_center);
                 counts[index]+=1.0f;
             }
         }
