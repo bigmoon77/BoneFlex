@@ -16,6 +16,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", default="//test_character.bflex")
     parser.add_argument("--skip-glb", action="store_true")
+    parser.add_argument("--save-blend", action="store_true")
     args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     return parser.parse_args(args)
 
@@ -102,6 +103,11 @@ def main():
     clear_scene()
     armature_object = create_armature()
     create_weighted_mesh(armature_object)
+
+    if args.save_blend:
+        blend_path = os.path.splitext(output_path)[0] + ".blend"
+        bpy.ops.wm.save_as_mainfile(filepath=blend_path)
+        print("  BLEND: " + blend_path)
 
     exporter = load_exporter()
     result_path = exporter.export_boneflex_asset(
