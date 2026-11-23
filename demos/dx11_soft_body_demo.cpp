@@ -436,8 +436,9 @@ float4 PSMain(PSInput input) : SV_TARGET
         if (demo.dragging && demo.selected_control_point >= 0)
         {
             const auto& particles = demo.solver.particles();
-            const boneflex::vec3 target = screen_to_world(demo, demo.mouse_position);
             const boneflex::vec3 origin = particles[static_cast<std::size_t>(demo.selected_control_point)].position;
+            boneflex::vec3 target = screen_to_world(demo, demo.mouse_position);
+            target.z = origin.z;
             const boneflex::vec3 delta = target - origin;
             constexpr float radius = 0.42f;
             constexpr float acceleration_strength = 180.0f;
@@ -480,9 +481,9 @@ float4 PSMain(PSInput input) : SV_TARGET
             const boneflex::vec3 edge_a = demo.deformed_positions[b] - demo.deformed_positions[a];
             const boneflex::vec3 edge_b = demo.deformed_positions[c] - demo.deformed_positions[a];
             const boneflex::vec3 normal(
-                edge_a.y * edge_b.z - edge_a.z * edge_b.y,
-                edge_a.z * edge_b.x - edge_a.x * edge_b.z,
-                edge_a.x * edge_b.y - edge_a.y * edge_b.x);
+                edge_b.y * edge_a.z - edge_b.z * edge_a.y,
+                edge_b.z * edge_a.x - edge_b.x * edge_a.z,
+                edge_b.x * edge_a.y - edge_b.y * edge_a.x);
             demo.accumulated_normals[a] += normal;
             demo.accumulated_normals[b] += normal;
             demo.accumulated_normals[c] += normal;
