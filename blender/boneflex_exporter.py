@@ -1,7 +1,7 @@
 bl_info = {
     "name": "BoneFlex Asset Exporter",
     "author": "BoneFlex",
-    "version": (0, 1, 0),
+    "version": (0, 2, 0),
     "blender": (3, 6, 0),
     "location": "View3D > Sidebar > BoneFlex",
     "description": "Export a skinned mesh for the BoneFlex C++ runtime",
