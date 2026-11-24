@@ -547,8 +547,7 @@ namespace
             << "Reduced triangles: " << demo.reduced.triangle_count() << '\n'
             << "Shape matching clusters: " << demo.clusters.cluster_count() << '\n'
             << "XPBD constraints: " << demo.constraints.size() << '\n';
-        if (demo.has_imported_asset)
-        {
+        if (demo.has_imported_asset)        {
             std::cout << "Blender materials: " << demo.material_settings.size() << '\n';
             for (std::size_t material_index = 0; material_index < demo.material_settings.size(); ++material_index)
                 std::cout << "  Material[" << material_index << "]: " << demo.material_settings[material_index].name << '\n';
@@ -1097,8 +1096,7 @@ float4 PSMain(PSInput input) : SV_TARGET
 
     void refresh_material_editor(demo_state& demo)
     {
-        if (!demo.material_combo || demo.material_settings.empty()) return;
-        const int selected = static_cast<int>(SendMessageW(demo.material_combo, CB_GETCURSEL, 0, 0));
+        if (!demo.material_combo || demo.material_settings.empty()) return;        const int selected = static_cast<int>(SendMessageW(demo.material_combo, CB_GETCURSEL, 0, 0));
         if (selected < 0 || static_cast<std::size_t>(selected) >= demo.material_settings.size()) return;
         const auto& material = demo.material_settings[static_cast<std::size_t>(selected)];
         const std::array<int, 4> positions = {
@@ -1284,6 +1282,9 @@ float4 PSMain(PSInput input) : SV_TARGET
         if (delta == 0) return;
         demo.parameter_scroll_position = position;
         EnumChildWindows(window, scroll_parameter_child, static_cast<LPARAM>(delta));
+        // Moving child controls exposes their previous client-area rectangles.
+        // Explicitly invalidate the parent so those areas are erased before repaint.
+        InvalidateRect(window, nullptr, TRUE);
         info.fMask = SIF_POS;
         info.nPos = position;
         SetScrollInfo(window, SB_VERT, &info, TRUE);
@@ -1405,6 +1406,7 @@ float4 PSMain(PSInput input) : SV_TARGET
         window_class.lpfnWndProc = parameter_window_proc;
         window_class.hInstance = instance;
         window_class.hCursor = LoadCursorW(nullptr, MAKEINTRESOURCEW(32512));
+        window_class.hbrBackground = GetSysColorBrush(COLOR_BTNFACE);
         window_class.lpszClassName = L"BoneFlexParameterWindow";
         RegisterClassExW(&window_class);
         demo.parameter_window = CreateWindowExW(0, window_class.lpszClassName,
