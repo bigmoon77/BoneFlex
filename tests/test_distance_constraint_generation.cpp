@@ -62,6 +62,23 @@ namespace
         require(found_diagonal, "Shared diagonal constraint is missing.");
     }
 
+    void test_material_compliance_is_applied_per_triangle()
+    {
+        boneflex::reduced_mesh mesh = make_mesh();
+        require(mesh.set_triangle_material_indices({0, 1}), "Failed to set triangle materials.");
+        boneflex::distance_constraint_generation_options options;
+        options.material_compliances = {0.001f, 0.003f};
+        std::vector<boneflex::xpbd_distance_constraint> constraints;
+        require(boneflex::generate_distance_constraints(mesh, options, constraints), "Material-aware constraint generation failed.");
+        for (const auto& constraint : constraints)
+        {
+            const float expected = (constraint.particle_a() == 1 && constraint.particle_b() == 2)
+                ? 0.002f
+                : ((constraint.particle_a() == 0 || constraint.particle_b() == 0) ? 0.001f : 0.003f);
+            require(std::fabs(constraint.compliance() - expected) < 1.0e-6f, "Material compliance was not applied.");
+        }
+    }
+
     void test_invalid_options_preserve_output()
     {
         const boneflex::reduced_mesh mesh = make_mesh();
@@ -83,6 +100,7 @@ int main()
     try
     {
         test_unique_edges_and_rest_lengths();
+        test_material_compliance_is_applied_per_triangle();
         test_invalid_options_preserve_output();
     }
     catch (const std::exception& exception)
