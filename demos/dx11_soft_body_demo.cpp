@@ -87,6 +87,7 @@ namespace
         float distance_compliance = 1.0e-5f;
         int smoothing_passes = 2;
         HWND parameter_window = nullptr;
+        int parameter_scroll_position = 0;
         std::array<HWND, 7> parameter_sliders{};
         std::array<HWND, 7> parameter_labels{};
         float animation_time = 0.0f;
@@ -1260,6 +1261,34 @@ float4 PSMain(PSInput input) : SV_TARGET
         SendMessageW(slider, TBM_SETPOS, TRUE, initial);
     }
 
+    BOOL CALLBACK scroll_parameter_child(HWND child, LPARAM parameter)
+    {
+        const int offset = static_cast<int>(parameter);
+        RECT rectangle{};
+        GetWindowRect(child, &rectangle);
+        HWND parent = GetParent(child);
+        POINT top_left{ rectangle.left, rectangle.top };
+        ScreenToClient(parent, &top_left);
+        MoveWindow(child, top_left.x, top_left.y + offset, rectangle.right - rectangle.left,
+            rectangle.bottom - rectangle.top, TRUE);
+        return TRUE;
+    }
+
+    void scroll_parameter_window(demo_state& demo, HWND window, int position)
+    {
+        SCROLLINFO info{ sizeof(info), SIF_RANGE | SIF_PAGE | SIF_POS };
+        GetScrollInfo(window, SB_VERT, &info);
+        const int maximum = std::max(0, info.nMax - static_cast<int>(info.nPage) + 1);
+        position = std::clamp(position, 0, maximum);
+        const int delta = demo.parameter_scroll_position - position;
+        if (delta == 0) return;
+        demo.parameter_scroll_position = position;
+        EnumChildWindows(window, scroll_parameter_child, static_cast<LPARAM>(delta));
+        info.fMask = SIF_POS;
+        info.nPos = position;
+        SetScrollInfo(window, SB_VERT, &info, TRUE);
+    }
+
     LRESULT CALLBACK parameter_window_proc(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
     {
         demo_state* demo = reinterpret_cast<demo_state*>(GetWindowLongPtrW(window, GWLP_USERDATA));
@@ -1308,6 +1337,43 @@ float4 PSMain(PSInput input) : SV_TARGET
             }
             refresh_parameter_labels(*demo);
             return 0;
+        case WM_SIZE:
+        {
+            SCROLLINFO info{ sizeof(info), SIF_RANGE | SIF_PAGE };
+            info.nMin = 0;
+            info.nMax = 1040;
+            info.nPage = static_cast<UINT>(std::max(1, HIWORD(lparam)));
+            SetScrollInfo(window, SB_VERT, &info, TRUE);
+            scroll_parameter_window(*demo, window, demo->parameter_scroll_position);
+            return 0;
+        }
+        case WM_VSCROLL:
+        {
+            SCROLLINFO info{ sizeof(info), SIF_ALL };
+            GetScrollInfo(window, SB_VERT, &info);
+            int position = info.nPos;
+            switch (LOWORD(wparam))
+            {
+            case SB_LINEUP: position -= 40; break;
+            case SB_LINEDOWN: position += 40; break;
+            case SB_PAGEUP: position -= static_cast<int>(info.nPage); break;
+            case SB_PAGEDOWN: position += static_cast<int>(info.nPage); break;
+            case SB_THUMBTRACK: position = info.nTrackPos; break;
+            case SB_THUMBPOSITION: position = info.nTrackPos; break;
+            case SB_TOP: position = info.nMin; break;
+            case SB_BOTTOM: position = info.nMax; break;
+            default: return 0;
+            }
+            scroll_parameter_window(*demo, window, position);
+            return 0;
+        }
+        case WM_MOUSEWHEEL:
+        {
+            const int delta = GET_WHEEL_DELTA_WPARAM(wparam);
+            scroll_parameter_window(*demo, window,
+                demo->parameter_scroll_position - (delta / WHEEL_DELTA) * 60);
+            return 0;
+        }
         case WM_HSCROLL:
         {
             HWND slider = reinterpret_cast<HWND>(lparam);
@@ -1342,8 +1408,8 @@ float4 PSMain(PSInput input) : SV_TARGET
         window_class.lpszClassName = L"BoneFlexParameterWindow";
         RegisterClassExW(&window_class);
         demo.parameter_window = CreateWindowExW(0, window_class.lpszClassName,
-            L"BoneFlex - Physics Parameters", WS_OVERLAPPEDWINDOW,
-            80, 80, 450, 1130, demo.window, nullptr, instance, &demo);
+            L"BoneFlex - Physics Parameters", WS_OVERLAPPEDWINDOW | WS_VSCROLL,
+            80, 80, 450, 850, demo.window, nullptr, instance, &demo);
         if (!demo.parameter_window) return false;
         ShowWindow(demo.parameter_window, SW_SHOW);
         return true;
