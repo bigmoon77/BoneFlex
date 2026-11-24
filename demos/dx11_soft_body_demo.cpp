@@ -458,7 +458,7 @@ namespace
             << "XPBD constraints: " << demo.constraints.size() << '\n';
         if (demo.has_imported_asset)
         {
-            std::cout << "Blender materials: " << demo.imported_asset.materials.size() << '\\n';
+            std::cout << "Blender materials: " << demo.imported_asset.materials.size() << '\n';
             for (std::size_t material_index = 0; material_index < demo.imported_asset.materials.size(); ++material_index)
             {
                 const auto& material = demo.imported_asset.materials[material_index];
@@ -466,7 +466,7 @@ namespace
                     << " | shape matching=" << material.shape_matching_stiffness
                     << " | XPBD compliance=" << material.xpbd_compliance
                     << " | damping=" << material.velocity_damping
-                    << " | max deformation=" << material.max_deformation_ratio << '\\n';
+                    << " | max deformation=" << material.max_deformation_ratio << '\n';
             }
         }
         if (demo.has_imported_asset)
@@ -857,7 +857,7 @@ float4 PSMain(PSInput input) : SV_TARGET
                 std::cout << "Initial physics diagnostic: max anchor target error = "
                     << maximum_anchor_target_error << " at control point " << maximum_anchor_target_index
                     << ", max solver displacement = " << maximum_solver_displacement
-                    << " at control point " << maximum_solver_index << '\\n';
+                    << " at control point " << maximum_solver_index << '\n';
                 demo.initial_physics_diagnostic_logged = true;
             }
             std::cout << "Physics stability frame " << demo.physics_diagnostic_frame
@@ -873,7 +873,7 @@ float4 PSMain(PSInput input) : SV_TARGET
                     << ", gravity = " << (demo.gravity_enabled ? "true" : "false")
                     << ", animation = " << (demo.animation_enabled ? "true" : "false");
             }
-            std::cout << '\\n';
+            std::cout << '\n';
         }
 
         std::vector<boneflex::vec3> control_positions;
