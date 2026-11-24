@@ -72,7 +72,7 @@ if (Test-Path $blenderPath) {
     Write-Output "===== DX11 stderr ====="
     if (Test-Path $dx11Stderr) { Get-Content $dx11Stderr | ForEach-Object { Write-Output $_ } }
     $dx11Output = if (Test-Path $dx11Stdout) { Get-Content $dx11Stdout -Raw } else { '' }
-    if ($dx11Output -notmatch 'Control points:' -or $dx11Output -notmatch 'Kinematic anchors:') {
+    if ($dx11Output -notmatch 'Control points:' -or $dx11Output -notmatch 'Kinematic anchors:' -or $dx11Output -notmatch 'Blender materials:') {
         throw "DX11 demo did not report successful humanoid asset initialization."
     }
     Write-Output "DX11 .blend conversion, humanoid initialization, and GUI startup succeeded."
@@ -112,6 +112,7 @@ if (Test-Path $blenderPath) {
 else {
     Write-Output "Blender executable not found at '$blenderPath'; skipping Blender smoke test."
 }
+Write-Output "Blender material physics metadata: shape matching stiffness, XPBD compliance, velocity damping, and maximum deformation ratio."
 Write-Output "Physics tuning GUI: stiffness, XPBD compliance, solver iterations, velocity damping, maximum deformation, gravity, and surface smoothing."
 Write-Output "Drag interaction now uses a soft XPBD position target."
 Write-Output "Capture Physics stability frame 90-130 lines; each reports rest deviation, maximum speed, per-step displacement, and interaction/toggle state. Also capture frame 60/120/180 summaries."
