@@ -12,7 +12,8 @@ import bpy
 import os
 import struct
 from bpy_extras.io_utils import ExportHelper
-from bpy.props import StringProperty, BoolProperty
+from bpy.props import StringProperty, BoolProperty, FloatProperty
+from bpy.types import Material
 from bpy.types import Operator, Panel
 from mathutils import Matrix
 
@@ -122,8 +123,31 @@ def _build_mesh_data(mesh_object, armature_object, bone_indices):
         positions.append((position.x, position.y, position.z))
 
     triangle_indices = []
+    triangle_material_indices = []
     for triangle in mesh.loop_triangles:
         triangle_indices.extend(triangle.vertices)
+        triangle_material_indices.append(int(triangle.material_index))
+
+    materials = []
+    for slot_index, slot in enumerate(mesh_object.material_slots):
+        material = slot.material
+        if material is None:
+            name = "Material_{}".format(slot_index)
+            values = (0.15, 1.0e-5, 0.995, 0.5)
+        else:
+            name = material.name
+            values = (
+                float(material.boneflex_shape_matching_stiffness),
+                float(material.boneflex_xpbd_compliance),
+                float(material.boneflex_velocity_damping),
+                float(material.boneflex_max_deformation_ratio),
+            )
+        materials.append((name, values))
+
+    if not materials:
+        materials.append(("Default", (0.15, 1.0e-5, 0.995, 0.5)))
+    if triangle_material_indices and max(triangle_material_indices) >= len(materials):
+        raise RuntimeError("A triangle references a missing material slot.")
 
     group_to_bone = {}
     for group in mesh_object.vertex_groups:
@@ -152,7 +176,7 @@ def _build_mesh_data(mesh_object, armature_object, bone_indices):
             influence_weights.append(weight / total_weight)
         offsets.append(len(influence_bones))
 
-    return positions, triangle_indices, offsets, influence_bones, influence_weights
+    return positions, triangle_indices, triangle_material_indices, materials, offsets, influence_bones, influence_weights
 
 
 def export_boneflex_asset(context, output_path, export_glb=True):
@@ -160,7 +184,7 @@ def export_boneflex_asset(context, output_path, export_glb=True):
     bone_data, bone_indices = _build_bone_data(armature_object)
     mesh_data = _build_mesh_data(mesh_object, armature_object, bone_indices)
 
-    positions, triangle_indices, offsets, influence_bones, influence_weights = mesh_data
+    positions, triangle_indices, triangle_material_indices, materials, offsets, influence_bones, influence_weights = mesh_data
     if not positions or not triangle_indices:
         raise RuntimeError("The active mesh must contain vertices and triangles.")
 
@@ -169,7 +193,7 @@ def export_boneflex_asset(context, output_path, export_glb=True):
 
     with open(output_path, "wb") as stream:
         stream.write(b"BFLX")
-        for value in (1, len(positions), len(triangle_indices), len(bone_data), len(influence_bones)):
+        for value in (2, len(positions), len(triangle_indices), len(bone_data), len(influence_bones), len(materials)):
             _write_u32(stream, value)
 
         for position in positions:
@@ -177,6 +201,16 @@ def export_boneflex_asset(context, output_path, export_glb=True):
 
         for index in triangle_indices:
             _write_u32(stream, index)
+
+        for material_index in triangle_material_indices:
+            _write_u32(stream, material_index)
+
+        for name, values in materials:
+            encoded_name = name.encode("utf-8")
+            _write_u32(stream, len(encoded_name))
+            stream.write(encoded_name)
+            for value in values:
+                _write_f32(stream, value)
 
         for name, parent_index, location, rotation in bone_data:
             encoded_name = name.encode("utf-8")
@@ -253,6 +287,26 @@ class BONEFLEX_OT_export_asset(Operator, ExportHelper):
         return {'FINISHED'}
 
 
+class BONEFLEX_PT_material(Panel):
+    bl_label = "BoneFlex Physics"
+    bl_idname = "BONEFLEX_PT_material"
+    bl_space_type = 'PROPERTIES'
+    bl_region_type = 'WINDOW'
+    bl_context = "material"
+
+    def draw(self, context):
+        layout = self.layout
+        material = context.material
+        if material is None:
+            layout.label(text="Select a material")
+            return
+        layout.label(text=material.name, icon='MATERIAL')
+        layout.prop(material, "boneflex_shape_matching_stiffness")
+        layout.prop(material, "boneflex_xpbd_compliance")
+        layout.prop(material, "boneflex_velocity_damping")
+        layout.prop(material, "boneflex_max_deformation_ratio")
+
+
 class BONEFLEX_PT_exporter(Panel):
     bl_label = "BoneFlex"
     bl_idname = "BONEFLEX_PT_exporter"
@@ -267,15 +321,32 @@ class BONEFLEX_PT_exporter(Panel):
 _classes = (
     BONEFLEX_OT_export_asset,
     BONEFLEX_PT_exporter,
+    BONEFLEX_PT_material,
 )
 
 
 def register():
+    Material.boneflex_shape_matching_stiffness = FloatProperty(
+        name="Shape Matching Stiffness", description="Shape matching correction strength", default=0.15, min=0.0, max=1.0)
+    Material.boneflex_xpbd_compliance = FloatProperty(
+        name="XPBD Compliance", description="Distance constraint compliance", default=1.0e-5, min=0.0, max=1.0)
+    Material.boneflex_velocity_damping = FloatProperty(
+        name="Velocity Damping", description="Per-step velocity retention", default=0.995, min=0.0, max=1.0)
+    Material.boneflex_max_deformation_ratio = FloatProperty(
+        name="Maximum Deformation Ratio", description="Maximum deformation relative to local edge length; zero disables the limit", default=0.5, min=0.0, max=10.0)
     for cls in _classes:
         bpy.utils.register_class(cls)
 
 
 def unregister():
+    for property_name in (
+        "boneflex_shape_matching_stiffness",
+        "boneflex_xpbd_compliance",
+        "boneflex_velocity_damping",
+        "boneflex_max_deformation_ratio",
+    ):
+        if hasattr(Material, property_name):
+            delattr(Material, property_name)
     for cls in reversed(_classes):
         bpy.utils.unregister_class(cls)
 
