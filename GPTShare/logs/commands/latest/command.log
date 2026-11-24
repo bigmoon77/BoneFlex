@@ -1,283 +1,302 @@
 ﻿
-[2026-11-24 14:42:07.910] Developer PowerShell initialization
-[2026-11-24 14:42:09.821] **********************************************************************
-[2026-11-24 14:42:09.827] ** Visual Studio 2026 Developer PowerShell v18.10.3
-[2026-11-24 14:42:09.831] ** Copyright (c) 2026 Microsoft Corporation
-[2026-11-24 14:42:09.837] **********************************************************************
-[2026-11-24 14:42:09.848] START E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
-[2026-11-24 14:42:09.979] Repository: E:\code\bigmoon77\BoneFlex
-[2026-11-24 14:42:09.986] BoneFlex build and direct Blender import smoke test started: 2026-11-24 14:42:09
-[2026-11-24 14:42:10.147] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26300.
-[2026-11-24 14:42:10.164] -- Configuring done (0.1s)
-[2026-11-24 14:42:10.635] -- Generating done (0.5s)
-[2026-11-24 14:42:10.648] -- Build files have been written to: E:/code/bigmoon77/BoneFlex/build
-[2026-11-24 14:42:10.842] MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.14.60+43b635718 (.NET Framework)
-[2026-11-24 14:42:10.883] 
-[2026-11-24 14:42:11.336]   boneflex.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex.lib
-[2026-11-24 14:42:11.449]   boneflex_basic_example.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_basic_example.exe
-[2026-11-24 14:42:11.532]   boneflex_blender_asset_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_demo.exe
-[2026-11-24 14:42:11.615]   boneflex_blender_asset_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_tests.exe
-[2026-11-24 14:42:11.691]   boneflex_distance_constraint_generation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_distance_constraint_generation_tests.exe
-[2026-11-24 14:42:11.765]   boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_dx11_soft_body_demo.exe
-[2026-11-24 14:42:11.958]   boneflex_mesh_reduction_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_benchmark.exe
-[2026-11-24 14:42:12.034]   boneflex_mesh_reduction_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_tests.exe
-[2026-11-24 14:42:12.103]   boneflex_reduced_mesh_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_mesh_tests.exe
-[2026-11-24 14:42:12.186]   boneflex_reduced_soft_body_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_benchmark.exe
-[2026-11-24 14:42:12.261]   boneflex_reduced_soft_body_parameter_sweep.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_parameter_sweep.exe
-[2026-11-24 14:42:12.328]   boneflex_reduced_soft_body_solver_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_solver_tests.exe
-[2026-11-24 14:42:12.399]   boneflex_shape_matching_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_benchmark.exe
-[2026-11-24 14:42:12.470]   boneflex_shape_matching_cluster_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_cluster_tests.exe
-[2026-11-24 14:42:12.550]   boneflex_shape_matching_deformation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_deformation_tests.exe
-[2026-11-24 14:42:12.631]   boneflex_shape_matching_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_tests.exe
-[2026-11-24 14:42:12.700]   boneflex_skeleton_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skeleton_tests.exe
-[2026-11-24 14:42:12.766]   boneflex_skinning_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skinning_tests.exe
-[2026-11-24 14:42:12.850]   boneflex_xpbd_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_xpbd_tests.exe
-[2026-11-24 14:42:13.002] Test project E:/code/bigmoon77/BoneFlex/build
-[2026-11-24 14:42:13.013]       Start  1: BoneFlex.XPBDDistanceConstraint
-[2026-11-24 14:42:13.027]  1/11 Test  #1: BoneFlex.XPBDDistanceConstraint ...........   Passed    0.01 sec
-[2026-11-24 14:42:13.033]       Start  2: BoneFlex.Skeleton
-[2026-11-24 14:42:13.043]  2/11 Test  #2: BoneFlex.Skeleton .........................   Passed    0.01 sec
-[2026-11-24 14:42:13.049]       Start  3: BoneFlex.Skinning
-[2026-11-24 14:42:13.058]  3/11 Test  #3: BoneFlex.Skinning .........................   Passed    0.01 sec
-[2026-11-24 14:42:13.062]       Start  4: BoneFlex.ShapeMatching
-[2026-11-24 14:42:13.078]  4/11 Test  #4: BoneFlex.ShapeMatching ....................   Passed    0.02 sec
-[2026-11-24 14:42:13.082]       Start  5: BoneFlex.ShapeMatchingDeformation
-[2026-11-24 14:42:13.098]  5/11 Test  #5: BoneFlex.ShapeMatchingDeformation .........   Passed    0.02 sec
-[2026-11-24 14:42:13.103]       Start  6: BoneFlex.ShapeMatchingClusterGeneration
-[2026-11-24 14:42:13.117]  6/11 Test  #6: BoneFlex.ShapeMatchingClusterGeneration ...   Passed    0.02 sec
-[2026-11-24 14:42:13.122]       Start  7: BoneFlex.MeshReduction
-[2026-11-24 14:42:13.144]  7/11 Test  #7: BoneFlex.MeshReduction ....................   Passed    0.03 sec
-[2026-11-24 14:42:13.149]       Start  8: BoneFlex.ReducedSoftBodySolver
-[2026-11-24 14:42:13.167]  8/11 Test  #8: BoneFlex.ReducedSoftBodySolver ............   Passed    0.02 sec
-[2026-11-24 14:42:13.172]       Start  9: BoneFlex.DistanceConstraintGeneration
-[2026-11-24 14:42:13.187]  9/11 Test  #9: BoneFlex.DistanceConstraintGeneration .....   Passed    0.02 sec
-[2026-11-24 14:42:13.192]       Start 10: BoneFlex.BlenderAsset
-[2026-11-24 14:42:13.211] 10/11 Test #10: BoneFlex.BlenderAsset .....................   Passed    0.02 sec
-[2026-11-24 14:42:13.216]       Start 11: BoneFlex.ReducedMesh
-[2026-11-24 14:42:13.232] 11/11 Test #11: BoneFlex.ReducedMesh ......................   Passed    0.02 sec
-[2026-11-24 14:42:13.238] 
-[2026-11-24 14:42:13.243] 100% tests passed, 0 tests failed out of 11
-[2026-11-24 14:42:13.249] 
-[2026-11-24 14:42:13.253] Total Test time (real) =   0.23 sec
-[2026-11-24 14:42:13.258] Build and all unit tests succeeded.
-[2026-11-24 14:42:13.264] Blender found. Generating test character: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.bflex
-[2026-11-24 14:42:15.310] Blender fixture exit code: 0
-[2026-11-24 14:42:15.354] Info: Saved as "boneflex_test_character.blend"
-[2026-11-24 14:42:15.376]   BLEND: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend
-[2026-11-24 14:42:15.412] BoneFlex test character exported:
-[2026-11-24 14:42:15.430]   BFLEX: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.bflex
-[2026-11-24 14:42:15.485] Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
-[2026-11-24 14:42:15.518] 
-[2026-11-24 14:42:15.556] Blender quit
-[2026-11-24 14:42:15.612] BoneFlex Blender asset import demo
-[2026-11-24 14:42:15.655] Vertices:             610
-[2026-11-24 14:42:15.677] Triangles:            1216
-[2026-11-24 14:42:15.709] Bones:                2
-[2026-11-24 14:42:15.742] Skinning influences:  770
-[2026-11-24 14:42:15.779] Reduced control pts:  610
-[2026-11-24 14:42:15.807] Reduced triangles:    1216
-[2026-11-24 14:42:15.822] Embedding influences: 2322
-[2026-11-24 14:42:15.850] Bind-pose skinning:   passed
-[2026-11-24 14:42:15.889] Checking converter dependencies.
-[2026-11-24 14:42:15.910] Found: E:\code\bigmoon77\BoneFlex\build\Release\import_blend_to_bflex.py
-[2026-11-24 14:42:15.950] Found: E:\code\bigmoon77\BoneFlex\build\Release\boneflex_exporter.py
-[2026-11-24 14:42:15.983] Testing direct .blend loading through the DX11 demo: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend
-[2026-11-24 14:42:21.109] ===== DX11 stdout =====
-[2026-11-24 14:42:21.116] 00:00.641  blend            | Read blend: "E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend"
-[2026-11-24 14:42:21.124] BoneFlex .blend import conversion completed:
-[2026-11-24 14:42:21.129]   Scene: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend
-[2026-11-24 14:42:21.136]   Mesh: BoneFlexTestCharacter
-[2026-11-24 14:42:21.142]   Asset: C:\Users\User\AppData\Local\Temp\bfx92E.bflex
-[2026-11-24 14:42:21.146] Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
-[2026-11-24 14:42:21.151] 
-[2026-11-24 14:42:21.159] Blender quit
-[2026-11-24 14:42:21.164] Converted Blender project to temporary BoneFlex asset: C:\Users\User\AppData\Local\Temp\bfx92E.bflex
-[2026-11-24 14:42:21.168] Render vertices: 610
-[2026-11-24 14:42:21.173] Control points: 610
-[2026-11-24 14:42:21.178] Reduced triangles: 1216
-[2026-11-24 14:42:21.183] Shape matching clusters: 39
-[2026-11-24 14:42:21.190] XPBD constraints: 1824
-[2026-11-24 14:42:21.194] Blender materials: 1
-[2026-11-24 14:42:21.199]   Material[0]: Default | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:21.204] Kinematic anchors: 450
-[2026-11-24 14:42:21.209] Dynamic control points: 160
-[2026-11-24 14:42:21.213] Anchor threshold: 98% dominant bone weight
-[2026-11-24 14:42:21.218] Shape matching stiffness: 0.15
-[2026-11-24 14:42:21.223] Maximum deformation ratio: 0.5
-[2026-11-24 14:42:21.228] Animated bone: Upper
-[2026-11-24 14:42:21.233] Initial physics diagnostic: max anchor target error = 2.38419e-07 at control point 7, max solver displacement = 2.40274e-07 at control point 575
-[2026-11-24 14:42:21.236] Physics stability frame 1: max rest deviation = 2.40274e-07 at control point 575, max speed = 1.43444e-05 at control point 575
-[2026-11-24 14:42:21.242] Diagnostic startup: gravity disabled, skeleton animation paused.
-[2026-11-24 14:42:21.246] Imported Blender character with automatic skeleton anchors. Drag the surface; A toggles animation, G toggles gravity, Esc exits.
-[2026-11-24 14:42:21.251] Physics stability frame 60: max rest deviation = 1.19247e-06 at control point 517, max speed = 3.20256e-05 at control point 194
-[2026-11-24 14:42:21.256] Physics stability frame 90: max rest deviation = 1.19952e-06 at control point 365, max speed = 3.50564e-05 at control point 402, max step displacement = 5.8721e-07 at control point 402, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.260] Physics stability frame 91: max rest deviation = 1.11351e-06 at control point 365, max speed = 3.29152e-05 at control point 80, max step displacement = 5.51343e-07 at control point 80, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.265] Physics stability frame 92: max rest deviation = 1.13884e-06 at control point 80, max speed = 3.12375e-05 at control point 403, max step displacement = 5.23241e-07 at control point 403, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.270] Physics stability frame 93: max rest deviation = 1.13914e-06 at control point 80, max speed = 4.10471e-05 at control point 61, max step displacement = 6.87556e-07 at control point 61, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.274] Physics stability frame 94: max rest deviation = 1.18591e-06 at control point 383, max speed = 3.58609e-05 at control point 61, max step displacement = 6.00685e-07 at control point 61, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.280] Physics stability frame 95: max rest deviation = 1.06216e-06 at control point 383, max speed = 3.39915e-05 at control point 555, max step displacement = 5.69373e-07 at control point 555, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.284] Physics stability frame 96: max rest deviation = 1.19219e-06 at control point 555, max speed = 4.05036e-05 at control point 80, max step displacement = 6.78453e-07 at control point 80, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.290] Physics stability frame 97: max rest deviation = 1.37253e-06 at control point 555, max speed = 4.83994e-05 at control point 80, max step displacement = 8.10711e-07 at control point 80, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.294] Physics stability frame 98: max rest deviation = 1.39156e-06 at control point 80, max speed = 4.05036e-05 at control point 536, max step displacement = 6.78453e-07 at control point 536, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.299] Physics stability frame 99: max rest deviation = 1.43671e-06 at control point 80, max speed = 3.6905e-05 at control point 517, max step displacement = 6.18174e-07 at control point 517, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.303] Physics stability frame 100: max rest deviation = 1.06977e-06 at control point 402, max speed = 3.79933e-05 at control point 61, max step displacement = 6.36403e-07 at control point 61, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.308] Physics stability frame 101: max rest deviation = 1.24172e-06 at control point 61, max speed = 2.89086e-05 at control point 99, max step displacement = 4.8423e-07 at control point 99, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.312] Physics stability frame 102: max rest deviation = 1.45582e-06 at control point 61, max speed = 3.29992e-05 at control point 232, max step displacement = 5.52751e-07 at control point 232, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.317] Physics stability frame 103: max rest deviation = 1.40672e-06 at control point 61, max speed = 3.55951e-05 at control point 42, max step displacement = 5.96233e-07 at control point 42, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.322] Physics stability frame 104: max rest deviation = 1.0562e-06 at control point 232, max speed = 3.29992e-05 at control point 213, max step displacement = 5.52751e-07 at control point 213, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.328] Physics stability frame 105: max rest deviation = 1.24894e-06 at control point 403, max speed = 3.66791e-05 at control point 251, max step displacement = 6.14391e-07 at control point 251, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.333] Physics stability frame 106: max rest deviation = 1.21579e-06 at control point 213, max speed = 2.91267e-05 at control point 252, max step displacement = 4.87885e-07 at control point 252, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.337] Physics stability frame 107: max rest deviation = 1.17898e-06 at control point 251, max speed = 3.43899e-05 at control point 269, max step displacement = 5.76046e-07 at control point 269, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.342] Physics stability frame 108: max rest deviation = 1.09784e-06 at control point 251, max speed = 3.57725e-05 at control point 232, max step displacement = 5.99205e-07 at control point 232, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.346] Physics stability frame 109: max rest deviation = 1.12787e-06 at control point 61, max speed = 2.86887e-05 at control point 250, max step displacement = 4.80549e-07 at control point 250, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.351] Physics stability frame 110: max rest deviation = 1.15741e-06 at control point 232, max speed = 3.88583e-05 at control point 555, max step displacement = 6.50893e-07 at control point 555, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.357] Physics stability frame 111: max rest deviation = 1.14536e-06 at control point 555, max speed = 3.71516e-05 at control point 573, max step displacement = 6.22305e-07 at control point 573, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.362] Physics stability frame 112: max rest deviation = 1.32377e-06 at control point 555, max speed = 3.38632e-05 at control point 346, max step displacement = 5.67224e-07 at control point 346, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.366] Physics stability frame 113: max rest deviation = 1.24038e-06 at control point 555, max speed = 3.64736e-05 at control point 536, max step displacement = 6.10948e-07 at control point 536, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.370] Physics stability frame 114: max rest deviation = 1.19209e-06 at control point 213, max speed = 3.56284e-05 at control point 536, max step displacement = 5.96791e-07 at control point 536, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.376] Physics stability frame 115: max rest deviation = 1.12343e-06 at control point 536, max speed = 2.80188e-05 at control point 61, max step displacement = 4.69327e-07 at control point 61, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.381] Physics stability frame 116: max rest deviation = 1.22914e-06 at control point 61, max speed = 3.66359e-05 at control point 100, max step displacement = 6.13667e-07 at control point 100, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.385] Physics stability frame 117: max rest deviation = 1.14506e-06 at control point 61, max speed = 3.79933e-05 at control point 233, max step displacement = 6.36403e-07 at control point 233, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.390] Physics stability frame 118: max rest deviation = 1.08931e-06 at control point 100, max speed = 3.50913e-05 at control point 233, max step displacement = 5.87794e-07 at control point 233, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.395] Physics stability frame 119: max rest deviation = 1.00801e-06 at control point 100, max speed = 3.05199e-05 at control point 365, max step displacement = 5.11221e-07 at control point 365, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.399] Physics stability frame 120: max rest deviation = 1.07123e-06 at control point 233, max speed = 3.07541e-05 at control point 231, max step displacement = 5.15144e-07 at control point 231, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.404] Physics stability frame 121: max rest deviation = 1.13875e-06 at control point 80, max speed = 3.6733e-05 at control point 61, max step displacement = 6.15293e-07 at control point 61, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.410] Physics stability frame 122: max rest deviation = 1.13884e-06 at control point 80, max speed = 3.57614e-05 at control point 61, max step displacement = 5.99019e-07 at control point 61, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.414] Physics stability frame 123: max rest deviation = 1.18011e-06 at control point 384, max speed = 2.61488e-05 at control point 100, max step displacement = 4.38003e-07 at control point 100, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.419] Physics stability frame 124: max rest deviation = 1.18021e-06 at control point 384, max speed = 2.64048e-05 at control point 80, max step displacement = 4.42291e-07 at control point 80, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.424] Physics stability frame 125: max rest deviation = 1.03109e-06 at control point 232, max speed = 3.52712e-05 at control point 80, max step displacement = 5.90808e-07 at control point 80, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.430] Physics stability frame 126: max rest deviation = 1.02696e-06 at control point 212, max speed = 4.17354e-05 at control point 365, max step displacement = 6.99085e-07 at control point 365, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.434] Physics stability frame 127: max rest deviation = 1.16047e-06 at control point 365, max speed = 3.59821e-05 at control point 365, max step displacement = 6.02715e-07 at control point 365, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.440] Physics stability frame 128: max rest deviation = 1.23599e-06 at control point 365, max speed = 3.2855e-05 at control point 575, max step displacement = 5.50335e-07 at control point 575, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.444] Physics stability frame 129: max rest deviation = 1.15741e-06 at control point 213, max speed = 3.57725e-05 at control point 61, max step displacement = 5.99205e-07 at control point 61, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.449] Physics stability frame 130: max rest deviation = 1.14506e-06 at control point 213, max speed = 3.78725e-05 at control point 516, max step displacement = 6.34381e-07 at control point 516, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:21.454] Physics stability frame 180: max rest deviation = 1.26721e-06 at control point 536, max speed = 2.73904e-05 at control point 271
-[2026-11-24 14:42:21.458] ===== DX11 stderr =====
-[2026-11-24 14:42:21.466] DX11 .blend conversion, humanoid initialization, and GUI startup succeeded.
-[2026-11-24 14:42:21.470] Launching interactive drift diagnostic. Gravity and skeleton animation should start disabled.
-[2026-11-24 14:42:24.500] Interactive DX11 diagnostic started (PID: 4820).
-[2026-11-24 14:42:24.505] Capturing the real model for 15 seconds with no input; gravity and animation remain disabled.
-[2026-11-24 14:42:39.743] ===== Real model DX11 stdout =====
-[2026-11-24 14:42:39.751] 00:00.531  blend            | Read blend: "E:\code\DesktopMascot\model\EL-FPr244\EL-FPr244.blend"
-[2026-11-24 14:42:39.761] BoneFlex .blend import conversion completed:
-[2026-11-24 14:42:39.767]   Scene: E:\code\DesktopMascot\model\EL-FPr244\EL-FPr244.blend
-[2026-11-24 14:42:39.773]   Mesh: 蝗帛嵜繧√◆繧・荳闊ｬ蜈ｬ髢狗沿)_mesh
-[2026-11-24 14:42:39.779]   Asset: C:\Users\User\AppData\Local\Temp\bfx1E6B.bflex
-[2026-11-24 14:42:39.784] Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
-[2026-11-24 14:42:39.791] 
-[2026-11-24 14:42:39.795] Blender quit
-[2026-11-24 14:42:39.800] Converted Blender project to temporary BoneFlex asset: C:\Users\User\AppData\Local\Temp\bfx1E6B.bflex
-[2026-11-24 14:42:39.805] Render vertices: 128421
-[2026-11-24 14:42:39.811] Control points: 1200
-[2026-11-24 14:42:39.815] Reduced triangles: 3618
-[2026-11-24 14:42:39.820] Shape matching clusters: 85
-[2026-11-24 14:42:39.827] XPBD constraints: 4398
-[2026-11-24 14:42:39.833] Blender materials: 41
-[2026-11-24 14:42:39.838]   Material[0]: [BODY]Body | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.844]   Material[1]: [BODY]FootNail | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.849]   Material[2]: [BODY]HandNail | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.854]   Material[3]: [BODY]HideGloves | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.859]   Material[4]: [BODY]HideJacket | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.864]   Material[5]: [BODY]HideShoes | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.868]   Material[6]: [BODY]HideSocks | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.873]   Material[7]: [FACE]BlushLine | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.877]   Material[8]: [FACE]Face | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.882]   Material[9]: [FACE]Blush | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.889]   Material[10]: [FACE]Pale | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.893]   Material[11]: [FACE]ForceEdge | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.900]   Material[12]: [FACE]InMouth | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.905]   Material[13]: [FACE]LashBrow | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.910]   Material[14]: [FACE]Teeth | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.914]   Material[15]: [FACE]Tongue | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.920]   Material[16]: [FACE]WhiteEye | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.925]   Material[17]: [EYE]Iris | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.929]   Material[18]: [EYE]Iris02 | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.934]   Material[19]: [EYE]Iris03 | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.940]   Material[20]: [HAIR]Base | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.945]   Material[21]: [HAIR]Ext | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.949]   Material[22]: [HAIR]Ext_Alpha01 | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.954]   Material[23]: [HAIR]Ext_Alpha02 | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.960]   Material[24]: [HAIR]Ext_Alpha03 | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.965]   Material[25]: [UWEAR]Socks | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.969]   Material[26]: [UWEAR]SocksFrill | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.974]   Material[27]: [WEAR]Cloak | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.980]   Material[28]: [WEAR]Gloves | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.985]   Material[29]: [WEAR]Inner | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.990]   Material[30]: [WEAR]Jacket | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:39.995]   Material[31]: [WEAR]Shirt | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:40.001]   Material[32]: [WEAR]Shirt_Backface | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:40.006]   Material[33]: [WEAR]Skirt | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:40.012]   Material[34]: [WEAR]Tie | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:40.016]   Material[35]: [WEAR]Tie_Backface | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:40.021]   Material[36]: [WEAR]Tie_Gold | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:40.026]   Material[37]: [WEAR]HeadDress | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:40.031]   Material[38]: [WEAR]HeadRibbon | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:40.036]   Material[39]: [WEAR]Scrunchie | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:40.042]   Material[40]: [WEAR]Shoes | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
-[2026-11-24 14:42:40.046] Kinematic anchors: 62
-[2026-11-24 14:42:40.051] Dynamic control points: 1138
-[2026-11-24 14:42:40.057] Anchor threshold: 98% dominant bone weight
-[2026-11-24 14:42:40.061] Shape matching stiffness: 0.15
-[2026-11-24 14:42:40.065] Maximum deformation ratio: 0.5
-[2026-11-24 14:42:40.069] Animated bone: 繝｢繝・Ν荳ｭ蠢・
-[2026-11-24 14:42:40.075] Initial physics diagnostic: max anchor target error = 4.79684e-07 at control point 61, max solver displacement = 4.21814e-07 at control point 68
-[2026-11-24 14:42:40.080] Physics stability frame 1: max rest deviation = 4.79684e-07 at control point 61, max speed = 2.51823e-05 at control point 68
-[2026-11-24 14:42:40.084] Diagnostic startup: gravity disabled, skeleton animation paused.
-[2026-11-24 14:42:40.091] Imported Blender character with automatic skeleton anchors. Drag the surface; A toggles animation, G toggles gravity, Esc exits.
-[2026-11-24 14:42:40.094] Physics stability frame 60: max rest deviation = 2.02793e-06 at control point 528, max speed = 1.42614e-05 at control point 763
-[2026-11-24 14:42:40.100] Physics stability frame 90: max rest deviation = 3.06649e-06 at control point 534, max speed = 9.07217e-06 at control point 760, max step displacement = 1.51963e-07 at control point 760, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.106] Physics stability frame 91: max rest deviation = 3.10163e-06 at control point 534, max speed = 9.28769e-06 at control point 761, max step displacement = 1.55573e-07 at control point 761, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.111] Physics stability frame 92: max rest deviation = 3.12967e-06 at control point 528, max speed = 1.09677e-05 at control point 761, max step displacement = 1.83714e-07 at control point 761, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.115] Physics stability frame 93: max rest deviation = 3.17118e-06 at control point 535, max speed = 1.07122e-05 at control point 761, max step displacement = 1.79434e-07 at control point 761, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.120] Physics stability frame 94: max rest deviation = 3.20939e-06 at control point 535, max speed = 1.20999e-05 at control point 852, max step displacement = 2.02678e-07 at control point 852, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.124] Physics stability frame 95: max rest deviation = 3.26427e-06 at control point 535, max speed = 1.03744e-05 at control point 509, max step displacement = 1.73776e-07 at control point 509, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.130] Physics stability frame 96: max rest deviation = 3.27937e-06 at control point 535, max speed = 9.28769e-06 at control point 849, max step displacement = 1.55573e-07 at control point 849, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.134] Physics stability frame 97: max rest deviation = 3.32219e-06 at control point 528, max speed = 9.11568e-06 at control point 1032, max step displacement = 1.52691e-07 at control point 1032, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.139] Physics stability frame 98: max rest deviation = 3.44823e-06 at control point 528, max speed = 9.91614e-06 at control point 1032, max step displacement = 1.66099e-07 at control point 1032, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.144] Physics stability frame 99: max rest deviation = 3.55664e-06 at control point 528, max speed = 9.58128e-06 at control point 762, max step displacement = 1.6049e-07 at control point 762, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.148] Physics stability frame 100: max rest deviation = 3.66181e-06 at control point 528, max speed = 9.24499e-06 at control point 762, max step displacement = 1.54857e-07 at control point 762, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.153] Physics stability frame 101: max rest deviation = 3.78343e-06 at control point 528, max speed = 1.13924e-05 at control point 762, max step displacement = 1.90828e-07 at control point 762, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.159] Physics stability frame 102: max rest deviation = 3.88395e-06 at control point 528, max speed = 1.46716e-05 at control point 762, max step displacement = 2.45756e-07 at control point 762, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.164] Physics stability frame 103: max rest deviation = 3.88306e-06 at control point 528, max speed = 1.66904e-05 at control point 762, max step displacement = 2.79571e-07 at control point 762, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.168] Physics stability frame 104: max rest deviation = 3.85606e-06 at control point 528, max speed = 1.48858e-05 at control point 763, max step displacement = 2.49344e-07 at control point 763, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.173] Physics stability frame 105: max rest deviation = 3.81452e-06 at control point 526, max speed = 1.43444e-05 at control point 763, max step displacement = 2.40274e-07 at control point 763, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.179] Physics stability frame 106: max rest deviation = 3.84176e-06 at control point 526, max speed = 1.04125e-05 at control point 763, max step displacement = 1.74414e-07 at control point 763, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.183] Physics stability frame 107: max rest deviation = 3.90993e-06 at control point 526, max speed = 9.11568e-06 at control point 635, max step displacement = 1.52691e-07 at control point 635, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.188] Physics stability frame 108: max rest deviation = 3.97973e-06 at control point 526, max speed = 9.3302e-06 at control point 635, max step displacement = 1.56285e-07 at control point 635, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.192] Physics stability frame 109: max rest deviation = 4.0111e-06 at control point 526, max speed = 1.12724e-05 at control point 635, max step displacement = 1.88817e-07 at control point 635, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.198] Physics stability frame 110: max rest deviation = 4.02985e-06 at control point 526, max speed = 1.04125e-05 at control point 849, max step displacement = 1.74414e-07 at control point 849, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.202] Physics stability frame 111: max rest deviation = 4.04593e-06 at control point 526, max speed = 1.10037e-05 at control point 849, max step displacement = 1.84317e-07 at control point 849, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.208] Physics stability frame 112: max rest deviation = 4.08727e-06 at control point 528, max speed = 1.13924e-05 at control point 849, max step displacement = 1.90828e-07 at control point 849, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.213] Physics stability frame 113: max rest deviation = 4.11394e-06 at control point 528, max speed = 1.09677e-05 at control point 762, max step displacement = 1.83714e-07 at control point 762, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.218] Physics stability frame 114: max rest deviation = 4.13345e-06 at control point 528, max speed = 1.09677e-05 at control point 757, max step displacement = 1.83714e-07 at control point 757, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.223] Physics stability frame 115: max rest deviation = 4.17302e-06 at control point 528, max speed = 1.79028e-05 at control point 757, max step displacement = 2.9988e-07 at control point 757, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.229] Physics stability frame 116: max rest deviation = 4.22208e-06 at control point 528, max speed = 1.12877e-05 at control point 757, max step displacement = 1.89075e-07 at control point 757, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.232] Physics stability frame 117: max rest deviation = 4.27414e-06 at control point 528, max speed = 1.13924e-05 at control point 850, max step displacement = 1.90828e-07 at control point 850, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.237] Physics stability frame 118: max rest deviation = 4.28452e-06 at control point 528, max speed = 1.02594e-05 at control point 903, max step displacement = 1.71849e-07 at control point 903, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.242] Physics stability frame 119: max rest deviation = 4.29601e-06 at control point 528, max speed = 1.15048e-05 at control point 515, max step displacement = 1.9271e-07 at control point 515, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.247] Physics stability frame 120: max rest deviation = 4.29756e-06 at control point 528, max speed = 1.35791e-05 at control point 515, max step displacement = 2.27456e-07 at control point 515, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.252] Physics stability frame 121: max rest deviation = 4.31087e-06 at control point 526, max speed = 1.39315e-05 at control point 510, max step displacement = 2.33359e-07 at control point 510, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.258] Physics stability frame 122: max rest deviation = 4.32783e-06 at control point 530, max speed = 1.39315e-05 at control point 510, max step displacement = 2.33359e-07 at control point 510, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.264] Physics stability frame 123: max rest deviation = 4.39978e-06 at control point 530, max speed = 1.04125e-05 at control point 764, max step displacement = 1.74414e-07 at control point 764, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.268] Physics stability frame 124: max rest deviation = 4.50055e-06 at control point 530, max speed = 1.33143e-05 at control point 505, max step displacement = 2.2302e-07 at control point 505, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.274] Physics stability frame 125: max rest deviation = 4.54739e-06 at control point 530, max speed = 1.12877e-05 at control point 760, max step displacement = 1.89075e-07 at control point 760, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.278] Physics stability frame 126: max rest deviation = 4.6385e-06 at control point 528, max speed = 1.15305e-05 at control point 504, max step displacement = 1.93141e-07 at control point 504, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.283] Physics stability frame 127: max rest deviation = 4.7477e-06 at control point 528, max speed = 1.03744e-05 at control point 850, max step displacement = 1.73776e-07 at control point 850, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.288] Physics stability frame 128: max rest deviation = 4.89242e-06 at control point 528, max speed = 1.05259e-05 at control point 760, max step displacement = 1.76313e-07 at control point 760, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.293] Physics stability frame 129: max rest deviation = 4.96233e-06 at control point 528, max speed = 9.07217e-06 at control point 534, max step displacement = 1.51963e-07 at control point 534, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.297] Physics stability frame 130: max rest deviation = 5.01364e-06 at control point 528, max speed = 8.39246e-06 at control point 535, max step displacement = 1.40577e-07 at control point 535, drag active = false, gravity = false, animation = false
-[2026-11-24 14:42:40.302] Physics stability frame 180: max rest deviation = 5.67857e-06 at control point 534, max speed = 1.23266e-05 at control point 896
-[2026-11-24 14:42:40.308] Physics stability frame 240: max rest deviation = 3.33553e-06 at control point 528, max speed = 1.82531e-05 at control point 757
-[2026-11-24 14:42:40.313] Physics stability frame 300: max rest deviation = 4.41598e-06 at control point 506, max speed = 1.01039e-05 at control point 996
-[2026-11-24 14:42:40.318] Physics stability frame 360: max rest deviation = 4.27393e-06 at control point 509, max speed = 9.94602e-06 at control point 757
-[2026-11-24 14:42:40.324] Physics stability frame 420: max rest deviation = 3.45257e-06 at control point 768, max speed = 1.1667e-05 at control point 757
-[2026-11-24 14:42:40.328] ===== Real model DX11 stderr =====
-[2026-11-24 14:42:40.336] Blender material physics metadata: shape matching stiffness, XPBD compliance, velocity damping, and maximum deformation ratio.
-[2026-11-24 14:42:40.342] Physics tuning GUI: stiffness, XPBD compliance, solver iterations, velocity damping, maximum deformation, gravity, and surface smoothing.
-[2026-11-24 14:42:40.347] Drag interaction now uses a soft XPBD position target.
-[2026-11-24 14:42:40.351] Capture Physics stability frame 90-130 lines; each reports rest deviation, maximum speed, per-step displacement, and interaction/toggle state. Also capture frame 60/120/180 summaries.
-[2026-11-24 14:42:40.364] SUCCESS
-[2026-11-24 14:42:40.370] END E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
-[2026-11-24 14:42:40.375] All pulled command scripts processed. Closing Developer PowerShell.
-[2026-11-24T14:42:40.4047284+09:00] Developer PowerShell process exited. Exit code: 0
-[2026-11-24T14:42:40.4072388+09:00] Publish after PowerShell is disabled. Skipping commit/push.
+[2026-11-24 15:01:30.046] Developer PowerShell initialization
+[2026-11-24 15:01:31.992] **********************************************************************
+[2026-11-24 15:01:31.998] ** Visual Studio 2026 Developer PowerShell v18.10.3
+[2026-11-24 15:01:32.003] ** Copyright (c) 2026 Microsoft Corporation
+[2026-11-24 15:01:32.007] **********************************************************************
+[2026-11-24 15:01:32.020] START E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 15:01:32.164] Repository: E:\code\bigmoon77\BoneFlex
+[2026-11-24 15:01:32.171] BoneFlex build and direct Blender import smoke test started: 2026-11-24 15:01:32
+[2026-11-24 15:01:32.357] -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26300.
+[2026-11-24 15:01:32.373] -- Configuring done (0.1s)
+[2026-11-24 15:01:32.888] -- Generating done (0.5s)
+[2026-11-24 15:01:32.903] -- Build files have been written to: E:/code/bigmoon77/BoneFlex/build
+[2026-11-24 15:01:33.119] MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.14.60+43b635718 (.NET Framework)
+[2026-11-24 15:01:33.159] 
+[2026-11-24 15:01:33.790]   distance_constraint_generation.cpp
+[2026-11-24 15:01:34.822]   mesh_reduction.cpp
+[2026-11-24 15:01:35.827]   reduced_mesh.cpp
+[2026-11-24 15:01:36.394]   reduced_soft_body_solver.cpp
+[2026-11-24 15:01:37.103]   shape_matching_cluster_generation.cpp
+[2026-11-24 15:01:37.866]   繧ｳ繝ｼ繝峨ｒ逕滓・荳ｭ...
+[2026-11-24 15:01:40.061]   boneflex.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex.lib
+[2026-11-24 15:01:40.396]   boneflex_basic_example.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_basic_example.exe
+[2026-11-24 15:01:40.522]   blender_asset_import_demo.cpp
+[2026-11-24 15:01:41.982]   boneflex_blender_asset_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_demo.exe
+[2026-11-24 15:01:42.278]   boneflex_blender_asset_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_tests.exe
+[2026-11-24 15:01:42.450]   test_distance_constraint_generation.cpp
+[2026-11-24 15:01:43.734]   boneflex_distance_constraint_generation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_distance_constraint_generation_tests.exe
+[2026-11-24 15:01:43.863]   dx11_soft_body_demo.cpp
+[2026-11-24 15:01:48.279]   boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_dx11_soft_body_demo.exe
+[2026-11-24 15:01:48.565]   mesh_reduction_benchmark.cpp
+[2026-11-24 15:01:50.763]   boneflex_mesh_reduction_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_benchmark.exe
+[2026-11-24 15:01:50.934]   test_mesh_reduction.cpp
+[2026-11-24 15:01:52.263]   boneflex_mesh_reduction_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_tests.exe
+[2026-11-24 15:01:52.423]   test_reduced_mesh.cpp
+[2026-11-24 15:01:53.788]   boneflex_reduced_mesh_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_mesh_tests.exe
+[2026-11-24 15:01:53.987]   reduced_soft_body_benchmark.cpp
+[2026-11-24 15:01:57.181]   boneflex_reduced_soft_body_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_benchmark.exe
+[2026-11-24 15:01:57.401]   reduced_soft_body_parameter_sweep.cpp
+[2026-11-24 15:02:00.328]   boneflex_reduced_soft_body_parameter_sweep.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_parameter_sweep.exe
+[2026-11-24 15:02:00.519]   test_reduced_soft_body_solver.cpp
+[2026-11-24 15:02:02.084]   boneflex_reduced_soft_body_solver_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_solver_tests.exe
+[2026-11-24 15:02:02.264]   shape_matching_benchmark.cpp
+[2026-11-24 15:02:04.527]   boneflex_shape_matching_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_benchmark.exe
+[2026-11-24 15:02:04.734]   test_shape_matching_cluster_generation.cpp
+[2026-11-24 15:02:06.094]   boneflex_shape_matching_cluster_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_cluster_tests.exe
+[2026-11-24 15:02:06.261]   test_shape_matching_deformation.cpp
+[2026-11-24 15:02:07.708]   boneflex_shape_matching_deformation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_deformation_tests.exe
+[2026-11-24 15:02:08.009]   boneflex_shape_matching_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_tests.exe
+[2026-11-24 15:02:08.343]   boneflex_skeleton_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skeleton_tests.exe
+[2026-11-24 15:02:08.639]   boneflex_skinning_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skinning_tests.exe
+[2026-11-24 15:02:08.943]   boneflex_xpbd_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_xpbd_tests.exe
+[2026-11-24 15:02:09.237] Test project E:/code/bigmoon77/BoneFlex/build
+[2026-11-24 15:02:09.249]       Start  1: BoneFlex.XPBDDistanceConstraint
+[2026-11-24 15:02:09.343]  1/11 Test  #1: BoneFlex.XPBDDistanceConstraint ...........   Passed    0.05 sec
+[2026-11-24 15:02:09.349]       Start  2: BoneFlex.Skeleton
+[2026-11-24 15:02:09.412]  2/11 Test  #2: BoneFlex.Skeleton .........................   Passed    0.05 sec
+[2026-11-24 15:02:09.417]       Start  3: BoneFlex.Skinning
+[2026-11-24 15:02:09.494]  3/11 Test  #3: BoneFlex.Skinning .........................   Passed    0.06 sec
+[2026-11-24 15:02:09.499]       Start  4: BoneFlex.ShapeMatching
+[2026-11-24 15:02:09.566]  4/11 Test  #4: BoneFlex.ShapeMatching ....................   Passed    0.05 sec
+[2026-11-24 15:02:09.570]       Start  5: BoneFlex.ShapeMatchingDeformation
+[2026-11-24 15:02:09.632]  5/11 Test  #5: BoneFlex.ShapeMatchingDeformation .........   Passed    0.04 sec
+[2026-11-24 15:02:09.637]       Start  6: BoneFlex.ShapeMatchingClusterGeneration
+[2026-11-24 15:02:09.696]  6/11 Test  #6: BoneFlex.ShapeMatchingClusterGeneration ...   Passed    0.04 sec
+[2026-11-24 15:02:09.702]       Start  7: BoneFlex.MeshReduction
+[2026-11-24 15:02:09.775]  7/11 Test  #7: BoneFlex.MeshReduction ....................   Passed    0.05 sec
+[2026-11-24 15:02:09.780]       Start  8: BoneFlex.ReducedSoftBodySolver
+[2026-11-24 15:02:09.841]  8/11 Test  #8: BoneFlex.ReducedSoftBodySolver ............   Passed    0.04 sec
+[2026-11-24 15:02:09.847]       Start  9: BoneFlex.DistanceConstraintGeneration
+[2026-11-24 15:02:09.902]  9/11 Test  #9: BoneFlex.DistanceConstraintGeneration .....   Passed    0.04 sec
+[2026-11-24 15:02:09.907]       Start 10: BoneFlex.BlenderAsset
+[2026-11-24 15:02:09.973] 10/11 Test #10: BoneFlex.BlenderAsset .....................   Passed    0.05 sec
+[2026-11-24 15:02:09.979]       Start 11: BoneFlex.ReducedMesh
+[2026-11-24 15:02:10.032] 11/11 Test #11: BoneFlex.ReducedMesh ......................   Passed    0.04 sec
+[2026-11-24 15:02:10.039] 
+[2026-11-24 15:02:10.044] 100% tests passed, 0 tests failed out of 11
+[2026-11-24 15:02:10.050] 
+[2026-11-24 15:02:10.055] Total Test time (real) =   0.80 sec
+[2026-11-24 15:02:10.060] Build and all unit tests succeeded.
+[2026-11-24 15:02:10.067] Blender found. Generating test character: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.bflex
+[2026-11-24 15:02:11.102] Blender fixture exit code: 0
+[2026-11-24 15:02:11.109] Info: Saved as "boneflex_test_character.blend"
+[2026-11-24 15:02:11.114]   BLEND: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend
+[2026-11-24 15:02:11.119] BoneFlex test character exported:
+[2026-11-24 15:02:11.123]   BFLEX: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.bflex
+[2026-11-24 15:02:11.129] Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
+[2026-11-24 15:02:11.134] 
+[2026-11-24 15:02:11.139] Blender quit
+[2026-11-24 15:02:11.248] BoneFlex Blender asset import demo
+[2026-11-24 15:02:11.252] Vertices:             610
+[2026-11-24 15:02:11.258] Triangles:            1216
+[2026-11-24 15:02:11.263] Bones:                2
+[2026-11-24 15:02:11.268] Skinning influences:  770
+[2026-11-24 15:02:11.272] Reduced control pts:  610
+[2026-11-24 15:02:11.278] Reduced triangles:    1216
+[2026-11-24 15:02:11.281] Embedding influences: 2322
+[2026-11-24 15:02:11.287] Bind-pose skinning:   passed
+[2026-11-24 15:02:11.292] Checking converter dependencies.
+[2026-11-24 15:02:11.299] Found: E:\code\bigmoon77\BoneFlex\build\Release\import_blend_to_bflex.py
+[2026-11-24 15:02:11.305] Found: E:\code\bigmoon77\BoneFlex\build\Release\boneflex_exporter.py
+[2026-11-24 15:02:11.310] Testing direct .blend loading through the DX11 demo: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend
+[2026-11-24 15:02:16.461] ===== DX11 stdout =====
+[2026-11-24 15:02:16.471] 00:00.547  blend            | Read blend: "E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend"
+[2026-11-24 15:02:16.476] BoneFlex .blend import conversion completed:
+[2026-11-24 15:02:16.484]   Scene: E:\code\bigmoon77\BoneFlex\build\boneflex_test_character.blend
+[2026-11-24 15:02:16.489]   Mesh: BoneFlexTestCharacter
+[2026-11-24 15:02:16.494]   Asset: C:\Users\User\AppData\Local\Temp\bfx468D.bflex
+[2026-11-24 15:02:16.502] Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
+[2026-11-24 15:02:16.507] 
+[2026-11-24 15:02:16.513] Blender quit
+[2026-11-24 15:02:16.519] Converted Blender project to temporary BoneFlex asset: C:\Users\User\AppData\Local\Temp\bfx468D.bflex
+[2026-11-24 15:02:16.524] Applied Blender material physics to 610 control points; XPBD compliance is assigned per material boundary.
+[2026-11-24 15:02:16.531] Render vertices: 610
+[2026-11-24 15:02:16.536] Control points: 610
+[2026-11-24 15:02:16.542] Reduced triangles: 1216
+[2026-11-24 15:02:16.548] Shape matching clusters: 39
+[2026-11-24 15:02:16.554] XPBD constraints: 1824
+[2026-11-24 15:02:16.559] Blender materials: 1
+[2026-11-24 15:02:16.567]   Material[0]: Default | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:16.572] Kinematic anchors: 450
+[2026-11-24 15:02:16.580] Dynamic control points: 160
+[2026-11-24 15:02:16.585] Anchor threshold: 98% dominant bone weight
+[2026-11-24 15:02:16.590] Shape matching stiffness: 0.15
+[2026-11-24 15:02:16.598] Maximum deformation ratio: 0.5
+[2026-11-24 15:02:16.604] Animated bone: Upper
+[2026-11-24 15:02:16.611] Initial physics diagnostic: max anchor target error = 2.38419e-07 at control point 7, max solver displacement = 2.40274e-07 at control point 575
+[2026-11-24 15:02:16.617] Physics stability frame 1: max rest deviation = 2.40274e-07 at control point 575, max speed = 1.43444e-05 at control point 575
+[2026-11-24 15:02:16.623] Diagnostic startup: gravity disabled, skeleton animation paused.
+[2026-11-24 15:02:16.629] Imported Blender character with automatic skeleton anchors. Drag the surface; A toggles animation, G toggles gravity, Esc exits.
+[2026-11-24 15:02:16.635] Physics stability frame 60: max rest deviation = 1.19247e-06 at control point 517, max speed = 3.20256e-05 at control point 194
+[2026-11-24 15:02:16.640] Physics stability frame 90: max rest deviation = 0.390971 at control point 20, max speed = 1.93348 at control point 20, max step displacement = 0.0323865 at control point 20, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.649] Physics stability frame 91: max rest deviation = 0.412814 at control point 20, max speed = 1.331 at control point 20, max step displacement = 0.0222948 at control point 20, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.654] Physics stability frame 92: max rest deviation = 0.426432 at control point 20, max speed = 0.826266 at control point 41, max step displacement = 0.0138403 at control point 41, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.659] Physics stability frame 93: max rest deviation = 0.433093 at control point 20, max speed = 0.651485 at control point 515, max step displacement = 0.0109126 at control point 515, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.665] Physics stability frame 94: max rest deviation = 0.110925 at control point 592, max speed = 23.2726 at control point 20, max step displacement = 0.389826 at control point 20, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.673] Physics stability frame 95: max rest deviation = 0.0911109 at control point 574, max speed = 5.23744 at control point 20, max step displacement = 0.0877293 at control point 20, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.678] Physics stability frame 96: max rest deviation = 0.0622001 at control point 574, max speed = 2.37032 at control point 553, max step displacement = 0.0397039 at control point 553, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.685] Physics stability frame 97: max rest deviation = 0.0616859 at control point 20, max speed = 2.3056 at control point 553, max step displacement = 0.0386198 at control point 553, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.690] Physics stability frame 98: max rest deviation = 0.053481 at control point 21, max speed = 2.00453 at control point 574, max step displacement = 0.0335767 at control point 574, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.698] Physics stability frame 99: max rest deviation = 0.0518684 at control point 21, max speed = 1.37157 at control point 515, max step displacement = 0.0229744 at control point 515, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.704] Physics stability frame 100: max rest deviation = 0.0428101 at control point 21, max speed = 1.16698 at control point 20, max step displacement = 0.0195475 at control point 20, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.710] Physics stability frame 101: max rest deviation = 0.027782 at control point 21, max speed = 0.906502 at control point 21, max step displacement = 0.0151843 at control point 21, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.718] Physics stability frame 102: max rest deviation = 0.014342 at control point 5, max speed = 1.09783 at control point 21, max step displacement = 0.0183891 at control point 21, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.723] Physics stability frame 103: max rest deviation = 0.014773 at control point 556, max speed = 0.958201 at control point 21, max step displacement = 0.0160503 at control point 21, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.731] Physics stability frame 104: max rest deviation = 0.0164826 at control point 556, max speed = 0.600877 at control point 605, max step displacement = 0.0100649 at control point 605, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.737] Physics stability frame 105: max rest deviation = 0.0156857 at control point 21, max speed = 0.3796 at control point 5, max step displacement = 0.00635847 at control point 5, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.743] Physics stability frame 106: max rest deviation = 0.0142228 at control point 605, max speed = 0.282532 at control point 537, max step displacement = 0.00473253 at control point 537, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.749] Physics stability frame 107: max rest deviation = 0.0108306 at control point 605, max speed = 0.364268 at control point 556, max step displacement = 0.00610164 at control point 556, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.753] Physics stability frame 108: max rest deviation = 0.0079013 at control point 593, max speed = 0.343414 at control point 556, max step displacement = 0.00575232 at control point 556, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.759] Physics stability frame 109: max rest deviation = 0.00604564 at control point 514, max speed = 0.293629 at control point 605, max step displacement = 0.00491841 at control point 605, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.766] Physics stability frame 110: max rest deviation = 0.00664733 at control point 556, max speed = 0.260476 at control point 590, max step displacement = 0.00436308 at control point 590, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.771] Physics stability frame 111: max rest deviation = 0.0074827 at control point 21, max speed = 0.190231 at control point 590, max step displacement = 0.00318645 at control point 590, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.780] Physics stability frame 112: max rest deviation = 0.00719852 at control point 590, max speed = 0.138236 at control point 514, max step displacement = 0.0023155 at control point 514, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.785] Physics stability frame 113: max rest deviation = 0.0071518 at control point 590, max speed = 0.155912 at control point 556, max step displacement = 0.00261159 at control point 556, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.791] Physics stability frame 114: max rest deviation = 0.00576284 at control point 590, max speed = 0.145667 at control point 21, max step displacement = 0.00243998 at control point 21, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.799] Physics stability frame 115: max rest deviation = 0.00356444 at control point 5, max speed = 0.145874 at control point 21, max step displacement = 0.00244345 at control point 21, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.804] Physics stability frame 116: max rest deviation = 0.00359777 at control point 514, max speed = 0.153928 at control point 590, max step displacement = 0.00257837 at control point 590, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.809] Physics stability frame 117: max rest deviation = 0.00298974 at control point 575, max speed = 0.137708 at control point 590, max step displacement = 0.00230667 at control point 590, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.815] Physics stability frame 118: max rest deviation = 0.00295872 at control point 590, max speed = 0.093545 at control point 590, max step displacement = 0.00156692 at control point 590, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.822] Physics stability frame 119: max rest deviation = 0.00355816 at control point 590, max speed = 0.0835227 at control point 514, max step displacement = 0.00139904 at control point 514, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:16.828] Physics stability frame 120: max rest deviation = 0.0275356 at control point 249, max speed = 1.64458 at control point 249, max step displacement = 0.0275474 at control point 249, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.835] Physics stability frame 121: max rest deviation = 0.0383329 at control point 249, max speed = 0.750925 at control point 249, max step displacement = 0.0125783 at control point 249, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.839] Physics stability frame 122: max rest deviation = 0.0497799 at control point 249, max speed = 0.689377 at control point 249, max step displacement = 0.0115474 at control point 249, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.847] Physics stability frame 123: max rest deviation = 0.0885542 at control point 249, max speed = 2.48509 at control point 249, max step displacement = 0.0416263 at control point 249, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.852] Physics stability frame 124: max rest deviation = 0.146651 at control point 249, max speed = 3.64666 at control point 249, max step displacement = 0.061083 at control point 249, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.858] Physics stability frame 125: max rest deviation = 0.211177 at control point 249, max speed = 3.9655 at control point 249, max step displacement = 0.0664238 at control point 249, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.864] Physics stability frame 126: max rest deviation = 0.279339 at control point 249, max speed = 4.17113 at control point 249, max step displacement = 0.0698682 at control point 249, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.870] Physics stability frame 127: max rest deviation = 0.35849 at control point 249, max speed = 4.8502 at control point 249, max step displacement = 0.0812429 at control point 249, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.875] Physics stability frame 128: max rest deviation = 0.441506 at control point 249, max speed = 5.05946 at control point 249, max step displacement = 0.0847481 at control point 249, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.880] Physics stability frame 129: max rest deviation = 0.521283 at control point 249, max speed = 4.81985 at control point 249, max step displacement = 0.0807345 at control point 249, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.886] Physics stability frame 130: max rest deviation = 0.628354 at control point 249, max speed = 6.44856 at control point 249, max step displacement = 0.108016 at control point 249, drag active = true, gravity = false, animation = false
+[2026-11-24 15:02:16.890] Physics stability frame 180: max rest deviation = 0.00812691 at control point 213, max speed = 0.361469 at control point 251
+[2026-11-24 15:02:16.897] ===== DX11 stderr =====
+[2026-11-24 15:02:16.904] DX11 .blend conversion, humanoid initialization, and GUI startup succeeded.
+[2026-11-24 15:02:16.909] Launching interactive drift diagnostic. Gravity and skeleton animation should start disabled.
+[2026-11-24 15:02:19.940] Interactive DX11 diagnostic started (PID: 22688).
+[2026-11-24 15:02:19.946] Capturing the real model for 15 seconds with no input; gravity and animation remain disabled.
+[2026-11-24 15:02:35.075] ===== Real model DX11 stdout =====
+[2026-11-24 15:02:35.090] 00:00.578  blend            | Read blend: "E:\code\DesktopMascot\model\EL-FPr244\EL-FPr244.blend"
+[2026-11-24 15:02:35.105] BoneFlex .blend import conversion completed:
+[2026-11-24 15:02:35.116]   Scene: E:\code\DesktopMascot\model\EL-FPr244\EL-FPr244.blend
+[2026-11-24 15:02:35.122]   Mesh: 蝗帛嵜繧√◆繧・荳闊ｬ蜈ｬ髢狗沿)_mesh
+[2026-11-24 15:02:35.128]   Asset: C:\Users\User\AppData\Local\Temp\bfx5C28.bflex
+[2026-11-24 15:02:35.135] Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
+[2026-11-24 15:02:35.140] 
+[2026-11-24 15:02:35.149] Blender quit
+[2026-11-24 15:02:35.153] Converted Blender project to temporary BoneFlex asset: C:\Users\User\AppData\Local\Temp\bfx5C28.bflex
+[2026-11-24 15:02:35.159] Applied Blender material physics to 1200 control points; XPBD compliance is assigned per material boundary.
+[2026-11-24 15:02:35.168] Render vertices: 128421
+[2026-11-24 15:02:35.173] Control points: 1200
+[2026-11-24 15:02:35.178] Reduced triangles: 4413
+[2026-11-24 15:02:35.182] Shape matching clusters: 85
+[2026-11-24 15:02:35.189] XPBD constraints: 4398
+[2026-11-24 15:02:35.193] Blender materials: 41
+[2026-11-24 15:02:35.201]   Material[0]: [BODY]Body | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.205]   Material[1]: [BODY]FootNail | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.210]   Material[2]: [BODY]HandNail | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.217]   Material[3]: [BODY]HideGloves | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.223]   Material[4]: [BODY]HideJacket | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.229]   Material[5]: [BODY]HideShoes | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.235]   Material[6]: [BODY]HideSocks | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.241]   Material[7]: [FACE]BlushLine | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.247]   Material[8]: [FACE]Face | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.252]   Material[9]: [FACE]Blush | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.259]   Material[10]: [FACE]Pale | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.267]   Material[11]: [FACE]ForceEdge | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.272]   Material[12]: [FACE]InMouth | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.277]   Material[13]: [FACE]LashBrow | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.285]   Material[14]: [FACE]Teeth | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.291]   Material[15]: [FACE]Tongue | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.300]   Material[16]: [FACE]WhiteEye | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.306]   Material[17]: [EYE]Iris | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.311]   Material[18]: [EYE]Iris02 | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.316]   Material[19]: [EYE]Iris03 | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.322]   Material[20]: [HAIR]Base | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.330]   Material[21]: [HAIR]Ext | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.335]   Material[22]: [HAIR]Ext_Alpha01 | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.340]   Material[23]: [HAIR]Ext_Alpha02 | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.346]   Material[24]: [HAIR]Ext_Alpha03 | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.351]   Material[25]: [UWEAR]Socks | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.356]   Material[26]: [UWEAR]SocksFrill | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.363]   Material[27]: [WEAR]Cloak | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.368]   Material[28]: [WEAR]Gloves | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.373]   Material[29]: [WEAR]Inner | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.378]   Material[30]: [WEAR]Jacket | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.384]   Material[31]: [WEAR]Shirt | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.389]   Material[32]: [WEAR]Shirt_Backface | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.395]   Material[33]: [WEAR]Skirt | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.401]   Material[34]: [WEAR]Tie | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.419]   Material[35]: [WEAR]Tie_Backface | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.432]   Material[36]: [WEAR]Tie_Gold | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.442]   Material[37]: [WEAR]HeadDress | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.454]   Material[38]: [WEAR]HeadRibbon | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.567]   Material[39]: [WEAR]Scrunchie | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.579]   Material[40]: [WEAR]Shoes | shape matching=0.15 | XPBD compliance=1e-05 | damping=0.995 | max deformation=0.5
+[2026-11-24 15:02:35.586] Kinematic anchors: 62
+[2026-11-24 15:02:35.592] Dynamic control points: 1138
+[2026-11-24 15:02:35.598] Anchor threshold: 98% dominant bone weight
+[2026-11-24 15:02:35.603] Shape matching stiffness: 0.15
+[2026-11-24 15:02:35.613] Maximum deformation ratio: 0.5
+[2026-11-24 15:02:35.618] Animated bone: 繝｢繝・Ν荳ｭ蠢・
+[2026-11-24 15:02:35.625] Initial physics diagnostic: max anchor target error = 4.79684e-07 at control point 61, max solver displacement = 4.21814e-07 at control point 68
+[2026-11-24 15:02:35.633] Physics stability frame 1: max rest deviation = 4.79684e-07 at control point 61, max speed = 2.51823e-05 at control point 68
+[2026-11-24 15:02:35.640] Diagnostic startup: gravity disabled, skeleton animation paused.
+[2026-11-24 15:02:35.646] Imported Blender character with automatic skeleton anchors. Drag the surface; A toggles animation, G toggles gravity, Esc exits.
+[2026-11-24 15:02:35.653] Physics stability frame 60: max rest deviation = 2.02793e-06 at control point 528, max speed = 1.42614e-05 at control point 763
+[2026-11-24 15:02:35.660] Physics stability frame 90: max rest deviation = 0.115274 at control point 1026, max speed = 0.430713 at control point 856, max step displacement = 0.00721462 at control point 856, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.668] Physics stability frame 91: max rest deviation = 0.115336 at control point 1026, max speed = 0.452329 at control point 856, max step displacement = 0.00757671 at control point 856, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.673] Physics stability frame 92: max rest deviation = 0.114175 at control point 1026, max speed = 0.477062 at control point 903, max step displacement = 0.00799099 at control point 903, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.682] Physics stability frame 93: max rest deviation = 0.111906 at control point 1026, max speed = 0.576442 at control point 1011, max step displacement = 0.00965565 at control point 1011, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.687] Physics stability frame 94: max rest deviation = 0.108726 at control point 1026, max speed = 0.624782 at control point 1011, max step displacement = 0.0104654 at control point 1011, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.693] Physics stability frame 95: max rest deviation = 0.104859 at control point 1026, max speed = 0.605255 at control point 526, max step displacement = 0.0101383 at control point 526, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.701] Physics stability frame 96: max rest deviation = 0.100544 at control point 1026, max speed = 0.68583 at control point 526, max step displacement = 0.0114879 at control point 526, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.708] Physics stability frame 97: max rest deviation = 0.0988129 at control point 1011, max speed = 0.727192 at control point 526, max step displacement = 0.0121808 at control point 526, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.714] Physics stability frame 98: max rest deviation = 0.101793 at control point 1011, max speed = 0.727543 at control point 526, max step displacement = 0.0121866 at control point 526, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.721] Physics stability frame 99: max rest deviation = 0.102924 at control point 1011, max speed = 0.690066 at control point 526, max step displacement = 0.0115589 at control point 526, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.726] Physics stability frame 100: max rest deviation = 0.102616 at control point 856, max speed = 0.837932 at control point 1026, max step displacement = 0.0140357 at control point 1026, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.736] Physics stability frame 101: max rest deviation = 0.104996 at control point 856, max speed = 0.894818 at control point 1026, max step displacement = 0.0149886 at control point 1026, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.741] Physics stability frame 102: max rest deviation = 0.106984 at control point 856, max speed = 0.441334 at control point 526, max step displacement = 0.00739253 at control point 526, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.750] Physics stability frame 103: max rest deviation = 0.108642 at control point 856, max speed = 0.369846 at control point 1039, max step displacement = 0.00619508 at control point 1039, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.755] Physics stability frame 104: max rest deviation = 0.109993 at control point 856, max speed = 0.353376 at control point 1039, max step displacement = 0.00591919 at control point 1039, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.762] Physics stability frame 105: max rest deviation = 0.111016 at control point 856, max speed = 0.32906 at control point 1040, max step displacement = 0.00551188 at control point 1040, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.768] Physics stability frame 106: max rest deviation = 0.111671 at control point 856, max speed = 0.304208 at control point 1043, max step displacement = 0.0050956 at control point 1043, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.773] Physics stability frame 107: max rest deviation = 0.111904 at control point 856, max speed = 0.283548 at control point 1043, max step displacement = 0.00474955 at control point 1043, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.779] Physics stability frame 108: max rest deviation = 0.111672 at control point 856, max speed = 0.274252 at control point 870, max step displacement = 0.00459384 at control point 870, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.787] Physics stability frame 109: max rest deviation = 0.110987 at control point 694, max speed = 0.26385 at control point 870, max step displacement = 0.00441959 at control point 870, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.792] Physics stability frame 110: max rest deviation = 0.110589 at control point 694, max speed = 0.253599 at control point 870, max step displacement = 0.0042479 at control point 870, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.802] Physics stability frame 111: max rest deviation = 0.11008 at control point 693, max speed = 0.260197 at control point 903, max step displacement = 0.00435842 at control point 903, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.807] Physics stability frame 112: max rest deviation = 0.109272 at control point 693, max speed = 0.294308 at control point 903, max step displacement = 0.00492978 at control point 903, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.815] Physics stability frame 113: max rest deviation = 0.108156 at control point 693, max speed = 0.322989 at control point 903, max step displacement = 0.0054102 at control point 903, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.821] Physics stability frame 114: max rest deviation = 0.106745 at control point 693, max speed = 0.344025 at control point 903, max step displacement = 0.00576257 at control point 903, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.830] Physics stability frame 115: max rest deviation = 0.105039 at control point 693, max speed = 0.357289 at control point 506, max step displacement = 0.00598475 at control point 506, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.838] Physics stability frame 116: max rest deviation = 0.103032 at control point 693, max speed = 0.425087 at control point 506, max step displacement = 0.00712038 at control point 506, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.843] Physics stability frame 117: max rest deviation = 0.100718 at control point 693, max speed = 0.478938 at control point 506, max step displacement = 0.00802242 at control point 506, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.850] Physics stability frame 118: max rest deviation = 0.098968 at control point 865, max speed = 0.514421 at control point 506, max step displacement = 0.00861677 at control point 506, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.856] Physics stability frame 119: max rest deviation = 0.0971689 at control point 865, max speed = 0.529031 at control point 506, max step displacement = 0.0088615 at control point 506, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.864] Physics stability frame 120: max rest deviation = 0.0950593 at control point 865, max speed = 0.522306 at control point 506, max step displacement = 0.00874885 at control point 506, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.869] Physics stability frame 121: max rest deviation = 0.0926121 at control point 865, max speed = 0.495763 at control point 506, max step displacement = 0.00830425 at control point 506, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.876] Physics stability frame 122: max rest deviation = 0.0909076 at control point 509, max speed = 0.452639 at control point 506, max step displacement = 0.0075819 at control point 506, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.883] Physics stability frame 123: max rest deviation = 0.0967194 at control point 509, max speed = 0.397596 at control point 506, max step displacement = 0.0066599 at control point 506, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.889] Physics stability frame 124: max rest deviation = 0.101856 at control point 509, max speed = 0.364748 at control point 856, max step displacement = 0.00610968 at control point 856, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.896] Physics stability frame 125: max rest deviation = 0.106292 at control point 509, max speed = 0.384742 at control point 856, max step displacement = 0.00644459 at control point 856, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.903] Physics stability frame 126: max rest deviation = 0.110078 at control point 509, max speed = 0.404753 at control point 856, max step displacement = 0.00677978 at control point 856, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.909] Physics stability frame 127: max rest deviation = 0.113329 at control point 509, max speed = 0.423169 at control point 856, max step displacement = 0.00708827 at control point 856, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.916] Physics stability frame 128: max rest deviation = 0.116213 at control point 509, max speed = 0.438559 at control point 856, max step displacement = 0.00734605 at control point 856, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.921] Physics stability frame 129: max rest deviation = 0.118931 at control point 509, max speed = 0.449907 at control point 856, max step displacement = 0.00753614 at control point 856, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.929] Physics stability frame 130: max rest deviation = 0.121691 at control point 509, max speed = 0.456746 at control point 856, max step displacement = 0.00765068 at control point 856, drag active = false, gravity = false, animation = false
+[2026-11-24 15:02:35.935] Physics stability frame 180: max rest deviation = 0.103598 at control point 506, max speed = 0.364253 at control point 856
+[2026-11-24 15:02:35.942] Physics stability frame 240: max rest deviation = 0.0994641 at control point 528, max speed = 0.289207 at control point 856
+[2026-11-24 15:02:35.949] Physics stability frame 300: max rest deviation = 0.598602 at control point 807, max speed = 1.37522 at control point 1011
+[2026-11-24 15:02:35.954] Physics stability frame 360: max rest deviation = 1.09591 at control point 903, max speed = 2.49837 at control point 870
+[2026-11-24 15:02:35.959] ===== Real model DX11 stderr =====
+[2026-11-24 15:02:35.971] Blender material physics metadata: shape matching stiffness, XPBD compliance, velocity damping, and maximum deformation ratio.
+[2026-11-24 15:02:35.979] Physics tuning GUI: stiffness, XPBD compliance, solver iterations, velocity damping, maximum deformation, gravity, and surface smoothing.
+[2026-11-24 15:02:35.984] Drag interaction now uses a soft XPBD position target.
+[2026-11-24 15:02:35.991] Capture Physics stability frame 90-130 lines; each reports rest deviation, maximum speed, per-step displacement, and interaction/toggle state. Also capture frame 60/120/180 summaries.
+[2026-11-24 15:02:36.007] SUCCESS
+[2026-11-24 15:02:36.013] END E:\code\bigmoon77\BoneFlex\GPTShare\commands\test_command_4.ps1
+[2026-11-24 15:02:36.019] All pulled command scripts processed. Closing Developer PowerShell.
+[2026-11-24T15:02:36.0522512+09:00] Developer PowerShell process exited. Exit code: 0
+[2026-11-24T15:02:36.0542502+09:00] Publish after PowerShell is disabled. Skipping commit/push.
