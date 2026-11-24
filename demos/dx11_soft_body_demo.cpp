@@ -439,31 +439,28 @@ namespace
             const std::size_t material_count = demo.imported_asset.materials.size();
             const std::size_t vertex_count = demo.render_rest_positions.size();
             const std::size_t control_count = demo.reduced.control_point_count();
-            std::vector<float> vertex_material_weights(vertex_count * material_count, 0.0f);
-            for (std::size_t triangle = 0; triangle < demo.imported_asset.triangle_material_indices.size(); ++triangle)
-            {
-                const std::uint32_t material = demo.imported_asset.triangle_material_indices[triangle];
-                if (material >= material_count) continue;
-                const std::uint32_t a = demo.render_indices[triangle * 3], b = demo.render_indices[triangle * 3 + 1], c = demo.render_indices[triangle * 3 + 2];
-                const boneflex::vec3 ab = demo.render_rest_positions[b] - demo.render_rest_positions[a];
-                const boneflex::vec3 ac = demo.render_rest_positions[c] - demo.render_rest_positions[a];
-                const boneflex::vec3 cross(ab.y * ac.z - ab.z * ac.y, ab.z * ac.x - ab.x * ac.z, ab.x * ac.y - ab.y * ac.x);
-                const float corner_area = cross.length() / 6.0f;
-                vertex_material_weights[a * material_count + material] += corner_area;
-                vertex_material_weights[b * material_count + material] += corner_area;
-                vertex_material_weights[c * material_count + material] += corner_area;
-            }
             std::vector<float> control_material_weights(control_count * material_count, 0.0f);
             const auto& offsets = demo.embedding.offsets();
             const auto& control_indices = demo.embedding.control_point_indices();
             const auto& embedding_weights = demo.embedding.weights();
-            for (std::size_t vertex = 0; vertex < vertex_count; ++vertex)
-                for (std::uint32_t influence = offsets[vertex]; influence < offsets[vertex + 1]; ++influence)
-                {
-                    const std::size_t control = control_indices[influence];
-                    for (std::size_t material = 0; material < material_count; ++material)
-                        control_material_weights[control * material_count + material] += vertex_material_weights[vertex * material_count + material] * embedding_weights[influence];
-                }
+            for (std::size_t triangle = 0; triangle < demo.imported_asset.triangle_material_indices.size(); ++triangle)
+            {
+                const std::uint32_t material = demo.imported_asset.triangle_material_indices[triangle];
+                if (material >= material_count) continue;
+                const std::uint32_t vertices[3] = {
+                    demo.render_indices[triangle * 3],
+                    demo.render_indices[triangle * 3 + 1],
+                    demo.render_indices[triangle * 3 + 2]
+                };
+                const boneflex::vec3 ab = demo.render_rest_positions[vertices[1]] - demo.render_rest_positions[vertices[0]];
+                const boneflex::vec3 ac = demo.render_rest_positions[vertices[2]] - demo.render_rest_positions[vertices[0]];
+                const boneflex::vec3 cross(ab.y * ac.z - ab.z * ac.y, ab.z * ac.x - ab.x * ac.z, ab.x * ac.y - ab.y * ac.x);
+                const float corner_area = cross.length() / 6.0f;
+                for (std::uint32_t vertex : vertices)
+                    for (std::uint32_t influence = offsets[vertex]; influence < offsets[vertex + 1]; ++influence)
+                        control_material_weights[control_indices[influence] * material_count + material] +=
+                            corner_area * embedding_weights[influence];
+            }
             std::vector<boneflex::reduced_soft_body_material_parameters> parameters(control_count);
             for (std::size_t control = 0; control < control_count; ++control)
             {
