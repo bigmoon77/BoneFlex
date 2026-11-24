@@ -58,6 +58,7 @@ def main():
     bpy.context.view_layer.objects.active = mesh_object
 
     exporter = load_exporter()
+    exporter.register()
     exporter.export_boneflex_asset(bpy.context, output_path, export_glb=False)
 
     print("BoneFlex .blend import conversion completed:")
