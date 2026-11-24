@@ -63,6 +63,7 @@ namespace boneflex
         const reduced_soft_body_options& options() const;
         bool set_options(const reduced_soft_body_options& options);
         bool set_distance_constraint_compliance(float compliance);
+        bool set_distance_constraints(const std::vector<xpbd_distance_constraint>& constraints);
         bool set_material_parameters(const std::vector<reduced_soft_body_material_parameters>& parameters);
 
     private:
