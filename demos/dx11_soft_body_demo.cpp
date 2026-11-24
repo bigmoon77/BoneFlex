@@ -487,6 +487,8 @@ namespace
                 std::cerr << "Failed to apply Blender material physics parameters.\n";
                 return false;
             }
+            std::cout << "Applied Blender material physics to " << control_count
+                << " control points; XPBD compliance is assigned per material boundary.\n";
         }
 
         demo.control_accelerations.resize(particles.size());
