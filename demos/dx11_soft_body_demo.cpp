@@ -513,7 +513,7 @@ namespace
             }
             if (!demo.solver.set_material_parameters(parameters))
             {
-                std::cerr << "Failed to apply Blender material physics parameters.\n";
+                std::cerr << "Failed to apply BoneFlex material physics parameters.\n";
                 return false;
             }
             std::cout << "Applied BoneFlex material physics to " << control_count
@@ -548,16 +548,9 @@ namespace
             << "XPBD constraints: " << demo.constraints.size() << '\n';
         if (demo.has_imported_asset)
         {
-            std::cout << "Blender materials: " << demo.imported_asset.materials.size() << '\n';
-            for (std::size_t material_index = 0; material_index < demo.imported_asset.materials.size(); ++material_index)
-            {
-                const auto& material = demo.imported_asset.materials[material_index];
-                std::cout << "  Material[" << material_index << "]: " << material.name
-                    << " | shape matching=" << material.shape_matching_stiffness
-                    << " | XPBD compliance=" << material.xpbd_compliance
-                    << " | damping=" << material.velocity_damping
-                    << " | max deformation=" << material.max_deformation_ratio << '\n';
-            }
+            std::cout << "Blender materials: " << demo.material_settings.size() << '\n';
+            for (std::size_t material_index = 0; material_index < demo.material_settings.size(); ++material_index)
+                std::cout << "  Material[" << material_index << "]: " << demo.material_settings[material_index].name << '\n';
         }
         if (demo.has_imported_asset)
         {
@@ -1288,6 +1281,13 @@ float4 PSMain(PSInput input) : SV_TARGET
             create_parameter_slider(*demo, window, 4, parameter_max_deformation, 292, 0, 200, 50);
             create_parameter_slider(*demo, window, 5, parameter_gravity, 362, 0, 200, 98);
             create_parameter_slider(*demo, window, 6, parameter_smoothing, 432, 0, 8, 2);
+            if (demo->has_imported_asset)
+            {
+                EnableWindow(demo->parameter_sliders[0], FALSE);
+                EnableWindow(demo->parameter_sliders[1], FALSE);
+                EnableWindow(demo->parameter_sliders[3], FALSE);
+                EnableWindow(demo->parameter_sliders[4], FALSE);
+            }
             if (demo->has_imported_asset && !demo->material_settings.empty())
             {
                 CreateWindowExW(0, L"STATIC", L"Material Physics (saved beside the asset)", WS_CHILD | WS_VISIBLE,
