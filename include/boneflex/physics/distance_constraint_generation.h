@@ -11,6 +11,7 @@ namespace boneflex
     struct distance_constraint_generation_options
     {
         float compliance = 0.0f;
+        std::vector<float> material_compliances;
     };
 
     // Generates one XPBD distance constraint for each unique undirected
