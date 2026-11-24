@@ -15,6 +15,7 @@ namespace boneflex
         {
             _rest_positions.clear();
             _triangle_indices.clear();
+            _triangle_material_indices.clear();
             if (error_message != nullptr)
             {
                 *error_message = message;
@@ -54,10 +55,23 @@ namespace boneflex
 
         _rest_positions = std::move(rest_positions);
         _triangle_indices = std::move(triangle_indices);
+        _triangle_material_indices.assign(_triangle_indices.size() / 3, 0);
         if (error_message != nullptr)
         {
             error_message->clear();
         }
+        return true;
+    }
+
+    bool reduced_mesh::set_triangle_material_indices(std::vector<std::uint32_t> material_indices, std::string* error_message)
+    {
+        if (material_indices.size() != triangle_count())
+        {
+            if (error_message) *error_message = "Triangle material index count must match the reduced triangle count.";
+            return false;
+        }
+        _triangle_material_indices = std::move(material_indices);
+        if (error_message) error_message->clear();
         return true;
     }
 
@@ -79,6 +93,11 @@ namespace boneflex
     const std::vector<std::uint32_t>& reduced_mesh::triangle_indices() const
     {
         return _triangle_indices;
+    }
+
+    const std::vector<std::uint32_t>& reduced_mesh::triangle_material_indices() const
+    {
+        return _triangle_material_indices;
     }
 
     bool vertex_embedding::set_data(
