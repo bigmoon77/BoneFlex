@@ -1,0 +1,8 @@
+
+===== Build started: 2026-11-24T17:13:51.6434633+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====
+17:13 でビルドが開始されました...
+1>------ ビルド開始: プロジェクト: boneflex_dx11_soft_body_demo, 構成: Release x64 ------
+1>  dx11_soft_body_demo.cpp
+1>  boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_dx11_soft_body_demo.exe
+
+===== Build finished: 2026-11-24T17:13:58.4408503+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====

@@ -1,30 +1,8 @@
 
-===== Build started: 2026-11-24T17:12:48.7044876+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====
-バックグラウンド操作の完了を待機しています...
+===== Build started: 2026-11-24T17:13:51.6434633+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====
+17:13 でビルドが開始されました...
 1>------ ビルド開始: プロジェクト: boneflex_dx11_soft_body_demo, 構成: Release x64 ------
 1>  dx11_soft_body_demo.cpp
-1>E:\code\bigmoon77\BoneFlex\demos\dx11_soft_body_demo.cpp(1345,49): error C2672: 'std::max': 一致するオーバーロードされた関数が見つかりませんでした。
-1>      E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(85,26):
-1>      '_Ty std::max(std::initializer_list<_Elem>)' の可能性があります
-1>          E:\code\bigmoon77\BoneFlex\demos\dx11_soft_body_demo.cpp(1345,49):
-1>          '_Ty std::max(std::initializer_list<_Elem>)': 1 引数が必要です - 2 が指定されました
-1>      E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(82,26):
-1>      または '_Ty std::max(std::initializer_list<_Elem>,_Pr)'
-1>          E:\code\bigmoon77\BoneFlex\demos\dx11_soft_body_demo.cpp(1345,49):
-1>          '_Ty std::max(std::initializer_list<_Elem>,_Pr)': 'std::initializer_list<_Elem>' の テンプレート 引数を 'int' から推測できませんでした
-1>      E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(74,6):
-1>      または 'const _Ty &std::max(const _Ty &,const _Ty &) noexcept(<expr>)'
-1>          E:\code\bigmoon77\BoneFlex\demos\dx11_soft_body_demo.cpp(1345,49):
-1>          'const _Ty &std::max(const _Ty &,const _Ty &) noexcept(<expr>)': テンプレート パラメーター '_Ty' があいまいです
-1>              E:\code\bigmoon77\BoneFlex\demos\dx11_soft_body_demo.cpp(1345,49):
-1>              'WORD' の可能性があります。
-1>              E:\code\bigmoon77\BoneFlex\demos\dx11_soft_body_demo.cpp(1345,49):
-1>              または 'int'
-1>          E:\code\bigmoon77\BoneFlex\demos\dx11_soft_body_demo.cpp(1345,49):
-1>          'const _Ty &std::max(const _Ty &,const _Ty &) noexcept(<expr>)': 'const _Ty &' の テンプレート 引数を 'WORD' から推測できませんでした
-1>      E:\application\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.44.35207\include\utility(64,33):
-1>      または 'const _Ty &std::max(const _Ty &,const _Ty &,_Pr) noexcept(<expr>)'
-1>          E:\code\bigmoon77\BoneFlex\demos\dx11_soft_body_demo.cpp(1345,49):
-1>          'const _Ty &std::max(const _Ty &,const _Ty &,_Pr) noexcept(<expr>)': 3 引数が必要です - 2 が指定されました
+1>  boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_dx11_soft_body_demo.exe
 
-===== Build finished: 2026-11-24T17:12:57.1698161+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====
+===== Build finished: 2026-11-24T17:13:58.4408503+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====
