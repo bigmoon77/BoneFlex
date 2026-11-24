@@ -65,6 +65,9 @@ namespace boneflex
         _rest_positions = rest_positions;
         _distance_constraints = distance_constraints;
         _max_deformation_distances.assign(particles.size(), 0.0f);
+        _shape_matching_stiffnesses.assign(particles.size(), options.shape_matching_stiffness);
+        _velocity_dampings.assign(particles.size(), options.velocity_damping);
+        _max_deformation_ratios.assign(particles.size(), options.max_deformation_ratio);
         std::vector<float> incident_edge_length_sums(particles.size(), 0.0f);
         std::vector<std::size_t> incident_edge_counts(particles.size(), 0);
         for (const xpbd_distance_constraint& constraint : _distance_constraints)
@@ -156,11 +159,13 @@ namespace boneflex
         std::vector<vec3> matched_positions;
         // XPBD multipliers are accumulated across solver iterations and reset each frame.
         std::vector<vec3> position_target_lambdas(position_targets.size());
-        const float iteration_stiffness = _options.shape_matching_stiffness <= 0.0f
-            ? 0.0f
-            : 1.0f - std::pow(
-                1.0f - _options.shape_matching_stiffness,
-                1.0f / static_cast<float>(_options.solver_iterations));
+        std::vector<float> iteration_stiffnesses(_particles.size(), 0.0f);
+        for (std::size_t i = 0; i < _particles.size(); ++i)
+        {
+            const float stiffness = _shape_matching_stiffnesses[i];
+            iteration_stiffnesses[i] = stiffness <= 0.0f ? 0.0f
+                : 1.0f - std::pow(1.0f - stiffness, 1.0f / static_cast<float>(_options.solver_iterations));
+        }
         for (std::size_t iteration = 0; iteration < _options.solver_iterations; ++iteration)
         {
             for (xpbd_distance_constraint& constraint : _distance_constraints)
@@ -168,7 +173,7 @@ namespace boneflex
                 constraint.solve(_particles, delta_time);
             }
 
-            if (iteration_stiffness > 0.0f)
+            if (std::any_of(iteration_stiffnesses.begin(), iteration_stiffnesses.end(), [](float value) { return value > 0.0f; }))
             {
                 for (std::size_t i = 0; i < _particles.size(); ++i)
                 {
@@ -187,7 +192,7 @@ namespace boneflex
                     const vec3 current = _particles[i].position;
                     const vec3 fitted = matched_positions[i];
                     vec3 deformation = current + (fitted - current)
-                        * iteration_stiffness - fitted;
+                        * iteration_stiffnesses[i] - fitted;
 
                     const float maximum_deformation = _max_deformation_distances[i];
                     if (maximum_deformation > 0.0f)
@@ -225,13 +230,13 @@ namespace boneflex
 
         // velocity_damping is the velocity retention per 1/60-second frame.
         // Scale the exponent so the damping remains consistent at other time steps.
-        const float damping = std::pow(_options.velocity_damping, delta_time * 60.0f);
-        for (particle& value : _particles)
+        for (std::size_t i = 0; i < _particles.size(); ++i)
         {
+            particle& value = _particles[i];
             if (value.inverse_mass > 0.0f)
             {
                 value.velocity = (value.position - value.previous_position) / delta_time;
-                value.velocity *= damping;
+                value.velocity *= std::pow(_velocity_dampings[i], delta_time * 60.0f);
             }
             else
             {
@@ -253,28 +258,55 @@ namespace boneflex
         if (!_initialized || !valid_options(options))
             return false;
 
+        const bool stiffness_changed = options.shape_matching_stiffness != _options.shape_matching_stiffness;
+        const bool damping_changed = options.velocity_damping != _options.velocity_damping;
+        const bool deformation_changed = options.max_deformation_ratio != _options.max_deformation_ratio;
         _options = options;
-        std::fill(_max_deformation_distances.begin(), _max_deformation_distances.end(), 0.0f);
-        if (options.max_deformation_ratio > 0.0f)
+        if (stiffness_changed)
+            std::fill(_shape_matching_stiffnesses.begin(), _shape_matching_stiffnesses.end(), options.shape_matching_stiffness);
+        if (damping_changed)
+            std::fill(_velocity_dampings.begin(), _velocity_dampings.end(), options.velocity_damping);
+        if (deformation_changed)
         {
+            std::fill(_max_deformation_ratios.begin(), _max_deformation_ratios.end(), options.max_deformation_ratio);
             std::vector<float> edge_length_sums(_particles.size(), 0.0f);
             std::vector<std::size_t> edge_counts(_particles.size(), 0);
             for (const xpbd_distance_constraint& constraint : _distance_constraints)
             {
-                const std::size_t a = constraint.particle_a();
-                const std::size_t b = constraint.particle_b();
+                const std::size_t a = constraint.particle_a(), b = constraint.particle_b();
                 edge_length_sums[a] += constraint.rest_length();
                 edge_length_sums[b] += constraint.rest_length();
-                ++edge_counts[a];
-                ++edge_counts[b];
+                ++edge_counts[a]; ++edge_counts[b];
             }
             for (std::size_t i = 0; i < _particles.size(); ++i)
-            {
-                if (edge_counts[i] == 0) continue;
-                _max_deformation_distances[i] =
-                    edge_length_sums[i] / static_cast<float>(edge_counts[i])
-                    * options.max_deformation_ratio;
-            }
+                _max_deformation_distances[i] = edge_counts[i] == 0 ? 0.0f
+                    : edge_length_sums[i] / static_cast<float>(edge_counts[i]) * _max_deformation_ratios[i];
+        }
+        return true;
+    }
+
+    bool reduced_soft_body_solver::set_material_parameters(const std::vector<reduced_soft_body_material_parameters>& parameters)
+    {
+        if (!_initialized || parameters.size() != _particles.size()) return false;
+        for (const auto& value : parameters)
+            if (!std::isfinite(value.shape_matching_stiffness) || value.shape_matching_stiffness < 0.0f || value.shape_matching_stiffness > 1.0f
+                || !std::isfinite(value.velocity_damping) || value.velocity_damping < 0.0f || value.velocity_damping > 1.0f
+                || !std::isfinite(value.max_deformation_ratio) || value.max_deformation_ratio < 0.0f) return false;
+        std::vector<float> edge_sums(_particles.size(), 0.0f);
+        std::vector<std::size_t> edge_counts(_particles.size(), 0);
+        for (const auto& constraint : _distance_constraints)
+        {
+            const auto a = constraint.particle_a(), b = constraint.particle_b();
+            edge_sums[a] += constraint.rest_length(); edge_sums[b] += constraint.rest_length();
+            ++edge_counts[a]; ++edge_counts[b];
+        }
+        for (std::size_t i = 0; i < parameters.size(); ++i)
+        {
+            _shape_matching_stiffnesses[i] = parameters[i].shape_matching_stiffness;
+            _velocity_dampings[i] = parameters[i].velocity_damping;
+            _max_deformation_ratios[i] = parameters[i].max_deformation_ratio;
+            _max_deformation_distances[i] = edge_counts[i] == 0 ? 0.0f
+                : edge_sums[i] / static_cast<float>(edge_counts[i]) * parameters[i].max_deformation_ratio;
         }
         return true;
     }
