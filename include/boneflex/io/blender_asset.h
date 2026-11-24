@@ -9,6 +9,15 @@
 
 namespace boneflex
 {
+    struct blender_material_physics
+    {
+        std::string name;
+        float shape_matching_stiffness = 0.15f;
+        float xpbd_compliance = 1.0e-5f;
+        float velocity_damping = 0.995f;
+        float max_deformation_ratio = 0.5f;
+    };
+
     // Data exported by the BoneFlex Blender add-on. Mesh positions are in
     // armature-local space with the Blender Z-up to BoneFlex Y-up conversion
     // already applied.
@@ -16,6 +25,9 @@ namespace boneflex
     {
         std::vector<vec3> bind_positions;
         std::vector<std::uint32_t> triangle_indices;
+        // One material slot index per triangle. Version 1 assets use slot zero.
+        std::vector<std::uint32_t> triangle_material_indices;
+        std::vector<blender_material_physics> materials;
         skeleton rig;
         skinning_weights weights;
 
