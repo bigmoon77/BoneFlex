@@ -108,6 +108,11 @@ if (Test-Path $blenderPath) {
     if (Test-Path $diagnosticStdout) { Get-Content $diagnosticStdout | ForEach-Object { Write-Output $_ } }
     Write-Output "===== Real model DX11 stderr ====="
     if (Test-Path $diagnosticStderr) { Get-Content $diagnosticStderr | ForEach-Object { Write-Output $_ } }
+    $diagnosticOutput = if (Test-Path $diagnosticStdout) { Get-Content $diagnosticStdout -Raw } else { '' }
+    $diagnosticErrors = if (Test-Path $diagnosticStderr) { Get-Content $diagnosticStderr -Raw } else { '' }
+    if ($diagnosticOutput -notmatch 'Blender materials:' -or $diagnosticErrors -match 'Traceback|AttributeError|RuntimeError:') {
+        throw "Real Blender model conversion did not complete successfully."
+    }
 }
 else {
     Write-Output "Blender executable not found at '$blenderPath'; skipping Blender smoke test."
