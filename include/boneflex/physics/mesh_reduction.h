@@ -27,6 +27,7 @@ namespace boneflex
         const mesh_reduction_options& options,
         reduced_mesh& output_mesh,
         vertex_embedding& output_embedding,
-        std::string* error_message = nullptr
+        std::string* error_message = nullptr,
+        const std::vector<std::uint32_t>& render_triangle_material_indices = {}
     );
 }
