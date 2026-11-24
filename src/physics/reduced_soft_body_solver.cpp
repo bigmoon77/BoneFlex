@@ -311,6 +311,15 @@ namespace boneflex
         return true;
     }
 
+    bool reduced_soft_body_solver::set_distance_constraints(const std::vector<xpbd_distance_constraint>& constraints)
+    {
+        if (!_initialized) return false;
+        for (const auto& constraint : constraints)
+            if (constraint.particle_a() >= _particles.size() || constraint.particle_b() >= _particles.size()) return false;
+        _distance_constraints = constraints;
+        return true;
+    }
+
     bool reduced_soft_body_solver::set_distance_constraint_compliance(float compliance)
     {
         if (!_initialized || !std::isfinite(compliance) || compliance < 0.0f)
