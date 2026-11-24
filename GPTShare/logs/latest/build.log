@@ -1,8 +1,100 @@
 
-===== Build started: 2026-11-24T17:16:13.9535621+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====
-17:16 でビルドが開始されました...
-1>------ ビルド開始: プロジェクト: boneflex_dx11_soft_body_demo, 構成: Release x64 ------
-1>  dx11_soft_body_demo.cpp
-1>  boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_dx11_soft_body_demo.exe
+===== Build started: 2026-11-24T17:36:23.8041777+09:00 | Scope=vsBuildScopeSolution | Action=vsBuildActionRebuildAll =====
+17:36 で再構築が開始されました...
+1>------ すべてのリビルド開始: プロジェクト:ZERO_CHECK, 構成: Release x64 ------
+1>  1>Checking Build System
+2>------ すべてのリビルド開始: プロジェクト:boneflex, 構成: Release x64 ------
+3>------ [すべてリビルド] のスキップ: プロジェクト:RUN_TESTS, 構成: Release x64 ------
+3>プロジェクトはこのソリューション構成に対してビルドするように選択されていません。 
+2>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+2>  blender_asset.cpp
+2>  skeleton.cpp
+2>  skinning.cpp
+2>  skinning_weights.cpp
+2>  reduced_mesh.cpp
+2>  mesh_reduction.cpp
+2>  shape_matching.cpp
+2>  shape_matching_cluster_generation.cpp
+2>  reduced_soft_body_solver.cpp
+2>  distance_constraint_generation.cpp
+2>  xpbd_distance_constraint.cpp
+2>  コードを生成中...
+2>  boneflex.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex.lib
+4>------ すべてのリビルド開始: プロジェクト:boneflex_basic_example, 構成: Release x64 ------
+5>------ すべてのリビルド開始: プロジェクト:boneflex_xpbd_tests, 構成: Release x64 ------
+6>------ すべてのリビルド開始: プロジェクト:boneflex_skinning_tests, 構成: Release x64 ------
+7>------ すべてのリビルド開始: プロジェクト:boneflex_skeleton_tests, 構成: Release x64 ------
+8>------ すべてのリビルド開始: プロジェクト:boneflex_shape_matching_tests, 構成: Release x64 ------
+9>------ すべてのリビルド開始: プロジェクト:boneflex_shape_matching_deformation_tests, 構成: Release x64 ------
+4>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+4>E:\application\Microsoft Visual Studio\2022\Msbuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(254,5): warning MSB8065: 項目 "E:\code\bigmoon77\BoneFlex\CMakeLists.txt" のカスタム ビルドは成功しましたが、指定された出力 "e:\code\bigmoon77\boneflex\build\cmakefiles\generate.stamp" が作成されていません。これにより、インクリメンタル ビルドが正しく動作しなくなる可能性があります。
+4>  basic_simulation.cpp
+5>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+6>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+7>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+7>E:\application\Microsoft Visual Studio\2022\Msbuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(254,5): warning MSB8065: 項目 "E:\code\bigmoon77\BoneFlex\CMakeLists.txt" のカスタム ビルドは成功しましたが、指定された出力 "e:\code\bigmoon77\boneflex\build\cmakefiles\generate.stamp" が作成されていません。これにより、インクリメンタル ビルドが正しく動作しなくなる可能性があります。
+5>E:\application\Microsoft Visual Studio\2022\Msbuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(254,5): warning MSB8065: 項目 "E:\code\bigmoon77\BoneFlex\CMakeLists.txt" のカスタム ビルドは成功しましたが、指定された出力 "e:\code\bigmoon77\boneflex\build\cmakefiles\generate.stamp" が作成されていません。これにより、インクリメンタル ビルドが正しく動作しなくなる可能性があります。
+8>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+6>E:\application\Microsoft Visual Studio\2022\Msbuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(254,5): warning MSB8065: 項目 "E:\code\bigmoon77\BoneFlex\CMakeLists.txt" のカスタム ビルドは成功しましたが、指定された出力 "e:\code\bigmoon77\boneflex\build\cmakefiles\generate.stamp" が作成されていません。これにより、インクリメンタル ビルドが正しく動作しなくなる可能性があります。
+9>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+7>  test_skeleton.cpp
+5>  test_xpbd_distance_constraint.cpp
+6>  test_skinning.cpp
+8>  test_shape_matching.cpp
+9>  test_shape_matching_deformation.cpp
+4>  boneflex_basic_example.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_basic_example.exe
+10>------ すべてのリビルド開始: プロジェクト:boneflex_shape_matching_cluster_tests, 構成: Release x64 ------
+10>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+10>  test_shape_matching_cluster_generation.cpp
+5>  boneflex_xpbd_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_xpbd_tests.exe
+7>  boneflex_skeleton_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skeleton_tests.exe
+11>------ すべてのリビルド開始: プロジェクト:boneflex_shape_matching_benchmark, 構成: Release x64 ------
+12>------ すべてのリビルド開始: プロジェクト:boneflex_reduced_soft_body_solver_tests, 構成: Release x64 ------
+11>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+8>  boneflex_shape_matching_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_tests.exe
+6>  boneflex_skinning_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_skinning_tests.exe
+9>  boneflex_shape_matching_deformation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_deformation_tests.exe
+12>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+13>------ すべてのリビルド開始: プロジェクト:boneflex_reduced_soft_body_parameter_sweep, 構成: Release x64 ------
+14>------ すべてのリビルド開始: プロジェクト:boneflex_reduced_soft_body_benchmark, 構成: Release x64 ------
+15>------ すべてのリビルド開始: プロジェクト:boneflex_reduced_mesh_tests, 構成: Release x64 ------
+11>  shape_matching_benchmark.cpp
+12>  test_reduced_soft_body_solver.cpp
+15>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+13>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+14>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+14>  reduced_soft_body_benchmark.cpp
+15>  test_reduced_mesh.cpp
+13>  reduced_soft_body_parameter_sweep.cpp
+10>  boneflex_shape_matching_cluster_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_cluster_tests.exe
+16>------ すべてのリビルド開始: プロジェクト:boneflex_mesh_reduction_tests, 構成: Release x64 ------
+16>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+15>  boneflex_reduced_mesh_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_mesh_tests.exe
+17>------ すべてのリビルド開始: プロジェクト:boneflex_mesh_reduction_benchmark, 構成: Release x64 ------
+16>  test_mesh_reduction.cpp
+12>  boneflex_reduced_soft_body_solver_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_solver_tests.exe
+18>------ すべてのリビルド開始: プロジェクト:boneflex_dx11_soft_body_demo, 構成: Release x64 ------
+17>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+18>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+17>  mesh_reduction_benchmark.cpp
+18>  dx11_soft_body_demo.cpp
+11>  boneflex_shape_matching_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_shape_matching_benchmark.exe
+19>------ すべてのリビルド開始: プロジェクト:boneflex_distance_constraint_generation_tests, 構成: Release x64 ------
+19>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+13>  boneflex_reduced_soft_body_parameter_sweep.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_parameter_sweep.exe
+20>------ すべてのリビルド開始: プロジェクト:boneflex_blender_asset_tests, 構成: Release x64 ------
+19>  test_distance_constraint_generation.cpp
+16>  boneflex_mesh_reduction_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_tests.exe
+21>------ すべてのリビルド開始: プロジェクト:boneflex_blender_asset_demo, 構成: Release x64 ------
+20>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+21>  Building Custom Rule E:/code/bigmoon77/BoneFlex/CMakeLists.txt
+20>  test_blender_asset.cpp
+21>  blender_asset_import_demo.cpp
+14>  boneflex_reduced_soft_body_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_reduced_soft_body_benchmark.exe
+19>  boneflex_distance_constraint_generation_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_distance_constraint_generation_tests.exe
+17>  boneflex_mesh_reduction_benchmark.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_mesh_reduction_benchmark.exe
+21>  boneflex_blender_asset_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_demo.exe
+20>  boneflex_blender_asset_tests.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_blender_asset_tests.exe
+18>  boneflex_dx11_soft_body_demo.vcxproj -> E:\code\bigmoon77\BoneFlex\build\Release\boneflex_dx11_soft_body_demo.exe
 
-===== Build finished: 2026-11-24T17:16:19.1059073+09:00 | Scope=vsBuildScopeProject | Action=vsBuildActionBuild =====
+===== Build finished: 2026-11-24T17:36:51.2657462+09:00 | Scope=vsBuildScopeSolution | Action=vsBuildActionRebuildAll =====
