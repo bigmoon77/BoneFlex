@@ -12,8 +12,7 @@ import bpy
 import os
 import struct
 from bpy_extras.io_utils import ExportHelper
-from bpy.props import StringProperty, BoolProperty, FloatProperty
-from bpy.types import Material
+from bpy.props import StringProperty, BoolProperty
 from bpy.types import Operator, Panel
 from mathutils import Matrix
 
@@ -136,12 +135,7 @@ def _build_mesh_data(mesh_object, armature_object, bone_indices):
             values = (0.15, 1.0e-5, 0.995, 0.5)
         else:
             name = material.name
-            values = (
-                float(material.boneflex_shape_matching_stiffness),
-                float(material.boneflex_xpbd_compliance),
-                float(material.boneflex_velocity_damping),
-                float(material.boneflex_max_deformation_ratio),
-            )
+            values = (0.15, 1.0e-5, 0.995, 0.5)
         materials.append((name, values))
 
     if not materials:
@@ -287,26 +281,6 @@ class BONEFLEX_OT_export_asset(Operator, ExportHelper):
         return {'FINISHED'}
 
 
-class BONEFLEX_PT_material(Panel):
-    bl_label = "BoneFlex Physics"
-    bl_idname = "BONEFLEX_PT_material"
-    bl_space_type = 'PROPERTIES'
-    bl_region_type = 'WINDOW'
-    bl_context = "material"
-
-    def draw(self, context):
-        layout = self.layout
-        material = context.material
-        if material is None:
-            layout.label(text="Select a material")
-            return
-        layout.label(text=material.name, icon='MATERIAL')
-        layout.prop(material, "boneflex_shape_matching_stiffness")
-        layout.prop(material, "boneflex_xpbd_compliance")
-        layout.prop(material, "boneflex_velocity_damping")
-        layout.prop(material, "boneflex_max_deformation_ratio")
-
-
 class BONEFLEX_PT_exporter(Panel):
     bl_label = "BoneFlex"
     bl_idname = "BONEFLEX_PT_exporter"
@@ -321,32 +295,15 @@ class BONEFLEX_PT_exporter(Panel):
 _classes = (
     BONEFLEX_OT_export_asset,
     BONEFLEX_PT_exporter,
-    BONEFLEX_PT_material,
 )
 
 
 def register():
-    Material.boneflex_shape_matching_stiffness = FloatProperty(
-        name="Shape Matching Stiffness", description="Shape matching correction strength", default=0.15, min=0.0, max=1.0)
-    Material.boneflex_xpbd_compliance = FloatProperty(
-        name="XPBD Compliance", description="Distance constraint compliance", default=1.0e-5, min=0.0, max=1.0)
-    Material.boneflex_velocity_damping = FloatProperty(
-        name="Velocity Damping", description="Per-step velocity retention", default=0.995, min=0.0, max=1.0)
-    Material.boneflex_max_deformation_ratio = FloatProperty(
-        name="Maximum Deformation Ratio", description="Maximum deformation relative to local edge length; zero disables the limit", default=0.5, min=0.0, max=10.0)
     for cls in _classes:
         bpy.utils.register_class(cls)
 
 
 def unregister():
-    for property_name in (
-        "boneflex_shape_matching_stiffness",
-        "boneflex_xpbd_compliance",
-        "boneflex_velocity_damping",
-        "boneflex_max_deformation_ratio",
-    ):
-        if hasattr(Material, property_name):
-            delattr(Material, property_name)
     for cls in reversed(_classes):
         bpy.utils.unregister_class(cls)
 
