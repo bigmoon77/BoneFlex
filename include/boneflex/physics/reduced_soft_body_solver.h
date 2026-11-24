@@ -18,6 +18,13 @@ namespace boneflex
         float compliance = 1.0e-4f;
     };
 
+    struct reduced_soft_body_material_parameters
+    {
+        float shape_matching_stiffness = 0.15f;
+        float velocity_damping = 0.995f;
+        float max_deformation_ratio = 0.5f;
+    };
+
     struct reduced_soft_body_options
     {
         std::size_t solver_iterations = 4;
@@ -56,11 +63,15 @@ namespace boneflex
         const reduced_soft_body_options& options() const;
         bool set_options(const reduced_soft_body_options& options);
         bool set_distance_constraint_compliance(float compliance);
+        bool set_material_parameters(const std::vector<reduced_soft_body_material_parameters>& parameters);
 
     private:
         std::vector<particle> _particles;
         std::vector<vec3> _rest_positions;
         std::vector<float> _max_deformation_distances;
+        std::vector<float> _shape_matching_stiffnesses;
+        std::vector<float> _velocity_dampings;
+        std::vector<float> _max_deformation_ratios;
         std::vector<xpbd_distance_constraint> _distance_constraints;
         shape_matching_clusters _clusters;
         reduced_soft_body_options _options;
