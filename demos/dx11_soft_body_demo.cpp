@@ -1342,7 +1342,7 @@ float4 PSMain(PSInput input) : SV_TARGET
             SCROLLINFO info{ sizeof(info), SIF_RANGE | SIF_PAGE };
             info.nMin = 0;
             info.nMax = 1040;
-            info.nPage = static_cast<UINT>(std::max(1, HIWORD(lparam)));
+            info.nPage = static_cast<UINT>(std::max(1, static_cast<int>(HIWORD(lparam))));
             SetScrollInfo(window, SB_VERT, &info, TRUE);
             scroll_parameter_window(*demo, window, demo->parameter_scroll_position);
             return 0;
