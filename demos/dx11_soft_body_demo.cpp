@@ -458,6 +458,19 @@ namespace
             << "XPBD constraints: " << demo.constraints.size() << '\n';
         if (demo.has_imported_asset)
         {
+            std::cout << "Blender materials: " << demo.imported_asset.materials.size() << '\\n';
+            for (std::size_t material_index = 0; material_index < demo.imported_asset.materials.size(); ++material_index)
+            {
+                const auto& material = demo.imported_asset.materials[material_index];
+                std::cout << "  Material[" << material_index << "]: " << material.name
+                    << " | shape matching=" << material.shape_matching_stiffness
+                    << " | XPBD compliance=" << material.xpbd_compliance
+                    << " | damping=" << material.velocity_damping
+                    << " | max deformation=" << material.max_deformation_ratio << '\\n';
+            }
+        }
+        if (demo.has_imported_asset)
+        {
             const std::size_t anchor_count = static_cast<std::size_t>(
                 std::count(demo.control_anchors.begin(), demo.control_anchors.end(), true));
             std::cout << "Kinematic anchors: " << anchor_count << '\n'
