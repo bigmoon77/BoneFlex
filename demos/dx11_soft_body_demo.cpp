@@ -504,7 +504,7 @@ namespace
                 parameters[control].max_deformation_ratio = 0.0f;
                 for (std::size_t material = 0; material < material_count; ++material)
                 {
-                    const float weight = control_material_weights[control * material_count + material] / total;
+                    const float weight = demo.control_material_weights[control * material_count + material] / total;
                     const auto& source = demo.material_settings[material];
                     parameters[control].shape_matching_stiffness += source.shape_matching_stiffness * weight;
                     parameters[control].velocity_damping += source.velocity_damping * weight;
