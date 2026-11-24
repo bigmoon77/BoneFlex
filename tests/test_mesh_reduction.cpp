@@ -93,7 +93,7 @@ namespace
         const std::vector<std::uint32_t> triangles{0, 1, 2, 1, 3, 2, 4, 5, 6, 5, 7, 6};
         const std::vector<std::uint32_t> materials{0, 0, 1, 1};
         boneflex::mesh_reduction_options options;
-        options.target_control_point_count = 4;
+        options.target_control_point_count = 8;
         options.embedding_influence_count = 4;
         options.embedding_support_radius_scale = 3.0f;
         boneflex::reduced_mesh reduced;
