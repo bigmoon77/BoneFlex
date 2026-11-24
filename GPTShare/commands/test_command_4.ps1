@@ -110,14 +110,14 @@ if (Test-Path $blenderPath) {
     if (Test-Path $diagnosticStderr) { Get-Content $diagnosticStderr | ForEach-Object { Write-Output $_ } }
     $diagnosticOutput = if (Test-Path $diagnosticStdout) { Get-Content $diagnosticStdout -Raw } else { '' }
     $diagnosticErrors = if (Test-Path $diagnosticStderr) { Get-Content $diagnosticStderr -Raw } else { '' }
-    if ($diagnosticOutput -notmatch 'Blender materials:' -or $diagnosticOutput -notmatch 'Applied Blender material physics to' -or $diagnosticErrors -match 'Traceback|AttributeError|RuntimeError:') {
+    if ($diagnosticOutput -notmatch 'Blender materials:' -or $diagnosticOutput -notmatch 'Applied BoneFlex material physics to' -or $diagnosticErrors -match 'Traceback|AttributeError|RuntimeError:') {
         throw "Real Blender model conversion did not complete successfully."
     }
 }
 else {
     Write-Output "Blender executable not found at '$blenderPath'; skipping Blender smoke test."
 }
-Write-Output "Blender material physics metadata: shape matching stiffness, XPBD compliance, velocity damping, and maximum deformation ratio."
+Write-Output "BoneFlex material editor: per-material stiffness, XPBD compliance, damping, and maximum deformation ratio; settings are saved beside the source asset."
 Write-Output "Physics tuning GUI: stiffness, XPBD compliance, solver iterations, velocity damping, maximum deformation, gravity, and surface smoothing."
 Write-Output "Drag interaction now uses a soft XPBD position target."
 Write-Output "Capture Physics stability frame 90-130 lines; each reports rest deviation, maximum speed, per-step displacement, and interaction/toggle state. Also capture frame 60/120/180 summaries."
