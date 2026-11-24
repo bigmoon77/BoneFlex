@@ -437,7 +437,6 @@ namespace
         if (demo.has_imported_asset)
         {
             const std::size_t material_count = demo.imported_asset.materials.size();
-            const std::size_t vertex_count = demo.render_rest_positions.size();
             const std::size_t control_count = demo.reduced.control_point_count();
             std::vector<float> control_material_weights(control_count * material_count, 0.0f);
             const auto& offsets = demo.embedding.offsets();
