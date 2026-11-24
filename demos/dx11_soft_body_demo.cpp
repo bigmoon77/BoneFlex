@@ -23,6 +23,8 @@
 #include <cstring>
 #include <cstdlib>
 #include <filesystem>
+#include <fstream>
+#include <iomanip>
 #include <iterator>
 #include <cstdint>
 #include <iostream>
@@ -97,6 +99,12 @@ namespace
         std::vector<std::uint32_t> render_indices;
         std::vector<render_vertex> render_vertices;
         std::vector<boneflex::vec3> control_accelerations;
+        std::vector<boneflex::blender_material_physics> material_settings;
+        std::vector<float> control_material_weights;
+        std::string material_settings_path;
+        HWND material_combo = nullptr;
+        std::array<HWND, 4> material_sliders{};
+        std::array<HWND, 4> material_labels{};
         boneflex::reduced_mesh reduced;
         boneflex::vertex_embedding embedding;
         boneflex::reduced_soft_body_solver solver;
@@ -282,7 +290,7 @@ namespace
         return true;
     }
 
-    bool initialize_simulation(demo_state& demo, const std::string& asset_path)
+    bool initialize_simulation(demo_state& demo, const std::string& asset_path, const std::string& source_asset_path)
     {
         if (asset_path.empty())
         {
@@ -303,6 +311,31 @@ namespace
             }
             demo.render_indices = demo.imported_asset.triangle_indices;
             demo.has_imported_asset = true;
+            demo.material_settings = demo.imported_asset.materials;
+            for (auto& material : demo.material_settings)
+            {
+                material.shape_matching_stiffness = 0.15f;
+                material.xpbd_compliance = 1.0e-5f;
+                material.velocity_damping = 0.995f;
+                material.max_deformation_ratio = 0.5f;
+            }
+            demo.material_settings_path = source_asset_path + ".boneflex_materials";
+            {
+                std::ifstream settings(demo.material_settings_path);
+                for (auto& material : demo.material_settings)
+                {
+                    std::string saved_name;
+                    float stiffness = 0.15f, compliance = 1.0e-5f, damping = 0.995f, deformation = 0.5f;
+                    if (settings >> std::quoted(saved_name) >> stiffness >> compliance >> damping >> deformation
+                        && saved_name == material.name)
+                    {
+                        material.shape_matching_stiffness = std::clamp(stiffness, 0.0f, 1.0f);
+                        material.xpbd_compliance = std::max(compliance, 0.0f);
+                        material.velocity_damping = std::clamp(damping, 0.0f, 1.0f);
+                        material.max_deformation_ratio = std::max(deformation, 0.0f);
+                    }
+                }
+            }
 
             boneflex::vec3 minimum = demo.render_rest_positions.front();
             boneflex::vec3 maximum = minimum;
@@ -402,7 +435,7 @@ namespace
         boneflex::distance_constraint_generation_options constraint_options;
         constraint_options.compliance = 1.0e-5f;
         if (demo.has_imported_asset)
-            for (const auto& material : demo.imported_asset.materials)
+            for (const auto& material : demo.material_settings)
                 constraint_options.material_compliances.push_back(material.xpbd_compliance);
         if (!boneflex::generate_distance_constraints(
             demo.reduced, constraint_options, demo.constraints, &error))
@@ -436,9 +469,9 @@ namespace
 
         if (demo.has_imported_asset)
         {
-            const std::size_t material_count = demo.imported_asset.materials.size();
+            const std::size_t material_count = demo.material_settings.size();
             const std::size_t control_count = demo.reduced.control_point_count();
-            std::vector<float> control_material_weights(control_count * material_count, 0.0f);
+            demo.control_material_weights.assign(control_count * material_count, 0.0f);
             const auto& offsets = demo.embedding.offsets();
             const auto& control_indices = demo.embedding.control_point_indices();
             const auto& embedding_weights = demo.embedding.weights();
@@ -457,14 +490,14 @@ namespace
                 const float corner_area = cross.length() / 6.0f;
                 for (std::uint32_t vertex : vertices)
                     for (std::uint32_t influence = offsets[vertex]; influence < offsets[vertex + 1]; ++influence)
-                        control_material_weights[control_indices[influence] * material_count + material] +=
+                        demo.control_material_weights[control_indices[influence] * material_count + material] +=
                             corner_area * embedding_weights[influence];
             }
             std::vector<boneflex::reduced_soft_body_material_parameters> parameters(control_count);
             for (std::size_t control = 0; control < control_count; ++control)
             {
                 float total = 0.0f;
-                for (std::size_t material = 0; material < material_count; ++material) total += control_material_weights[control * material_count + material];
+                for (std::size_t material = 0; material < material_count; ++material) total += demo.control_material_weights[control * material_count + material];
                 if (total <= 1.0e-12f) continue;
                 parameters[control].shape_matching_stiffness = 0.0f;
                 parameters[control].velocity_damping = 0.0f;
@@ -472,7 +505,7 @@ namespace
                 for (std::size_t material = 0; material < material_count; ++material)
                 {
                     const float weight = control_material_weights[control * material_count + material] / total;
-                    const auto& source = demo.imported_asset.materials[material];
+                    const auto& source = demo.material_settings[material];
                     parameters[control].shape_matching_stiffness += source.shape_matching_stiffness * weight;
                     parameters[control].velocity_damping += source.velocity_damping * weight;
                     parameters[control].max_deformation_ratio += source.max_deformation_ratio * weight;
@@ -483,7 +516,7 @@ namespace
                 std::cerr << "Failed to apply Blender material physics parameters.\n";
                 return false;
             }
-            std::cout << "Applied Blender material physics to " << control_count
+            std::cout << "Applied BoneFlex material physics to " << control_count
                 << " control points; XPBD compliance is assigned per material boundary.\n";
         }
 
@@ -1060,8 +1093,118 @@ float4 PSMain(PSInput input) : SV_TARGET
         parameter_damping,
         parameter_max_deformation,
         parameter_gravity,
-        parameter_smoothing
+        parameter_smoothing,
+        material_shape_matching = 200,
+        material_compliance,
+        material_damping,
+        material_max_deformation
     };
+
+
+    void refresh_material_editor(demo_state& demo)
+    {
+        if (!demo.material_combo || demo.material_settings.empty()) return;
+        const int selected = static_cast<int>(SendMessageW(demo.material_combo, CB_GETCURSEL, 0, 0));
+        if (selected < 0 || static_cast<std::size_t>(selected) >= demo.material_settings.size()) return;
+        const auto& material = demo.material_settings[static_cast<std::size_t>(selected)];
+        const std::array<int, 4> positions = {
+            static_cast<int>(std::lround(material.shape_matching_stiffness * 100.0f)),
+            static_cast<int>(std::lround((std::log10(std::max(material.xpbd_compliance, 1.0e-10f)) + 10.0f) * 10.0f)),
+            static_cast<int>(std::lround(material.velocity_damping * 1000.0f)),
+            static_cast<int>(std::lround(material.max_deformation_ratio * 100.0f))
+        };
+        const std::array<std::wstring, 4> labels = {
+            L"Shape Matching Stiffness: " + std::to_wstring(material.shape_matching_stiffness).substr(0, 5),
+            L"XPBD Compliance: " + std::to_wstring(material.xpbd_compliance),
+            L"Velocity Damping: " + std::to_wstring(material.velocity_damping).substr(0, 5),
+            L"Maximum Deformation Ratio: " + std::to_wstring(material.max_deformation_ratio).substr(0, 5)
+        };
+        for (std::size_t i = 0; i < positions.size(); ++i)
+        {
+            SendMessageW(demo.material_sliders[i], TBM_SETPOS, TRUE, positions[i]);
+            SetWindowTextW(demo.material_labels[i], labels[i].c_str());
+        }
+    }
+
+    bool apply_material_settings(demo_state& demo)
+    {
+        if (!demo.has_imported_asset || demo.material_settings.empty()) return true;
+        const std::size_t material_count = demo.material_settings.size();
+        const std::size_t control_count = demo.reduced.control_point_count();
+        if (demo.control_material_weights.size() != control_count * material_count) return false;
+        std::vector<boneflex::reduced_soft_body_material_parameters> parameters(control_count);
+        for (std::size_t control = 0; control < control_count; ++control)
+        {
+            float total = 0.0f;
+            for (std::size_t material = 0; material < material_count; ++material)
+                total += demo.control_material_weights[control * material_count + material];
+            if (total <= 1.0e-12f) continue;
+            parameters[control].shape_matching_stiffness = 0.0f;
+            parameters[control].velocity_damping = 0.0f;
+            parameters[control].max_deformation_ratio = 0.0f;
+            for (std::size_t material = 0; material < material_count; ++material)
+            {
+                const float weight = demo.control_material_weights[control * material_count + material] / total;
+                const auto& source = demo.material_settings[material];
+                parameters[control].shape_matching_stiffness += source.shape_matching_stiffness * weight;
+                parameters[control].velocity_damping += source.velocity_damping * weight;
+                parameters[control].max_deformation_ratio += source.max_deformation_ratio * weight;
+            }
+        }
+        if (!demo.solver.set_material_parameters(parameters)) return false;
+        boneflex::distance_constraint_generation_options options;
+        options.compliance = 1.0e-5f;
+        for (const auto& material : demo.material_settings)
+            options.material_compliances.push_back(material.xpbd_compliance);
+        std::vector<boneflex::xpbd_distance_constraint> constraints;
+        std::string error;
+        if (!boneflex::generate_distance_constraints(demo.reduced, options, constraints, &error)
+            || !demo.solver.set_distance_constraints(constraints))
+        {
+            std::cerr << "Failed to rebuild material XPBD constraints: " << error << '\n';
+            return false;
+        }
+        if (!demo.material_settings_path.empty())
+        {
+            std::ofstream settings(demo.material_settings_path, std::ios::trunc);
+            if (!settings) return false;
+            settings.precision(9);
+            for (const auto& material : demo.material_settings)
+                settings << std::quoted(material.name) << ' ' << material.shape_matching_stiffness << ' '
+                    << material.xpbd_compliance << ' ' << material.velocity_damping << ' '
+                    << material.max_deformation_ratio << '\n';
+        }
+        return true;
+    }
+
+    void apply_material_control(demo_state& demo, int id, int position)
+    {
+        const int selected = static_cast<int>(SendMessageW(demo.material_combo, CB_GETCURSEL, 0, 0));
+        if (selected < 0 || static_cast<std::size_t>(selected) >= demo.material_settings.size()) return;
+        auto& material = demo.material_settings[static_cast<std::size_t>(selected)];
+        switch (id)
+        {
+        case material_shape_matching: material.shape_matching_stiffness = static_cast<float>(position) / 100.0f; break;
+        case material_compliance: material.xpbd_compliance = std::pow(10.0f, -10.0f + static_cast<float>(position) * 0.1f); break;
+        case material_damping: material.velocity_damping = static_cast<float>(position) / 1000.0f; break;
+        case material_max_deformation: material.max_deformation_ratio = static_cast<float>(position) / 100.0f; break;
+        }
+        if (!apply_material_settings(demo))
+            std::cerr << "Failed to apply or save BoneFlex material settings.\\n";
+        refresh_material_editor(demo);
+    }
+
+    void create_material_slider(demo_state& demo, HWND window, int index, int id, int y,
+        int minimum, int maximum, int initial)
+    {
+        demo.material_labels[index] = CreateWindowExW(0, L"STATIC", L"", WS_CHILD | WS_VISIBLE,
+            16, y, 390, 20, window, nullptr, GetModuleHandleW(nullptr), nullptr);
+        demo.material_sliders[index] = CreateWindowExW(0, TRACKBAR_CLASSW, L"", WS_CHILD | WS_VISIBLE | TBS_AUTOTICKS,
+            16, y + 20, 390, 30, window, reinterpret_cast<HMENU>(static_cast<INT_PTR>(id)),
+            GetModuleHandleW(nullptr), nullptr);
+        SendMessageW(demo.material_sliders[index], TBM_SETRANGE, TRUE, MAKELPARAM(minimum, maximum));
+        SendMessageW(demo.material_sliders[index], TBM_SETPOS, TRUE, initial);
+    }
 
     void refresh_parameter_labels(demo_state& demo)
     {
@@ -1145,6 +1288,24 @@ float4 PSMain(PSInput input) : SV_TARGET
             create_parameter_slider(*demo, window, 4, parameter_max_deformation, 292, 0, 200, 50);
             create_parameter_slider(*demo, window, 5, parameter_gravity, 362, 0, 200, 98);
             create_parameter_slider(*demo, window, 6, parameter_smoothing, 432, 0, 8, 2);
+            if (demo->has_imported_asset && !demo->material_settings.empty())
+            {
+                CreateWindowExW(0, L"STATIC", L"Material Physics (saved beside the asset)", WS_CHILD | WS_VISIBLE,
+                    16, 500, 390, 22, window, nullptr, GetModuleHandleW(nullptr), nullptr);
+                demo->material_combo = CreateWindowExW(0, WC_COMBOBOXW, L"", WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_VSCROLL,
+                    16, 525, 390, 220, window, reinterpret_cast<HMENU>(static_cast<INT_PTR>(199)), GetModuleHandleW(nullptr), nullptr);
+                for (const auto& material : demo->material_settings)
+                {
+                    const std::wstring name(material.name.begin(), material.name.end());
+                    SendMessageW(demo->material_combo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(name.c_str()));
+                }
+                SendMessageW(demo->material_combo, CB_SETCURSEL, 0, 0);
+                create_material_slider(*demo, window, 0, material_shape_matching, 755, 0, 100, 15);
+                create_material_slider(*demo, window, 1, material_compliance, 825, 0, 100, 50);
+                create_material_slider(*demo, window, 2, material_damping, 895, 0, 1000, 995);
+                create_material_slider(*demo, window, 3, material_max_deformation, 965, 0, 1000, 50);
+                refresh_material_editor(*demo);
+            }
             refresh_parameter_labels(*demo);
             return 0;
         case WM_HSCROLL:
@@ -1152,9 +1313,16 @@ float4 PSMain(PSInput input) : SV_TARGET
             HWND slider = reinterpret_cast<HWND>(lparam);
             const int id = GetDlgCtrlID(slider);
             const int position = static_cast<int>(SendMessageW(slider, TBM_GETPOS, 0, 0));
-            apply_parameter_control(*demo, id, position);
+            if (id >= material_shape_matching && id <= material_max_deformation)
+                apply_material_control(*demo, id, position);
+            else
+                apply_parameter_control(*demo, id, position);
             return 0;
         }
+        case WM_COMMAND:
+            if (LOWORD(wparam) == 199 && HIWORD(wparam) == CBN_SELCHANGE)
+                refresh_material_editor(*demo);
+            return 0;
         case WM_CLOSE:
             ShowWindow(window, SW_HIDE);
             return 0;
@@ -1175,7 +1343,7 @@ float4 PSMain(PSInput input) : SV_TARGET
         RegisterClassExW(&window_class);
         demo.parameter_window = CreateWindowExW(0, window_class.lpszClassName,
             L"BoneFlex - Physics Parameters", WS_OVERLAPPEDWINDOW,
-            80, 80, 380, 570, demo.window, nullptr, instance, &demo);
+            80, 80, 450, 1130, demo.window, nullptr, instance, &demo);
         if (!demo.parameter_window) return false;
         ShowWindow(demo.parameter_window, SW_SHOW);
         return true;
@@ -1242,6 +1410,7 @@ int main(int argc, char** argv)
     }
 
     std::string asset_path = (argc == 2) ? argv[1] : std::string();
+    const std::string source_asset_path = asset_path;
     std::wstring temporary_asset_path;
     bool converted_blend = false;
     if (!asset_path.empty())
@@ -1286,7 +1455,7 @@ int main(int argc, char** argv)
         nullptr, nullptr, instance, nullptr);
     if (!demo.window) return 1;
 
-    if (!initialize_simulation(demo, asset_path) || !initialize_graphics(demo))
+    if (!initialize_simulation(demo, asset_path, source_asset_path) || !initialize_graphics(demo))
     {
         if (converted_blend) DeleteFileW(temporary_asset_path.c_str());
         MessageBoxW(demo.window, L"Failed to initialize the BoneFlex demo. See the console for details.",
