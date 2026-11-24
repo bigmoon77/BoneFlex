@@ -323,6 +323,9 @@ namespace
         std::vector<boneflex::reduced_soft_body_material_parameters> parameters(particles.size());
         for (auto& value : parameters) { value.shape_matching_stiffness = 0.0f; value.velocity_damping = 0.25f; value.max_deformation_ratio = 0.0f; }
         require(solver.set_material_parameters(parameters), "Material parameter update failed.");
+        auto updated_options = solver.options();
+        updated_options.gravity = boneflex::vec3(0.0f, -1.0f, 0.0f);
+        require(solver.set_options(updated_options), "Unrelated runtime option update failed.");
         require(solver.step(1.0f / 60.0f), "Material solver step failed.");
         require(std::fabs(solver.particles()[0].velocity.x - 0.25f) < 1.0e-5f, "Material damping was not applied.");
     }
