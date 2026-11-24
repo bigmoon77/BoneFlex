@@ -20,8 +20,8 @@ int main()
     for (std::size_t i=0;i<output.size();++i)
         if ((output[i]-current[i]).length()>1.0e-3f) return 3;
 
-    // The dynamic cluster has no fixed point of its own. Its translation
-    // must still follow the nearest kinematic point in the neighboring cluster.
+    // A cluster without a fixed point must preserve its own translation.
+    // It must not be pulled toward an unrelated anchor in a neighboring cluster.
     const std::vector<boneflex::vec3> anchor_rest{
         {0,0,0},{1,0,0},{0,1,0},{1,1,0},{0,0,1},{1,0,1}
     };
@@ -35,7 +35,7 @@ int main()
     if (!boneflex::solve_shape_matching(
         anchor_rest, anchor_current, anchored_clusters, fixed_weights, 1.0f, anchored_output)) return 7;
     for (std::size_t i = 1; i < anchor_rest.size(); ++i)
-        if ((anchored_output[i] - anchor_rest[i]).length() > 1.0e-3f) return 8;
+        if ((anchored_output[i] - anchor_current[i]).length() > 1.0e-3f) return 8;
 
     std::vector<boneflex::vec3> invalid_output{{9.0f,9.0f,9.0f}};
     if (boneflex::solve_shape_matching(rest,current,clusters,2.0f,invalid_output)) return 4;
