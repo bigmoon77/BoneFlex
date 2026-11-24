@@ -32,15 +32,31 @@ namespace
             }
         }
 
+        std::vector<std::uint32_t> triangle_materials(triangles.size() / 3);
+        for (std::size_t i = 0; i < triangle_materials.size(); ++i)
+            triangle_materials[i] = static_cast<std::uint32_t>(i % 2);
+
         boneflex::mesh_reduction_options options;
         options.target_control_point_count = 64;
         options.embedding_influence_count = 4;
         boneflex::reduced_mesh reduced;
         boneflex::vertex_embedding embedding;
-        if (!boneflex::generate_reduced_mesh(positions, triangles, options, reduced, embedding))
+        if (!boneflex::generate_reduced_mesh(
+            positions, triangles, options, reduced, embedding, nullptr, triangle_materials))
         {
             return false;
         }
+        if (reduced.triangle_material_indices().size() != reduced.triangle_count())
+            return false;
+        bool has_material_zero = false;
+        bool has_material_one = false;
+        for (std::uint32_t material : reduced.triangle_material_indices())
+        {
+            has_material_zero = has_material_zero || material == 0;
+            has_material_one = has_material_one || material == 1;
+        }
+        if (!has_material_zero || !has_material_one)
+            return false;
         if (reduced.control_point_count() >= positions.size()
             || reduced.control_point_count() < 16
             || reduced.triangle_count() == 0
