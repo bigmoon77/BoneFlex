@@ -1292,7 +1292,7 @@ float4 PSMain(PSInput input) : SV_TARGET
             {
                 CreateWindowExW(0, L"STATIC", L"Material Physics (saved beside the asset)", WS_CHILD | WS_VISIBLE,
                     16, 500, 390, 22, window, nullptr, GetModuleHandleW(nullptr), nullptr);
-                demo->material_combo = CreateWindowExW(0, WC_COMBOBOXW, L"", WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_VSCROLL,
+                demo->material_combo = CreateWindowExW(0, L"COMBOBOX", L"", WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_VSCROLL,
                     16, 525, 390, 220, window, reinterpret_cast<HMENU>(static_cast<INT_PTR>(199)), GetModuleHandleW(nullptr), nullptr);
                 for (const auto& material : demo->material_settings)
                 {
