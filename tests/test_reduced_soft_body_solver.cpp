@@ -301,6 +301,32 @@ namespace
             "Maximum deformation ratio did not clamp displacement from the fitted shape.");
     }
 
+    void test_per_particle_material_parameters()
+    {
+        boneflex::reduced_mesh mesh = make_grid(2);
+        boneflex::shape_matching_cluster_options cluster_options;
+        cluster_options.cluster_size = 4;
+        boneflex::shape_matching_clusters clusters;
+        require(boneflex::generate_shape_matching_clusters(mesh, cluster_options, clusters), "Material cluster generation failed.");
+        std::vector<boneflex::particle> particles(mesh.control_point_count());
+        for (std::size_t i = 0; i < particles.size(); ++i)
+        {
+            particles[i].position = mesh.rest_positions()[i];
+            particles[i].previous_position = particles[i].position;
+            particles[i].velocity = boneflex::vec3(1.0f, 0.0f, 0.0f);
+        }
+        boneflex::reduced_soft_body_options options;
+        options.gravity = boneflex::vec3();
+        options.shape_matching_stiffness = 0.0f;
+        boneflex::reduced_soft_body_solver solver;
+        require(solver.initialize(particles, mesh.rest_positions(), {}, clusters, options), "Material solver initialization failed.");
+        std::vector<boneflex::reduced_soft_body_material_parameters> parameters(particles.size());
+        for (auto& value : parameters) { value.shape_matching_stiffness = 0.0f; value.velocity_damping = 0.25f; value.max_deformation_ratio = 0.0f; }
+        require(solver.set_material_parameters(parameters), "Material parameter update failed.");
+        require(solver.step(1.0f / 60.0f), "Material solver step failed.");
+        require(std::fabs(solver.particles()[0].velocity.x - 0.25f) < 1.0e-5f, "Material damping was not applied.");
+    }
+
     void test_velocity_damping_is_frame_rate_scaled()
     {
         boneflex::reduced_mesh mesh = make_grid(2);
@@ -350,6 +376,7 @@ int main()
         test_distance_constraint_is_solved();
         test_maximum_deformation_ratio();
         test_velocity_damping_is_frame_rate_scaled();
+        test_per_particle_material_parameters();
     }
     catch (const std::exception& exception)
     {
