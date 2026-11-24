@@ -20,14 +20,17 @@ namespace boneflex
             std::string* error_message = nullptr
         );
 
+        bool set_triangle_material_indices(std::vector<std::uint32_t> material_indices, std::string* error_message = nullptr);
         std::size_t control_point_count() const;
         std::size_t triangle_count() const;
         const std::vector<vec3>& rest_positions() const;
         const std::vector<std::uint32_t>& triangle_indices() const;
+        const std::vector<std::uint32_t>& triangle_material_indices() const;
 
     private:
         std::vector<vec3> _rest_positions;
         std::vector<std::uint32_t> _triangle_indices;
+        std::vector<std::uint32_t> _triangle_material_indices;
     };
 
     // CSR embedding from render vertices to reduced control points.
