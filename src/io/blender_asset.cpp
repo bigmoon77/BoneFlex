@@ -1,6 +1,7 @@
 #include <boneflex/io/blender_asset.h>
 
 #include <array>
+#include <cmath>
 #include <cstdint>
 #include <fstream>
 #include <limits>
@@ -14,7 +15,9 @@ namespace boneflex
     namespace
     {
         constexpr std::array<char, 4> asset_magic = { 'B', 'F', 'L', 'X' };
-        constexpr std::uint32_t asset_version = 1;
+        constexpr std::uint32_t asset_version = 2;
+        constexpr std::uint32_t min_asset_version = 1;
+        constexpr std::uint32_t max_material_count = 65'535;
         constexpr std::uint32_t max_vertex_count = 50'000'000;
         constexpr std::uint32_t max_index_count = 300'000'000;
         constexpr std::uint32_t max_bone_count = 65'535;
@@ -83,6 +86,7 @@ namespace boneflex
         std::uint32_t index_count = 0;
         std::uint32_t bone_count = 0;
         std::uint32_t influence_count = 0;
+        std::uint32_t material_count = 0;
         if (!read_value(stream, version)
             || !read_value(stream, vertex_count)
             || !read_value(stream, index_count)
@@ -92,9 +96,18 @@ namespace boneflex
             return fail(error_message, "The .bflex file header is truncated.");
         }
 
-        if (version != asset_version)
+        if (version < min_asset_version || version > asset_version)
         {
             return fail(error_message, "Unsupported .bflex asset version.");
+        }
+        if (version >= 2 && !read_value(stream, material_count))
+        {
+            return fail(error_message, "The .bflex material count is truncated.");
+        }
+        if (version == 1) material_count = 1;
+        if (material_count == 0 || !valid_count(material_count, max_material_count))
+        {
+            return fail(error_message, "The .bflex material count is invalid.");
         }
         if (vertex_count == 0 || !valid_count(vertex_count, max_vertex_count))
         {
@@ -137,6 +150,57 @@ namespace boneflex
             {
                 return fail(error_message, "A .bflex triangle index is outside the vertex array.");
             }
+        }
+
+        asset.triangle_material_indices.assign(index_count / 3, 0);
+        if (version >= 2)
+        {
+            if (!read_values(stream, asset.triangle_material_indices.data(),
+                asset.triangle_material_indices.size() * sizeof(std::uint32_t)))
+            {
+                return fail(error_message, "The .bflex triangle material data is truncated.");
+            }
+            for (const std::uint32_t material_index : asset.triangle_material_indices)
+            {
+                if (material_index >= material_count)
+                {
+                    return fail(error_message, "A triangle references an invalid material index.");
+                }
+            }
+
+            asset.materials.reserve(material_count);
+            for (std::uint32_t material_index = 0; material_index < material_count; ++material_index)
+            {
+                std::uint32_t name_length = 0;
+                if (!read_value(stream, name_length) || name_length == 0 || name_length > max_bone_name_length)
+                {
+                    return fail(error_message, "A .bflex material name length is invalid.");
+                }
+                blender_material_physics material;
+                material.name.resize(name_length);
+                if (!read_values(stream, material.name.data(), name_length)
+                    || !read_value(stream, material.shape_matching_stiffness)
+                    || !read_value(stream, material.xpbd_compliance)
+                    || !read_value(stream, material.velocity_damping)
+                    || !read_value(stream, material.max_deformation_ratio))
+                {
+                    return fail(error_message, "The .bflex material data is truncated.");
+                }
+                if (!std::isfinite(material.shape_matching_stiffness)
+                    || material.shape_matching_stiffness < 0.0f || material.shape_matching_stiffness > 1.0f
+                    || !std::isfinite(material.xpbd_compliance) || material.xpbd_compliance < 0.0f
+                    || !std::isfinite(material.velocity_damping)
+                    || material.velocity_damping < 0.0f || material.velocity_damping > 1.0f
+                    || !std::isfinite(material.max_deformation_ratio) || material.max_deformation_ratio < 0.0f)
+                {
+                    return fail(error_message, "A .bflex material contains invalid physics parameters.");
+                }
+                asset.materials.push_back(std::move(material));
+            }
+        }
+        else
+        {
+            asset.materials.push_back(blender_material_physics{ "Default" });
         }
 
         std::vector<bone> bones;
