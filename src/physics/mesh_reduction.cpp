@@ -48,10 +48,11 @@ namespace boneflex
             std::uint32_t a = 0;
             std::uint32_t b = 0;
             std::uint32_t c = 0;
+            std::uint32_t material = 0;
 
             bool operator==(const triangle_key& other) const
             {
-                return a == other.a && b == other.b && c == other.c;
+                return a == other.a && b == other.b && c == other.c && material == other.material;
             }
         };
 
@@ -62,6 +63,7 @@ namespace boneflex
                 std::size_t hash = key.a;
                 hash = hash * 16777619u ^ key.b;
                 hash = hash * 16777619u ^ key.c;
+                hash = hash * 16777619u ^ key.material;
                 return hash;
             }
         };
@@ -110,7 +112,8 @@ namespace boneflex
         const mesh_reduction_options& options,
         reduced_mesh& output_mesh,
         vertex_embedding& output_embedding,
-        std::string* error_message)
+        std::string* error_message,
+        const std::vector<std::uint32_t>& render_triangle_material_indices)
     {
         if (render_positions.empty() || render_positions.size() > std::numeric_limits<std::uint32_t>::max())
         {
@@ -120,6 +123,9 @@ namespace boneflex
         {
             return fail(error_message, "Render mesh must contain a non-empty triangle index list.");
         }
+        if (!render_triangle_material_indices.empty()
+            && render_triangle_material_indices.size() != render_triangle_indices.size() / 3)
+            return fail(error_message, "Render triangle material count must match the triangle count.");
         if (options.target_control_point_count == 0 || options.embedding_influence_count == 0
             || options.embedding_influence_count > 16
             || !std::isfinite(options.embedding_support_radius_scale)
@@ -221,7 +227,9 @@ namespace boneflex
         }
 
         std::vector<std::uint32_t> reduced_triangles;
+        std::vector<std::uint32_t> reduced_material_indices;
         reduced_triangles.reserve(render_triangle_indices.size());
+        reduced_material_indices.reserve(render_triangle_indices.size() / 3);
         std::unordered_set<triangle_key, triangle_key_hash> unique_triangles;
         unique_triangles.reserve(render_triangle_indices.size() / 3);
         for (std::size_t triangle_index = 0; triangle_index < render_triangle_indices.size(); triangle_index += 3)
@@ -233,15 +241,18 @@ namespace boneflex
             {
                 continue;
             }
-            triangle_key key{a, b, c};
+            const std::uint32_t material = render_triangle_material_indices.empty() ? 0u : render_triangle_material_indices[triangle_index / 3];
+            triangle_key key{a, b, c, material};
             std::uint32_t sorted[3]{a, b, c};
             std::sort(sorted, sorted + 3);
-            key = triangle_key{sorted[0], sorted[1], sorted[2]};
+            key = triangle_key{sorted[0], sorted[1], sorted[2], material};
             if (unique_triangles.insert(key).second)
             {
                 reduced_triangles.push_back(a);
                 reduced_triangles.push_back(b);
                 reduced_triangles.push_back(c);
+                reduced_material_indices.push_back(render_triangle_material_indices.empty()
+                    ? 0u : render_triangle_material_indices[triangle_index / 3]);
             }
         }
 
@@ -359,7 +370,8 @@ namespace boneflex
 
         reduced_mesh generated_mesh;
         vertex_embedding generated_embedding;
-        if (!generated_mesh.set_data(std::move(control_positions), std::move(reduced_triangles), error_message))
+        if (!generated_mesh.set_data(std::move(control_positions), std::move(reduced_triangles), error_message)
+            || !generated_mesh.set_triangle_material_indices(std::move(reduced_material_indices), error_message))
         {
             return false;
         }
