@@ -18,10 +18,11 @@ namespace boneflex
             std::int64_t x = 0;
             std::int64_t y = 0;
             std::int64_t z = 0;
+            std::uint32_t material = 0;
 
             bool operator==(const cell_key& other) const
             {
-                return x == other.x && y == other.y && z == other.z;
+                return x == other.x && y == other.y && z == other.z && material == other.material;
             }
         };
 
@@ -33,7 +34,8 @@ namespace boneflex
                 const std::size_t hy = std::hash<std::int64_t>{}(key.y);
                 const std::size_t hz = std::hash<std::int64_t>{}(key.z);
                 return hx ^ (hy + 0x9e3779b9u + (hx << 6) + (hx >> 2))
-                    ^ (hz + 0x9e3779b9u + (hy << 6) + (hy >> 2));
+                    ^ (hz + 0x9e3779b9u + (hy << 6) + (hy >> 2))
+                    ^ (std::hash<std::uint32_t>{}(key.material) + 0x9e3779b9u + (hz << 6) + (hz >> 2));
             }
         };
 
@@ -68,26 +70,30 @@ namespace boneflex
             }
         };
 
-        cell_key get_cell_key(const vec3& position, const vec3& minimum, float cell_size)
+        cell_key get_cell_key(
+            const vec3& position,
+            const vec3& minimum,
+            float cell_size,
+            std::uint32_t material)
         {
             return cell_key{
                 static_cast<std::int64_t>(std::floor((position.x - minimum.x) / cell_size)),
                 static_cast<std::int64_t>(std::floor((position.y - minimum.y) / cell_size)),
-                static_cast<std::int64_t>(std::floor((position.z - minimum.z) / cell_size))
+                static_cast<std::int64_t>(std::floor((position.z - minimum.z) / cell_size)),
+                material
             };
         }
 
         std::size_t count_occupied_cells(
             const std::vector<vec3>& positions,
+            const std::vector<std::uint32_t>& vertex_materials,
             const vec3& minimum,
             float cell_size)
         {
             std::unordered_set<cell_key, cell_key_hash> cells;
             cells.reserve(positions.size());
-            for (const vec3& position : positions)
-            {
-                cells.insert(get_cell_key(position, minimum, cell_size));
-            }
+            for (std::size_t index = 0; index < positions.size(); ++index)
+                cells.insert(get_cell_key(positions[index], minimum, cell_size, vertex_materials[index]));
             return cells.size();
         }
 
@@ -167,6 +173,25 @@ namespace boneflex
             return fail(error_message, "Render mesh has no spatial extent.");
         }
 
+        // Keep spatial clusters and embeddings local to each material. This prevents
+        // nearby garment/body surfaces from sharing simulation control points.
+        std::vector<std::uint32_t> vertex_material_indices(render_positions.size(), 0u);
+        std::vector<bool> has_vertex_material(render_positions.size(), false);
+        for (std::size_t triangle_index = 0; triangle_index < render_triangle_indices.size(); triangle_index += 3)
+        {
+            const std::uint32_t material = render_triangle_material_indices.empty()
+                ? 0u : render_triangle_material_indices[triangle_index / 3];
+            for (std::size_t corner = 0; corner < 3; ++corner)
+            {
+                const std::uint32_t vertex_index = render_triangle_indices[triangle_index + corner];
+                if (!has_vertex_material[vertex_index])
+                {
+                    vertex_material_indices[vertex_index] = material;
+                    has_vertex_material[vertex_index] = true;
+                }
+            }
+        }
+
         const std::size_t target_count = std::min(options.target_control_point_count, render_positions.size());
         float low = maximum_extent * 1.0e-6f;
         float high = maximum_extent;
@@ -177,7 +202,7 @@ namespace boneflex
         for (int iteration = 0; iteration < 28; ++iteration)
         {
             const float cell_size = (low + high) * 0.5f;
-            const std::size_t count = count_occupied_cells(render_positions, minimum, cell_size);
+            const std::size_t count = count_occupied_cells(render_positions, vertex_material_indices, minimum, cell_size);
             const std::size_t difference = count > target_count ? count - target_count : target_count - count;
             if (difference < best_difference)
             {
@@ -202,7 +227,8 @@ namespace boneflex
         std::vector<cell_key> vertex_cells(render_positions.size());
         for (std::size_t vertex_index = 0; vertex_index < render_positions.size(); ++vertex_index)
         {
-            const cell_key key = get_cell_key(render_positions[vertex_index], minimum, best_cell_size);
+            const cell_key key = get_cell_key(
+                render_positions[vertex_index], minimum, best_cell_size, vertex_material_indices[vertex_index]);
             vertex_cells[vertex_index] = key;
             const auto found = cell_indices.find(key);
             std::uint32_t group_index = 0;
@@ -281,7 +307,7 @@ namespace boneflex
                 {
                     for (std::int64_t x = center.x - search_radius_cells; x <= center.x + search_radius_cells; ++x)
                     {
-                        const auto found = cell_indices.find(cell_key{x, y, z});
+                        const auto found = cell_indices.find(cell_key{x, y, z, center.material});
                         if (found == cell_indices.end())
                         {
                             continue;
